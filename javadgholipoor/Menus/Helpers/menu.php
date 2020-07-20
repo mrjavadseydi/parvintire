@@ -36,7 +36,6 @@ function getMenu($place, $menuById = false)
     if (empty($place) && empty($menuById)) {
         return null;
     }
-
     if ($menuById) {
         $menuKey = "menu" . $menuById . "ById";
         $menuIdKey = "menu" . $menuById . 'Id';
@@ -46,11 +45,9 @@ function getMenu($place, $menuById = false)
         $menuIdKey = $place . 'MenuId';
         $menuItemsKey = $place . "MenuItems";
     }
-
     if (Cache::has($menuItemsKey)) {
         return Cache::get($menuItemsKey);
     }
-
     if (Cache::has($menuIdKey)) {
         $menuId = Cache::get($menuIdKey);
     } else {

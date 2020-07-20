@@ -17,9 +17,6 @@ class CartController extends CoreController
 
     public function address()
     {
-        if (!auth()->check()) {
-            return  redirect(url('cart'));
-        }
         return templateView('order.address');
     }
 

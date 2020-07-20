@@ -79,9 +79,9 @@ class CommentController extends CoreController
         ];
 
         foreach ([
-             'name',
-             'subject',
-         ] as $input) {
+                     'name',
+                     'subject',
+                 ] as $input) {
             if ($request->has($input)) {
                 if (!empty($request->$input)) {
                     $data[$input] = $request->$input;
