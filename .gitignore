@@ -6,7 +6,6 @@
 /public_html/uploads
 /public_html/plugins
 /public_html/fonts
-/public_html/mix-manifest.json
 /downloads
 /uploads
 /storage/*.key
@@ -17,4 +16,3 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.env
