@@ -1,0 +1,849 @@
+/*
+
+@for($i = 0; $i < 101; $i++)
+    .w{{ $i }} {
+        width: {{ $i }}%;
+    }
+    <br>
+    .w{{ $i }}px {
+        width: {{ $i }}px;
+    }
+    <br>
+    .min-w{{ $i }} {
+        min-width: {{ $i }}%;
+    }
+    <br>
+    .min-w{{ $i }}px {
+        min-width: {{ $i }}px;
+    }
+    <br>
+    .max-w{{ $i }} {
+        max-width: {{ $i }}%;
+    }
+    <br>
+    .max-w{{ $i }}px {
+        max-width: {{ $i }}px;
+    }
+    <br>
+    .min-max-w{{ $i }} {
+        min-width: {{ $i }}%;
+        max-width: {{ $i }}%;
+    }
+    <br>
+    .min-max-w{{ $i }}px {
+        min-width: {{ $i }}px;
+        max-width: {{ $i }}px;
+    }
+    <br>
+@endfor
+
+ */
+
+.w0 { width: 0%; }
+.w0px { width: 0px; }
+.min-w0 { min-width: 0%; }
+.min-w0px { min-width: 0px; }
+.max-w0 { max-width: 0%; }
+.max-w0px { max-width: 0px; }
+.min-max-w0 { min-width: 0%; max-width: 0%; }
+.min-max-w0px { min-width: 0px; max-width: 0px; }
+.w1 { width: 1%; }
+.w1px { width: 1px; }
+.min-w1 { min-width: 1%; }
+.min-w1px { min-width: 1px; }
+.max-w1 { max-width: 1%; }
+.max-w1px { max-width: 1px; }
+.min-max-w1 { min-width: 1%; max-width: 1%; }
+.min-max-w1px { min-width: 1px; max-width: 1px; }
+.w2 { width: 2%; }
+.w2px { width: 2px; }
+.min-w2 { min-width: 2%; }
+.min-w2px { min-width: 2px; }
+.max-w2 { max-width: 2%; }
+.max-w2px { max-width: 2px; }
+.min-max-w2 { min-width: 2%; max-width: 2%; }
+.min-max-w2px { min-width: 2px; max-width: 2px; }
+.w3 { width: 3%; }
+.w3px { width: 3px; }
+.min-w3 { min-width: 3%; }
+.min-w3px { min-width: 3px; }
+.max-w3 { max-width: 3%; }
+.max-w3px { max-width: 3px; }
+.min-max-w3 { min-width: 3%; max-width: 3%; }
+.min-max-w3px { min-width: 3px; max-width: 3px; }
+.w4 { width: 4%; }
+.w4px { width: 4px; }
+.min-w4 { min-width: 4%; }
+.min-w4px { min-width: 4px; }
+.max-w4 { max-width: 4%; }
+.max-w4px { max-width: 4px; }
+.min-max-w4 { min-width: 4%; max-width: 4%; }
+.min-max-w4px { min-width: 4px; max-width: 4px; }
+.w5 { width: 5%; }
+.w5px { width: 5px; }
+.min-w5 { min-width: 5%; }
+.min-w5px { min-width: 5px; }
+.max-w5 { max-width: 5%; }
+.max-w5px { max-width: 5px; }
+.min-max-w5 { min-width: 5%; max-width: 5%; }
+.min-max-w5px { min-width: 5px; max-width: 5px; }
+.w6 { width: 6%; }
+.w6px { width: 6px; }
+.min-w6 { min-width: 6%; }
+.min-w6px { min-width: 6px; }
+.max-w6 { max-width: 6%; }
+.max-w6px { max-width: 6px; }
+.min-max-w6 { min-width: 6%; max-width: 6%; }
+.min-max-w6px { min-width: 6px; max-width: 6px; }
+.w7 { width: 7%; }
+.w7px { width: 7px; }
+.min-w7 { min-width: 7%; }
+.min-w7px { min-width: 7px; }
+.max-w7 { max-width: 7%; }
+.max-w7px { max-width: 7px; }
+.min-max-w7 { min-width: 7%; max-width: 7%; }
+.min-max-w7px { min-width: 7px; max-width: 7px; }
+.w8 { width: 8%; }
+.w8px { width: 8px; }
+.min-w8 { min-width: 8%; }
+.min-w8px { min-width: 8px; }
+.max-w8 { max-width: 8%; }
+.max-w8px { max-width: 8px; }
+.min-max-w8 { min-width: 8%; max-width: 8%; }
+.min-max-w8px { min-width: 8px; max-width: 8px; }
+.w9 { width: 9%; }
+.w9px { width: 9px; }
+.min-w9 { min-width: 9%; }
+.min-w9px { min-width: 9px; }
+.max-w9 { max-width: 9%; }
+.max-w9px { max-width: 9px; }
+.min-max-w9 { min-width: 9%; max-width: 9%; }
+.min-max-w9px { min-width: 9px; max-width: 9px; }
+.w10 { width: 10%; }
+.w10px { width: 10px; }
+.min-w10 { min-width: 10%; }
+.min-w10px { min-width: 10px; }
+.max-w10 { max-width: 10%; }
+.max-w10px { max-width: 10px; }
+.min-max-w10 { min-width: 10%; max-width: 10%; }
+.min-max-w10px { min-width: 10px; max-width: 10px; }
+.w11 { width: 11%; }
+.w11px { width: 11px; }
+.min-w11 { min-width: 11%; }
+.min-w11px { min-width: 11px; }
+.max-w11 { max-width: 11%; }
+.max-w11px { max-width: 11px; }
+.min-max-w11 { min-width: 11%; max-width: 11%; }
+.min-max-w11px { min-width: 11px; max-width: 11px; }
+.w12 { width: 12%; }
+.w12px { width: 12px; }
+.min-w12 { min-width: 12%; }
+.min-w12px { min-width: 12px; }
+.max-w12 { max-width: 12%; }
+.max-w12px { max-width: 12px; }
+.min-max-w12 { min-width: 12%; max-width: 12%; }
+.min-max-w12px { min-width: 12px; max-width: 12px; }
+.w13 { width: 13%; }
+.w13px { width: 13px; }
+.min-w13 { min-width: 13%; }
+.min-w13px { min-width: 13px; }
+.max-w13 { max-width: 13%; }
+.max-w13px { max-width: 13px; }
+.min-max-w13 { min-width: 13%; max-width: 13%; }
+.min-max-w13px { min-width: 13px; max-width: 13px; }
+.w14 { width: 14%; }
+.w14px { width: 14px; }
+.min-w14 { min-width: 14%; }
+.min-w14px { min-width: 14px; }
+.max-w14 { max-width: 14%; }
+.max-w14px { max-width: 14px; }
+.min-max-w14 { min-width: 14%; max-width: 14%; }
+.min-max-w14px { min-width: 14px; max-width: 14px; }
+.w15 { width: 15%; }
+.w15px { width: 15px; }
+.min-w15 { min-width: 15%; }
+.min-w15px { min-width: 15px; }
+.max-w15 { max-width: 15%; }
+.max-w15px { max-width: 15px; }
+.min-max-w15 { min-width: 15%; max-width: 15%; }
+.min-max-w15px { min-width: 15px; max-width: 15px; }
+.w16 { width: 16%; }
+.w16px { width: 16px; }
+.min-w16 { min-width: 16%; }
+.min-w16px { min-width: 16px; }
+.max-w16 { max-width: 16%; }
+.max-w16px { max-width: 16px; }
+.min-max-w16 { min-width: 16%; max-width: 16%; }
+.min-max-w16px { min-width: 16px; max-width: 16px; }
+.w17 { width: 17%; }
+.w17px { width: 17px; }
+.min-w17 { min-width: 17%; }
+.min-w17px { min-width: 17px; }
+.max-w17 { max-width: 17%; }
+.max-w17px { max-width: 17px; }
+.min-max-w17 { min-width: 17%; max-width: 17%; }
+.min-max-w17px { min-width: 17px; max-width: 17px; }
+.w18 { width: 18%; }
+.w18px { width: 18px; }
+.min-w18 { min-width: 18%; }
+.min-w18px { min-width: 18px; }
+.max-w18 { max-width: 18%; }
+.max-w18px { max-width: 18px; }
+.min-max-w18 { min-width: 18%; max-width: 18%; }
+.min-max-w18px { min-width: 18px; max-width: 18px; }
+.w19 { width: 19%; }
+.w19px { width: 19px; }
+.min-w19 { min-width: 19%; }
+.min-w19px { min-width: 19px; }
+.max-w19 { max-width: 19%; }
+.max-w19px { max-width: 19px; }
+.min-max-w19 { min-width: 19%; max-width: 19%; }
+.min-max-w19px { min-width: 19px; max-width: 19px; }
+.w20 { width: 20%; }
+.w20px { width: 20px; }
+.min-w20 { min-width: 20%; }
+.min-w20px { min-width: 20px; }
+.max-w20 { max-width: 20%; }
+.max-w20px { max-width: 20px; }
+.min-max-w20 { min-width: 20%; max-width: 20%; }
+.min-max-w20px { min-width: 20px; max-width: 20px; }
+.w21 { width: 21%; }
+.w21px { width: 21px; }
+.min-w21 { min-width: 21%; }
+.min-w21px { min-width: 21px; }
+.max-w21 { max-width: 21%; }
+.max-w21px { max-width: 21px; }
+.min-max-w21 { min-width: 21%; max-width: 21%; }
+.min-max-w21px { min-width: 21px; max-width: 21px; }
+.w22 { width: 22%; }
+.w22px { width: 22px; }
+.min-w22 { min-width: 22%; }
+.min-w22px { min-width: 22px; }
+.max-w22 { max-width: 22%; }
+.max-w22px { max-width: 22px; }
+.min-max-w22 { min-width: 22%; max-width: 22%; }
+.min-max-w22px { min-width: 22px; max-width: 22px; }
+.w23 { width: 23%; }
+.w23px { width: 23px; }
+.min-w23 { min-width: 23%; }
+.min-w23px { min-width: 23px; }
+.max-w23 { max-width: 23%; }
+.max-w23px { max-width: 23px; }
+.min-max-w23 { min-width: 23%; max-width: 23%; }
+.min-max-w23px { min-width: 23px; max-width: 23px; }
+.w24 { width: 24%; }
+.w24px { width: 24px; }
+.min-w24 { min-width: 24%; }
+.min-w24px { min-width: 24px; }
+.max-w24 { max-width: 24%; }
+.max-w24px { max-width: 24px; }
+.min-max-w24 { min-width: 24%; max-width: 24%; }
+.min-max-w24px { min-width: 24px; max-width: 24px; }
+.w25 { width: 25%; }
+.w25px { width: 25px; }
+.min-w25 { min-width: 25%; }
+.min-w25px { min-width: 25px; }
+.max-w25 { max-width: 25%; }
+.max-w25px { max-width: 25px; }
+.min-max-w25 { min-width: 25%; max-width: 25%; }
+.min-max-w25px { min-width: 25px; max-width: 25px; }
+.w26 { width: 26%; }
+.w26px { width: 26px; }
+.min-w26 { min-width: 26%; }
+.min-w26px { min-width: 26px; }
+.max-w26 { max-width: 26%; }
+.max-w26px { max-width: 26px; }
+.min-max-w26 { min-width: 26%; max-width: 26%; }
+.min-max-w26px { min-width: 26px; max-width: 26px; }
+.w27 { width: 27%; }
+.w27px { width: 27px; }
+.min-w27 { min-width: 27%; }
+.min-w27px { min-width: 27px; }
+.max-w27 { max-width: 27%; }
+.max-w27px { max-width: 27px; }
+.min-max-w27 { min-width: 27%; max-width: 27%; }
+.min-max-w27px { min-width: 27px; max-width: 27px; }
+.w28 { width: 28%; }
+.w28px { width: 28px; }
+.min-w28 { min-width: 28%; }
+.min-w28px { min-width: 28px; }
+.max-w28 { max-width: 28%; }
+.max-w28px { max-width: 28px; }
+.min-max-w28 { min-width: 28%; max-width: 28%; }
+.min-max-w28px { min-width: 28px; max-width: 28px; }
+.w29 { width: 29%; }
+.w29px { width: 29px; }
+.min-w29 { min-width: 29%; }
+.min-w29px { min-width: 29px; }
+.max-w29 { max-width: 29%; }
+.max-w29px { max-width: 29px; }
+.min-max-w29 { min-width: 29%; max-width: 29%; }
+.min-max-w29px { min-width: 29px; max-width: 29px; }
+.w30 { width: 30%; }
+.w30px { width: 30px; }
+.min-w30 { min-width: 30%; }
+.min-w30px { min-width: 30px; }
+.max-w30 { max-width: 30%; }
+.max-w30px { max-width: 30px; }
+.min-max-w30 { min-width: 30%; max-width: 30%; }
+.min-max-w30px { min-width: 30px; max-width: 30px; }
+.w31 { width: 31%; }
+.w31px { width: 31px; }
+.min-w31 { min-width: 31%; }
+.min-w31px { min-width: 31px; }
+.max-w31 { max-width: 31%; }
+.max-w31px { max-width: 31px; }
+.min-max-w31 { min-width: 31%; max-width: 31%; }
+.min-max-w31px { min-width: 31px; max-width: 31px; }
+.w32 { width: 32%; }
+.w32px { width: 32px; }
+.min-w32 { min-width: 32%; }
+.min-w32px { min-width: 32px; }
+.max-w32 { max-width: 32%; }
+.max-w32px { max-width: 32px; }
+.min-max-w32 { min-width: 32%; max-width: 32%; }
+.min-max-w32px { min-width: 32px; max-width: 32px; }
+.w33 { width: 33%; }
+.w33px { width: 33px; }
+.min-w33 { min-width: 33%; }
+.min-w33px { min-width: 33px; }
+.max-w33 { max-width: 33%; }
+.max-w33px { max-width: 33px; }
+.min-max-w33 { min-width: 33%; max-width: 33%; }
+.min-max-w33px { min-width: 33px; max-width: 33px; }
+.w34 { width: 34%; }
+.w34px { width: 34px; }
+.min-w34 { min-width: 34%; }
+.min-w34px { min-width: 34px; }
+.max-w34 { max-width: 34%; }
+.max-w34px { max-width: 34px; }
+.min-max-w34 { min-width: 34%; max-width: 34%; }
+.min-max-w34px { min-width: 34px; max-width: 34px; }
+.w35 { width: 35%; }
+.w35px { width: 35px; }
+.min-w35 { min-width: 35%; }
+.min-w35px { min-width: 35px; }
+.max-w35 { max-width: 35%; }
+.max-w35px { max-width: 35px; }
+.min-max-w35 { min-width: 35%; max-width: 35%; }
+.min-max-w35px { min-width: 35px; max-width: 35px; }
+.w36 { width: 36%; }
+.w36px { width: 36px; }
+.min-w36 { min-width: 36%; }
+.min-w36px { min-width: 36px; }
+.max-w36 { max-width: 36%; }
+.max-w36px { max-width: 36px; }
+.min-max-w36 { min-width: 36%; max-width: 36%; }
+.min-max-w36px { min-width: 36px; max-width: 36px; }
+.w37 { width: 37%; }
+.w37px { width: 37px; }
+.min-w37 { min-width: 37%; }
+.min-w37px { min-width: 37px; }
+.max-w37 { max-width: 37%; }
+.max-w37px { max-width: 37px; }
+.min-max-w37 { min-width: 37%; max-width: 37%; }
+.min-max-w37px { min-width: 37px; max-width: 37px; }
+.w38 { width: 38%; }
+.w38px { width: 38px; }
+.min-w38 { min-width: 38%; }
+.min-w38px { min-width: 38px; }
+.max-w38 { max-width: 38%; }
+.max-w38px { max-width: 38px; }
+.min-max-w38 { min-width: 38%; max-width: 38%; }
+.min-max-w38px { min-width: 38px; max-width: 38px; }
+.w39 { width: 39%; }
+.w39px { width: 39px; }
+.min-w39 { min-width: 39%; }
+.min-w39px { min-width: 39px; }
+.max-w39 { max-width: 39%; }
+.max-w39px { max-width: 39px; }
+.min-max-w39 { min-width: 39%; max-width: 39%; }
+.min-max-w39px { min-width: 39px; max-width: 39px; }
+.w40 { width: 40%; }
+.w40px { width: 40px; }
+.min-w40 { min-width: 40%; }
+.min-w40px { min-width: 40px; }
+.max-w40 { max-width: 40%; }
+.max-w40px { max-width: 40px; }
+.min-max-w40 { min-width: 40%; max-width: 40%; }
+.min-max-w40px { min-width: 40px; max-width: 40px; }
+.w41 { width: 41%; }
+.w41px { width: 41px; }
+.min-w41 { min-width: 41%; }
+.min-w41px { min-width: 41px; }
+.max-w41 { max-width: 41%; }
+.max-w41px { max-width: 41px; }
+.min-max-w41 { min-width: 41%; max-width: 41%; }
+.min-max-w41px { min-width: 41px; max-width: 41px; }
+.w42 { width: 42%; }
+.w42px { width: 42px; }
+.min-w42 { min-width: 42%; }
+.min-w42px { min-width: 42px; }
+.max-w42 { max-width: 42%; }
+.max-w42px { max-width: 42px; }
+.min-max-w42 { min-width: 42%; max-width: 42%; }
+.min-max-w42px { min-width: 42px; max-width: 42px; }
+.w43 { width: 43%; }
+.w43px { width: 43px; }
+.min-w43 { min-width: 43%; }
+.min-w43px { min-width: 43px; }
+.max-w43 { max-width: 43%; }
+.max-w43px { max-width: 43px; }
+.min-max-w43 { min-width: 43%; max-width: 43%; }
+.min-max-w43px { min-width: 43px; max-width: 43px; }
+.w44 { width: 44%; }
+.w44px { width: 44px; }
+.min-w44 { min-width: 44%; }
+.min-w44px { min-width: 44px; }
+.max-w44 { max-width: 44%; }
+.max-w44px { max-width: 44px; }
+.min-max-w44 { min-width: 44%; max-width: 44%; }
+.min-max-w44px { min-width: 44px; max-width: 44px; }
+.w45 { width: 45%; }
+.w45px { width: 45px; }
+.min-w45 { min-width: 45%; }
+.min-w45px { min-width: 45px; }
+.max-w45 { max-width: 45%; }
+.max-w45px { max-width: 45px; }
+.min-max-w45 { min-width: 45%; max-width: 45%; }
+.min-max-w45px { min-width: 45px; max-width: 45px; }
+.w46 { width: 46%; }
+.w46px { width: 46px; }
+.min-w46 { min-width: 46%; }
+.min-w46px { min-width: 46px; }
+.max-w46 { max-width: 46%; }
+.max-w46px { max-width: 46px; }
+.min-max-w46 { min-width: 46%; max-width: 46%; }
+.min-max-w46px { min-width: 46px; max-width: 46px; }
+.w47 { width: 47%; }
+.w47px { width: 47px; }
+.min-w47 { min-width: 47%; }
+.min-w47px { min-width: 47px; }
+.max-w47 { max-width: 47%; }
+.max-w47px { max-width: 47px; }
+.min-max-w47 { min-width: 47%; max-width: 47%; }
+.min-max-w47px { min-width: 47px; max-width: 47px; }
+.w48 { width: 48%; }
+.w48px { width: 48px; }
+.min-w48 { min-width: 48%; }
+.min-w48px { min-width: 48px; }
+.max-w48 { max-width: 48%; }
+.max-w48px { max-width: 48px; }
+.min-max-w48 { min-width: 48%; max-width: 48%; }
+.min-max-w48px { min-width: 48px; max-width: 48px; }
+.w49 { width: 49%; }
+.w49px { width: 49px; }
+.min-w49 { min-width: 49%; }
+.min-w49px { min-width: 49px; }
+.max-w49 { max-width: 49%; }
+.max-w49px { max-width: 49px; }
+.min-max-w49 { min-width: 49%; max-width: 49%; }
+.min-max-w49px { min-width: 49px; max-width: 49px; }
+.w50 { width: 50%; }
+.w50px { width: 50px; }
+.min-w50 { min-width: 50%; }
+.min-w50px { min-width: 50px; }
+.max-w50 { max-width: 50%; }
+.max-w50px { max-width: 50px; }
+.min-max-w50 { min-width: 50%; max-width: 50%; }
+.min-max-w50px { min-width: 50px; max-width: 50px; }
+.w51 { width: 51%; }
+.w51px { width: 51px; }
+.min-w51 { min-width: 51%; }
+.min-w51px { min-width: 51px; }
+.max-w51 { max-width: 51%; }
+.max-w51px { max-width: 51px; }
+.min-max-w51 { min-width: 51%; max-width: 51%; }
+.min-max-w51px { min-width: 51px; max-width: 51px; }
+.w52 { width: 52%; }
+.w52px { width: 52px; }
+.min-w52 { min-width: 52%; }
+.min-w52px { min-width: 52px; }
+.max-w52 { max-width: 52%; }
+.max-w52px { max-width: 52px; }
+.min-max-w52 { min-width: 52%; max-width: 52%; }
+.min-max-w52px { min-width: 52px; max-width: 52px; }
+.w53 { width: 53%; }
+.w53px { width: 53px; }
+.min-w53 { min-width: 53%; }
+.min-w53px { min-width: 53px; }
+.max-w53 { max-width: 53%; }
+.max-w53px { max-width: 53px; }
+.min-max-w53 { min-width: 53%; max-width: 53%; }
+.min-max-w53px { min-width: 53px; max-width: 53px; }
+.w54 { width: 54%; }
+.w54px { width: 54px; }
+.min-w54 { min-width: 54%; }
+.min-w54px { min-width: 54px; }
+.max-w54 { max-width: 54%; }
+.max-w54px { max-width: 54px; }
+.min-max-w54 { min-width: 54%; max-width: 54%; }
+.min-max-w54px { min-width: 54px; max-width: 54px; }
+.w55 { width: 55%; }
+.w55px { width: 55px; }
+.min-w55 { min-width: 55%; }
+.min-w55px { min-width: 55px; }
+.max-w55 { max-width: 55%; }
+.max-w55px { max-width: 55px; }
+.min-max-w55 { min-width: 55%; max-width: 55%; }
+.min-max-w55px { min-width: 55px; max-width: 55px; }
+.w56 { width: 56%; }
+.w56px { width: 56px; }
+.min-w56 { min-width: 56%; }
+.min-w56px { min-width: 56px; }
+.max-w56 { max-width: 56%; }
+.max-w56px { max-width: 56px; }
+.min-max-w56 { min-width: 56%; max-width: 56%; }
+.min-max-w56px { min-width: 56px; max-width: 56px; }
+.w57 { width: 57%; }
+.w57px { width: 57px; }
+.min-w57 { min-width: 57%; }
+.min-w57px { min-width: 57px; }
+.max-w57 { max-width: 57%; }
+.max-w57px { max-width: 57px; }
+.min-max-w57 { min-width: 57%; max-width: 57%; }
+.min-max-w57px { min-width: 57px; max-width: 57px; }
+.w58 { width: 58%; }
+.w58px { width: 58px; }
+.min-w58 { min-width: 58%; }
+.min-w58px { min-width: 58px; }
+.max-w58 { max-width: 58%; }
+.max-w58px { max-width: 58px; }
+.min-max-w58 { min-width: 58%; max-width: 58%; }
+.min-max-w58px { min-width: 58px; max-width: 58px; }
+.w59 { width: 59%; }
+.w59px { width: 59px; }
+.min-w59 { min-width: 59%; }
+.min-w59px { min-width: 59px; }
+.max-w59 { max-width: 59%; }
+.max-w59px { max-width: 59px; }
+.min-max-w59 { min-width: 59%; max-width: 59%; }
+.min-max-w59px { min-width: 59px; max-width: 59px; }
+.w60 { width: 60%; }
+.w60px { width: 60px; }
+.min-w60 { min-width: 60%; }
+.min-w60px { min-width: 60px; }
+.max-w60 { max-width: 60%; }
+.max-w60px { max-width: 60px; }
+.min-max-w60 { min-width: 60%; max-width: 60%; }
+.min-max-w60px { min-width: 60px; max-width: 60px; }
+.w61 { width: 61%; }
+.w61px { width: 61px; }
+.min-w61 { min-width: 61%; }
+.min-w61px { min-width: 61px; }
+.max-w61 { max-width: 61%; }
+.max-w61px { max-width: 61px; }
+.min-max-w61 { min-width: 61%; max-width: 61%; }
+.min-max-w61px { min-width: 61px; max-width: 61px; }
+.w62 { width: 62%; }
+.w62px { width: 62px; }
+.min-w62 { min-width: 62%; }
+.min-w62px { min-width: 62px; }
+.max-w62 { max-width: 62%; }
+.max-w62px { max-width: 62px; }
+.min-max-w62 { min-width: 62%; max-width: 62%; }
+.min-max-w62px { min-width: 62px; max-width: 62px; }
+.w63 { width: 63%; }
+.w63px { width: 63px; }
+.min-w63 { min-width: 63%; }
+.min-w63px { min-width: 63px; }
+.max-w63 { max-width: 63%; }
+.max-w63px { max-width: 63px; }
+.min-max-w63 { min-width: 63%; max-width: 63%; }
+.min-max-w63px { min-width: 63px; max-width: 63px; }
+.w64 { width: 64%; }
+.w64px { width: 64px; }
+.min-w64 { min-width: 64%; }
+.min-w64px { min-width: 64px; }
+.max-w64 { max-width: 64%; }
+.max-w64px { max-width: 64px; }
+.min-max-w64 { min-width: 64%; max-width: 64%; }
+.min-max-w64px { min-width: 64px; max-width: 64px; }
+.w65 { width: 65%; }
+.w65px { width: 65px; }
+.min-w65 { min-width: 65%; }
+.min-w65px { min-width: 65px; }
+.max-w65 { max-width: 65%; }
+.max-w65px { max-width: 65px; }
+.min-max-w65 { min-width: 65%; max-width: 65%; }
+.min-max-w65px { min-width: 65px; max-width: 65px; }
+.w66 { width: 66%; }
+.w66px { width: 66px; }
+.min-w66 { min-width: 66%; }
+.min-w66px { min-width: 66px; }
+.max-w66 { max-width: 66%; }
+.max-w66px { max-width: 66px; }
+.min-max-w66 { min-width: 66%; max-width: 66%; }
+.min-max-w66px { min-width: 66px; max-width: 66px; }
+.w67 { width: 67%; }
+.w67px { width: 67px; }
+.min-w67 { min-width: 67%; }
+.min-w67px { min-width: 67px; }
+.max-w67 { max-width: 67%; }
+.max-w67px { max-width: 67px; }
+.min-max-w67 { min-width: 67%; max-width: 67%; }
+.min-max-w67px { min-width: 67px; max-width: 67px; }
+.w68 { width: 68%; }
+.w68px { width: 68px; }
+.min-w68 { min-width: 68%; }
+.min-w68px { min-width: 68px; }
+.max-w68 { max-width: 68%; }
+.max-w68px { max-width: 68px; }
+.min-max-w68 { min-width: 68%; max-width: 68%; }
+.min-max-w68px { min-width: 68px; max-width: 68px; }
+.w69 { width: 69%; }
+.w69px { width: 69px; }
+.min-w69 { min-width: 69%; }
+.min-w69px { min-width: 69px; }
+.max-w69 { max-width: 69%; }
+.max-w69px { max-width: 69px; }
+.min-max-w69 { min-width: 69%; max-width: 69%; }
+.min-max-w69px { min-width: 69px; max-width: 69px; }
+.w70 { width: 70%; }
+.w70px { width: 70px; }
+.min-w70 { min-width: 70%; }
+.min-w70px { min-width: 70px; }
+.max-w70 { max-width: 70%; }
+.max-w70px { max-width: 70px; }
+.min-max-w70 { min-width: 70%; max-width: 70%; }
+.min-max-w70px { min-width: 70px; max-width: 70px; }
+.w71 { width: 71%; }
+.w71px { width: 71px; }
+.min-w71 { min-width: 71%; }
+.min-w71px { min-width: 71px; }
+.max-w71 { max-width: 71%; }
+.max-w71px { max-width: 71px; }
+.min-max-w71 { min-width: 71%; max-width: 71%; }
+.min-max-w71px { min-width: 71px; max-width: 71px; }
+.w72 { width: 72%; }
+.w72px { width: 72px; }
+.min-w72 { min-width: 72%; }
+.min-w72px { min-width: 72px; }
+.max-w72 { max-width: 72%; }
+.max-w72px { max-width: 72px; }
+.min-max-w72 { min-width: 72%; max-width: 72%; }
+.min-max-w72px { min-width: 72px; max-width: 72px; }
+.w73 { width: 73%; }
+.w73px { width: 73px; }
+.min-w73 { min-width: 73%; }
+.min-w73px { min-width: 73px; }
+.max-w73 { max-width: 73%; }
+.max-w73px { max-width: 73px; }
+.min-max-w73 { min-width: 73%; max-width: 73%; }
+.min-max-w73px { min-width: 73px; max-width: 73px; }
+.w74 { width: 74%; }
+.w74px { width: 74px; }
+.min-w74 { min-width: 74%; }
+.min-w74px { min-width: 74px; }
+.max-w74 { max-width: 74%; }
+.max-w74px { max-width: 74px; }
+.min-max-w74 { min-width: 74%; max-width: 74%; }
+.min-max-w74px { min-width: 74px; max-width: 74px; }
+.w75 { width: 75%; }
+.w75px { width: 75px; }
+.min-w75 { min-width: 75%; }
+.min-w75px { min-width: 75px; }
+.max-w75 { max-width: 75%; }
+.max-w75px { max-width: 75px; }
+.min-max-w75 { min-width: 75%; max-width: 75%; }
+.min-max-w75px { min-width: 75px; max-width: 75px; }
+.w76 { width: 76%; }
+.w76px { width: 76px; }
+.min-w76 { min-width: 76%; }
+.min-w76px { min-width: 76px; }
+.max-w76 { max-width: 76%; }
+.max-w76px { max-width: 76px; }
+.min-max-w76 { min-width: 76%; max-width: 76%; }
+.min-max-w76px { min-width: 76px; max-width: 76px; }
+.w77 { width: 77%; }
+.w77px { width: 77px; }
+.min-w77 { min-width: 77%; }
+.min-w77px { min-width: 77px; }
+.max-w77 { max-width: 77%; }
+.max-w77px { max-width: 77px; }
+.min-max-w77 { min-width: 77%; max-width: 77%; }
+.min-max-w77px { min-width: 77px; max-width: 77px; }
+.w78 { width: 78%; }
+.w78px { width: 78px; }
+.min-w78 { min-width: 78%; }
+.min-w78px { min-width: 78px; }
+.max-w78 { max-width: 78%; }
+.max-w78px { max-width: 78px; }
+.min-max-w78 { min-width: 78%; max-width: 78%; }
+.min-max-w78px { min-width: 78px; max-width: 78px; }
+.w79 { width: 79%; }
+.w79px { width: 79px; }
+.min-w79 { min-width: 79%; }
+.min-w79px { min-width: 79px; }
+.max-w79 { max-width: 79%; }
+.max-w79px { max-width: 79px; }
+.min-max-w79 { min-width: 79%; max-width: 79%; }
+.min-max-w79px { min-width: 79px; max-width: 79px; }
+.w80 { width: 80%; }
+.w80px { width: 80px; }
+.min-w80 { min-width: 80%; }
+.min-w80px { min-width: 80px; }
+.max-w80 { max-width: 80%; }
+.max-w80px { max-width: 80px; }
+.min-max-w80 { min-width: 80%; max-width: 80%; }
+.min-max-w80px { min-width: 80px; max-width: 80px; }
+.w81 { width: 81%; }
+.w81px { width: 81px; }
+.min-w81 { min-width: 81%; }
+.min-w81px { min-width: 81px; }
+.max-w81 { max-width: 81%; }
+.max-w81px { max-width: 81px; }
+.min-max-w81 { min-width: 81%; max-width: 81%; }
+.min-max-w81px { min-width: 81px; max-width: 81px; }
+.w82 { width: 82%; }
+.w82px { width: 82px; }
+.min-w82 { min-width: 82%; }
+.min-w82px { min-width: 82px; }
+.max-w82 { max-width: 82%; }
+.max-w82px { max-width: 82px; }
+.min-max-w82 { min-width: 82%; max-width: 82%; }
+.min-max-w82px { min-width: 82px; max-width: 82px; }
+.w83 { width: 83%; }
+.w83px { width: 83px; }
+.min-w83 { min-width: 83%; }
+.min-w83px { min-width: 83px; }
+.max-w83 { max-width: 83%; }
+.max-w83px { max-width: 83px; }
+.min-max-w83 { min-width: 83%; max-width: 83%; }
+.min-max-w83px { min-width: 83px; max-width: 83px; }
+.w84 { width: 84%; }
+.w84px { width: 84px; }
+.min-w84 { min-width: 84%; }
+.min-w84px { min-width: 84px; }
+.max-w84 { max-width: 84%; }
+.max-w84px { max-width: 84px; }
+.min-max-w84 { min-width: 84%; max-width: 84%; }
+.min-max-w84px { min-width: 84px; max-width: 84px; }
+.w85 { width: 85%; }
+.w85px { width: 85px; }
+.min-w85 { min-width: 85%; }
+.min-w85px { min-width: 85px; }
+.max-w85 { max-width: 85%; }
+.max-w85px { max-width: 85px; }
+.min-max-w85 { min-width: 85%; max-width: 85%; }
+.min-max-w85px { min-width: 85px; max-width: 85px; }
+.w86 { width: 86%; }
+.w86px { width: 86px; }
+.min-w86 { min-width: 86%; }
+.min-w86px { min-width: 86px; }
+.max-w86 { max-width: 86%; }
+.max-w86px { max-width: 86px; }
+.min-max-w86 { min-width: 86%; max-width: 86%; }
+.min-max-w86px { min-width: 86px; max-width: 86px; }
+.w87 { width: 87%; }
+.w87px { width: 87px; }
+.min-w87 { min-width: 87%; }
+.min-w87px { min-width: 87px; }
+.max-w87 { max-width: 87%; }
+.max-w87px { max-width: 87px; }
+.min-max-w87 { min-width: 87%; max-width: 87%; }
+.min-max-w87px { min-width: 87px; max-width: 87px; }
+.w88 { width: 88%; }
+.w88px { width: 88px; }
+.min-w88 { min-width: 88%; }
+.min-w88px { min-width: 88px; }
+.max-w88 { max-width: 88%; }
+.max-w88px { max-width: 88px; }
+.min-max-w88 { min-width: 88%; max-width: 88%; }
+.min-max-w88px { min-width: 88px; max-width: 88px; }
+.w89 { width: 89%; }
+.w89px { width: 89px; }
+.min-w89 { min-width: 89%; }
+.min-w89px { min-width: 89px; }
+.max-w89 { max-width: 89%; }
+.max-w89px { max-width: 89px; }
+.min-max-w89 { min-width: 89%; max-width: 89%; }
+.min-max-w89px { min-width: 89px; max-width: 89px; }
+.w90 { width: 90%; }
+.w90px { width: 90px; }
+.min-w90 { min-width: 90%; }
+.min-w90px { min-width: 90px; }
+.max-w90 { max-width: 90%; }
+.max-w90px { max-width: 90px; }
+.min-max-w90 { min-width: 90%; max-width: 90%; }
+.min-max-w90px { min-width: 90px; max-width: 90px; }
+.w91 { width: 91%; }
+.w91px { width: 91px; }
+.min-w91 { min-width: 91%; }
+.min-w91px { min-width: 91px; }
+.max-w91 { max-width: 91%; }
+.max-w91px { max-width: 91px; }
+.min-max-w91 { min-width: 91%; max-width: 91%; }
+.min-max-w91px { min-width: 91px; max-width: 91px; }
+.w92 { width: 92%; }
+.w92px { width: 92px; }
+.min-w92 { min-width: 92%; }
+.min-w92px { min-width: 92px; }
+.max-w92 { max-width: 92%; }
+.max-w92px { max-width: 92px; }
+.min-max-w92 { min-width: 92%; max-width: 92%; }
+.min-max-w92px { min-width: 92px; max-width: 92px; }
+.w93 { width: 93%; }
+.w93px { width: 93px; }
+.min-w93 { min-width: 93%; }
+.min-w93px { min-width: 93px; }
+.max-w93 { max-width: 93%; }
+.max-w93px { max-width: 93px; }
+.min-max-w93 { min-width: 93%; max-width: 93%; }
+.min-max-w93px { min-width: 93px; max-width: 93px; }
+.w94 { width: 94%; }
+.w94px { width: 94px; }
+.min-w94 { min-width: 94%; }
+.min-w94px { min-width: 94px; }
+.max-w94 { max-width: 94%; }
+.max-w94px { max-width: 94px; }
+.min-max-w94 { min-width: 94%; max-width: 94%; }
+.min-max-w94px { min-width: 94px; max-width: 94px; }
+.w95 { width: 95%; }
+.w95px { width: 95px; }
+.min-w95 { min-width: 95%; }
+.min-w95px { min-width: 95px; }
+.max-w95 { max-width: 95%; }
+.max-w95px { max-width: 95px; }
+.min-max-w95 { min-width: 95%; max-width: 95%; }
+.min-max-w95px { min-width: 95px; max-width: 95px; }
+.w96 { width: 96%; }
+.w96px { width: 96px; }
+.min-w96 { min-width: 96%; }
+.min-w96px { min-width: 96px; }
+.max-w96 { max-width: 96%; }
+.max-w96px { max-width: 96px; }
+.min-max-w96 { min-width: 96%; max-width: 96%; }
+.min-max-w96px { min-width: 96px; max-width: 96px; }
+.w97 { width: 97%; }
+.w97px { width: 97px; }
+.min-w97 { min-width: 97%; }
+.min-w97px { min-width: 97px; }
+.max-w97 { max-width: 97%; }
+.max-w97px { max-width: 97px; }
+.min-max-w97 { min-width: 97%; max-width: 97%; }
+.min-max-w97px { min-width: 97px; max-width: 97px; }
+.w98 { width: 98%; }
+.w98px { width: 98px; }
+.min-w98 { min-width: 98%; }
+.min-w98px { min-width: 98px; }
+.max-w98 { max-width: 98%; }
+.max-w98px { max-width: 98px; }
+.min-max-w98 { min-width: 98%; max-width: 98%; }
+.min-max-w98px { min-width: 98px; max-width: 98px; }
+.w99 { width: 99%; }
+.w99px { width: 99px; }
+.min-w99 { min-width: 99%; }
+.min-w99px { min-width: 99px; }
+.max-w99 { max-width: 99%; }
+.max-w99px { max-width: 99px; }
+.min-max-w99 { min-width: 99%; max-width: 99%; }
+.min-max-w99px { min-width: 99px; max-width: 99px; }
+.w100 { width: 100%; }
+.w100px { width: 100px; }
+.min-w100 { min-width: 100%; }
+.min-w100px { min-width: 100px; }
+.max-w100 { max-width: 100%; }
+.max-w100px { max-width: 100px; }
+.min-max-w100 { min-width: 100%; max-width: 100%; }
+.min-max-w100px { min-width: 100px; max-width: 100px; }

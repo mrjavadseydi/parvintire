@@ -1,0 +1,28 @@
+.title-box {
+  position: relative;
+  display: block;
+  text-align: center;
+  border-radius: 5px;
+  height: 105px;
+  line-height: 105px;
+  background-size: 55%;
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    @include transform(scale(1.05));
+  }
+
+  h2 {
+    font-size: 18px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+}
+
+@each $color, $value in $theme-colors {
+  .title-box.title-box-#{$color} {
+    background-color: $value;
+  }
+}

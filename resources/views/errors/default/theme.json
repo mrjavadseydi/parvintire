@@ -1,0 +1,87 @@
+{
+    "name": "default",
+    "type": "errors",
+    "version": "3.2.1",
+    "support": {
+        "name": "javadGholipoor",
+        "email": "apkmaker74@gmail.com",
+        "mobile": "09376525788"
+    },
+    "assets": {
+        "plugins": {
+        },
+        "fonts": {
+            "sahel": "3.3.0"
+        }
+    },
+    "options": {
+        "values": [
+            {
+                "title": "رنگ اصلی",
+                "description": "برای اعمال رنگ های قالب این گزینه الزامی می باشد. برای حذف این گزینه را خالی بگذارید",
+                "key": "defaultAuthMainColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ فرعی",
+                "description": "برای مثال #204bff",
+                "key": "defaultAuthSecondColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ متن",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthTextColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ اصلی حباب ها",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthBubbleMainColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ فرعی حباب ها",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthBubbleSecondColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ اصلی دکمه",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthButtonMainColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ فرعی دکمه",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthButtonSecondColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ متن دکمه",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthButtonTextColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ اصلی هاور دکمه",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthButtonHoverMainColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ فرعی هاور دکمه",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthButtonHoverSecondColor",
+                "more": "autoload"
+            },
+            {
+                "title": "رنگ متن دکمه",
+                "description": "برای مثال #fff",
+                "key": "defaultAuthButtonHoverTextColor",
+                "more": "autoload"
+            }
+        ]
+    }
+}

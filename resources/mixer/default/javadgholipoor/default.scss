@@ -1,0 +1,55 @@
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: 0    ;
+}
+
+body {
+  overflow-x: hidden;
+  direction: rtl;
+  font-size: 100%;
+  font-family: $fontFamily;
+  margin: 0;
+}
+
+select, input, textarea {
+  font-family: $fontFamily;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+i {
+  vertical-align: middle;
+}
+
+button {
+  font-family: $fontFamily;
+}
+
+p {
+  text-align: justify;
+  margin: 0;
+}
+
+.ck.ck-content {
+  border: 1px solid #c4c4c4 !important;
+  border-top: none !important;
+  border-radius: 0 0 3px 3px !important;
+}
+
+.ck.ck-toolbar {
+  border-radius: 5px 5px 0 0 !important;
+}
+
+//.fancybox-content {
+//  height: 85vh !important;
+//}

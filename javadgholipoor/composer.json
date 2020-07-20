@@ -1,0 +1,26 @@
+{
+    "name": "javadgholipoor/larabase",
+    "description": "larabase",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Javad Gholipoor",
+            "email": "apkmaker74@gmail.com",
+            "email": "javadgholipoordev@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "apkmaker74@gmail.com"
+    },
+    "autoload": {
+        "files": [
+            "autoload.php"
+        ],
+        "psr-4": {
+            "LaraBase\\" : "/"
+        }
+    },
+    "minimum-stability": "dev"
+}
