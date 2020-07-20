@@ -1,7 +1,7 @@
 @extends(includeTemplate('profile.master'))
 @section('title', 'پروفایل من')
 @section('breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">{{ $user->name() }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ $user->name }}</li>
 @endsection
 @section('main')
     <form action="{{ route('profile.update') }}" method="post" class="ajaxForm ajaxForm-iziToast">
@@ -70,6 +70,6 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-block btn-success mt-3">ثبت تغییرات</button>
+            <button class="btn btn-sm btn-block btn-secondary mt-3">ثبت تغییرات</button>
         </form>
 @endsection

@@ -31,8 +31,6 @@
                         <td class="text-center">
                             @if($order->status == 0)
                                 <a href="{{ url('cart') }}" class="btn btn-success">پرداخت</a>
-                            @elseif($order->status == 4)
-                                <a href="{{ route('order.change', ['orderId' => $order->id]) }}" class="btn btn-success">تغییر سبد و پرداخت</a>
                             @else
                                 <a href="{{ url('profile/orders/' . $order->id) }}">مشاهده سفارش</a>
                             @endif
