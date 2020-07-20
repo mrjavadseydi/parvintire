@@ -1,0 +1,199 @@
+@import "../tools/plugins/bootstrap/4.3.1/scss/bootstrap";
+
+.text-second-color {
+    color: var(--second-color);
+}
+
+.scrollbar {
+    &::-webkit-scrollbar {
+        width: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--main-color-light);
+        border-radius: 100px;
+        opacity: 0.5;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--main-color);
+    }
+}
+
+* {
+    direction: rtl !important;
+    text-align: right;
+}
+
+body {
+    font-family: iransans;
+    font-size: 0.9em;
+    overflow-x: hidden;
+    font-size: 100%;
+    background: #FCFCFC;
+}
+
+ul {
+    list-style: none;
+}
+
+figure, ul {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    outline: none;
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+h1, h2, h3, h4, h5, h6, p, label {
+    margin-bottom: 0 !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+img {
+    max-width: 100% !important;
+}
+
+.px-6 {
+    padding-left: 6em !important;
+    padding-right: 6em !important;
+}
+
+@include media-breakpoint-only('xl') {
+    body {
+        font-size: 80%;
+    }
+}
+
+@include media-breakpoint-only('lg') {
+    body {
+        font-size: 75%;
+    }
+}
+
+@include media-breakpoint-down('md') {
+    body {
+        font-size: 70%;
+    }
+    .px-6 {
+        padding-left: 1em !important;
+        padding-right: 1em !important;
+    }
+}
+
+@include media-breakpoint-only('sm') {
+    //background-color: yellow !important;
+}
+
+@include media-breakpoint-only('xs') {
+    //background-color: deeppink !important;
+}
+
+@import "public/header";
+@import "public/footer";
+@import "public/grid";
+@import "public/graphics";
+@import "public/tabs-products";
+@import "public/divider";
+@import "public/cards";
+@import "public/special-offers";
+@import "public/box";
+@import "public/menu-circle";
+@import "public/faq";
+@import "public/tabs";
+@import "public/comments";
+@import "public/menu-brands";
+@import "template/product";
+@import "template/article";
+@import "template/cart";
+@import "public/attributes";
+@import "public/payment";
+@import "public/contact-us";
+@import "public/search";
+@import "template/profile";
+
+.carousel-indicators {
+    padding: 0 !important;
+    margin: 0 !important;
+
+    .active {
+        background-color: var(--main-color);
+    }
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    padding-left: 0.5rem;
+}
+
+.single-share-dropdown {
+    top: 45px !important;
+    transform: none !important;
+    text-align: right;
+
+    a {
+        display: block;
+        padding: 0 10px;
+        color: #4f4f4f;
+
+        &:hover {
+            background: #f2f2f2;
+        }
+    }
+}
+
+
+.ltr {
+    direction: ltr !important;
+}
+
+.order-send-status {
+    .item {
+        img {
+            filter: grayscale(100);
+            opacity: 0.2;
+        }
+        figcaption {
+            opacity: 0.2;
+        }
+    }
+    .item.active {
+        img {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+        figcaption {
+            opacity: 1;
+        }
+    }
+}
+
+.orders-table {
+    td, th {
+        text-align: center;
+    }
+    a {
+        color: #6c757d;
+
+        &:hover {
+            color: black;
+        }
+    }
+}
+
+.faq-active {
+    color: var(--second-color) !important;
+}

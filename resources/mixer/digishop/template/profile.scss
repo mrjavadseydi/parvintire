@@ -1,0 +1,57 @@
+.profile {
+
+    .shadow {
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.28) !important;
+    }
+
+    .sidebar {
+
+        .avatar {
+            img {
+                width: 150px;
+                height: 150px;
+            }
+            .change-avatar {
+                position: absolute;
+                left: 5px;
+                bottom: 5px;
+                background: var(--second-color);
+                border-radius: 100px;
+                width: 25px;
+                text-align: center;
+                height: 25px;
+                line-height: 25px;
+                color: white;
+                box-shadow: 0 0 3px var(--second-color-hover);
+                cursor: pointer;
+
+                &:hover {
+                    color: black;
+                }
+            }
+        }
+
+        ul {
+            padding: 1em 0;
+
+            li {
+                a {
+                    color: #6e6e6e;
+                    line-height: 50px;
+                    display: block;
+                    font-size: 1.3em;
+                    padding: 0 1em;
+
+                    &:hover {
+                        color: var(--second-color);
+                    }
+                }
+            }
+            li.active {
+                color: var(--second-color-hover);
+            }
+        }
+
+    }
+
+}

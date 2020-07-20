@@ -1,0 +1,45 @@
+.faq {
+
+    .card {
+        border: none;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.35);
+        border-radius: 7px;
+        width: 100%;
+        overflow: hidden;
+        cursor: pointer;
+
+        .card-header {
+            width: 100%;
+            background: white;
+            border: none;
+            padding: 9px 15px;
+            padding-top: 15px;
+
+            h6 {
+                color: #5e5e5e;
+                font-size: 1.5em;
+
+                i {
+                    font-size: 1.5em;
+                    transition: 0.3s;
+                    transform: rotate(180deg);
+                    color: var(--main-color);
+                }
+            }
+        }
+
+        .card-body {
+            font-size: 1em;
+            line-height: 30px;
+            color: #2d2d2d;
+            text-align: justify;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+    }
+
+    .card.collapsed h6 i {
+        transform: rotate(0);
+    }
+
+}

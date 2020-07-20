@@ -1,0 +1,20 @@
+{
+    "name": "default",
+    "type": "boxes",
+    "version": "6",
+    "support": {
+        "name": "javadGholipoor",
+        "email": "apkmaker74@gmail.com",
+        "mobile": "09376525788"
+    },
+    "assets": {
+        "plugins": {
+        },
+        "fonts": {
+        },
+        "css": [
+        ],
+        "js": [
+        ]
+    }
+}

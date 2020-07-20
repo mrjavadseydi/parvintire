@@ -1,0 +1,28 @@
+.alert {
+  background: white;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+  font-size: 0.9em;
+
+  h4 {
+    margin: 0;
+  }
+
+  ul {
+    padding: 5px;
+  }
+
+  i {
+    font-size: 1.5em;
+  }
+
+}
+
+@each $color, $value in $theme-colors {
+  .alert.alert-#{$color} {
+    background-color: $value;
+    border-bottom: 2px solid darken($value, 10%);
+  }
+}

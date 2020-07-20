@@ -1,0 +1,42 @@
+.box4 {
+
+    figure {
+        position: relative;
+        overflow: hidden;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.6s;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.28);
+
+        img {
+            border-radius: 5px;
+        }
+
+        figcaption {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            text-align: center;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 0 5px;
+            line-height: 60px;
+            background: #ffffffeb;
+            color: #454545;
+            transition: 0.4s;
+        }
+
+        &:hover figcaption {
+            background-color: white;
+            color: var(--main-color);
+        }
+
+        &:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.28);
+        }
+
+    }
+
+}

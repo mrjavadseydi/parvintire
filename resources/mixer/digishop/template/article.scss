@@ -1,0 +1,60 @@
+.article {
+
+    .share {
+        font-size: 1.6em;
+        cursor: pointer;
+    }
+
+    .article-share {
+        top: 25px !important;
+    }
+
+}
+
+.likes {
+
+    form {
+        background: #f4f4f4;
+        border-radius: 3px;
+        padding: 0 3px;
+        line-height: 30px;
+        border: 1px solid #ddd;
+    }
+
+    button {
+        color: #515151;
+        font-size: 1.5em;
+        vertical-align: middle;
+    }
+
+    .like:hover {
+        color: #439f43;
+    }
+
+    .dislike:hover {
+        color: #c86161;
+    }
+
+    .like.active {
+        color: green;
+    }
+
+    .dislike.active {
+        color: red;
+    }
+}
+
+.tags {
+    background: #f4f4f4;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    padding: 10px;
+
+    a {
+        color: #646464;
+
+        &:hover {
+            color: black;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "name": "default",
+    "version": "5",
+    "type": "uploader",
+    "assets": {
+        "plugins": {
+            "cropperjs": {
+                "version": "1.5.6",
+                "files": [
+                    "cropper.css",
+                    "cropper.js"
+                ]
+            },
+            "uploader": {
+                "version": "2",
+                "files": [
+                    "uploader.min.js"
+                ]
+            }
+        }
+    },
+    "menus": {
+
+    },
+    "options": {
+
+    }
+}

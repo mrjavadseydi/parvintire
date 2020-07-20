@@ -1,0 +1,102 @@
+body {
+    font-family: SahelFD;
+}
+.auth-form {
+    direction: rtl;
+    display: inline-block;
+    width: 420px;
+    border: 2px dashed #a23b29;
+    margin: 25px 0;
+    border-radius: 25px;
+    padding: 15px;
+    max-width: 95%;
+}
+.auth-form a {
+    text-decoration: none;
+}
+.auth-form .input-ltr {
+    direction: ltr;
+    text-align: left;
+}
+.auth-form .input-group {
+    text-align: right;
+}
+.auth-form .input-group label {
+    display: block;
+    text-align: right;
+}
+.auth-form .input-group input {
+    border-radius: 15px;
+    display: block;
+    border: 1px solid #c3c3c3;
+    outline: none;
+    width: 100%;
+    padding: 7px 10px;
+}
+.auth-form .input-group input:focus {
+    border-color: #eca600;
+}
+.auth-form .btn-green,
+.auth-form .btn-orange,
+.auth-form .btn-red {
+    border: none;
+    background: #f9b400;
+    color: #fff;
+    border-radius: 15px;
+    padding: 7px;
+    text-align: center;
+    width: 100%;
+    outline: none;
+    display: block;
+}
+.auth-form .btn-green:focus,
+.auth-form .btn-green:hover,
+.auth-form .btn-orange:focus,
+.auth-form .btn-orange:hover,
+.auth-form .btn-red:focus,
+.auth-form .btn-red:hover {
+    background: #f99e26;
+}
+.auth-form .btn-red {
+    background-color: #ff3636;
+}
+.auth-form .btn-red:focus,
+.auth-form .btn-red:hover {
+    background: #dc3030;
+}
+.auth-form .btn-green {
+    background-color: #08ea2e;
+}
+.auth-form .btn-green:focus,
+.auth-form .btn-green:hover {
+    background: #08c028;
+}
+.auth-form .forget-password {
+    font-size: 12px;
+    margin-right: 10px;
+    vertical-align: bottom;
+    border-bottom: 1px dashed;
+    padding-bottom: 1px;
+    color: #0095ff;
+}
+.auth-form .forget-password:hover {
+    color: #056cb5;
+}
+.auth-form .alert-danger {
+    color: #000;
+    background: #fff;
+    border: 2px dashed #ff8491;
+    text-align: right;
+}
+.auth-form .alert-success {
+    color: #000;
+    background: #fff;
+    border: 2px dashed #2df74f;
+    text-align: right;
+}
+.auth-form ul {
+    list-style: none;
+}
+.auth-form.full {
+    width: 900px;
+}

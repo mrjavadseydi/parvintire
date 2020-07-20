@@ -1,0 +1,68 @@
+$scrollerColor: #ECF0F5;
+$scrollerBorderColor: #DDDDDD;
+$scrollerThumbColor: rgba(0,0,0,0.2);
+$scrollerThumbHoverColor: rgba(0,0,0,0.3);
+
+$blue:    #007bff !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #28a745 !default;
+$teal:    #20c997 !default;
+$cyan:    #00b8ff !default;
+$gray:    #707b7d !default;
+
+$colors: () !default;
+$colors: map-merge(
+  (
+    "blue":       $blue,
+    "indigo":     $indigo,
+    "purple":     $purple,
+    "pink":       $pink,
+    "red":        $red,
+    "orange":     $orange,
+    "yellow":     $yellow,
+    "green":      $green,
+    "teal":       $teal,
+    "cyan":       $cyan,
+    "gray":       $gray,
+  ),
+  $colors
+);
+
+$primary:       $blue !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge(
+  (
+    "primary":    $primary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "indigo":     $indigo,
+    "purple":     $purple,
+    "pink":       $pink,
+    "orange":     $orange,
+    "teal":       $teal,
+    "cyan":       $cyan,
+    "gray":       $gray,
+  ),
+  $theme-colors
+);
+
+@each $color, $value in $theme-colors {
+    .color-#{$color} {
+        color: $value;
+    }
+    .backgroud-color-#{$color} {
+        background-color: $value;
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "name": "default",
+    "version": "4.2.0",
+    "type": "auth",
+    "assets": {
+        "plugins": {
+            "jquery" : {
+                "version": "3.4.1",
+                "files": [
+                    "jquery.js"
+                ]
+            },
+            "bootstrap": {
+                "version": "4.4.1",
+                "files": [
+                    "bootstrap.min.css",
+                    "bootstrap.min.js"
+                ]
+            }
+        },
+        "fonts": {
+            "sahel": "3.3.0"
+        }
+    },
+    "options": {
+        "images": [
+            {
+                "title": "لوگوی بالای فرم",
+                "description": "سایز استاندارد : حداکثر عرض میتواند 180 پیکسل باشد. ارتفاع خودکار",
+                "key": "defaultAuthLogo",
+                "more": null
+            }
+        ]
+    }
+}

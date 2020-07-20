@@ -1,0 +1,33 @@
+body {
+  background-color: $background;
+}
+
+.content {
+  width: 100%;
+  padding: $headerHeight+10 $sidebarWidth+10 0 10px;
+}
+
+.flout-setting {
+  position: fixed;
+  left: 0;
+  top: 200px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  color: $floutSettingColor;
+  background-color: $floutSettingBackgroundColor;
+  @include borderRadiusFour(0, 5px, 5px, 0);
+
+  &:hover{
+    background-color: $floutSettingBackgroundColorHover;
+  }
+
+  i {
+    display: block;
+    line-height: 40px;
+  }
+
+}
