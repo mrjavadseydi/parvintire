@@ -45,15 +45,26 @@
                 <?php
                     $products = \LaraBase\Store\Models\Product::whereIn('post_id', $posts->pluck('id')->toArray())->get();
                 ?>
+                <div class="row mt-3">
                 @foreach($posts as $post)
                     <?php $product = $products->where('post_id', $post->id)->first();?>
-                    @include(includeTemplate('cards.product1'))
+                    <div class="col-md-3">
+                        @include(includeTemplate('cards.product1'))
+                    </div>
                 @endforeach
+                </div>
             @else
+                <div class="row mt-3">
                 @foreach($posts as $post)
-
+                    <div class="col-md-3">
+                        @include(includeTemplate('cards.blog1'))
+                    </div>
                 @endforeach
+                </div>
             @endif
+            <div class="pagination-rtl">
+                {{ $posts->appends($_GET)->links() }}
+            </div>
         </div>
     </div>
 @endsection
