@@ -26,9 +26,10 @@
 
     <div class="text-center py-3">
         <ul class="tab-products-click d-inline-block">
-            @foreach($categories as $i => $cat)
+            <li id="all" class="active">همه</li>
+            @foreach($categories as $cat)
                 @if($cat->posts->count() > 0)
-                    <li id="tab-products-{{ $cat->id }}" class="{{ $i == 0 ? 'active' : '' }}">{{ $cat->title }}</li>
+                    <li id="tab-products-{{ $cat->id }}">{{ $cat->title }}</li>
                 @endif
             @endforeach
         </ul>
@@ -41,11 +42,9 @@
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     @foreach($data as $item)
-                        @foreach($category->posts as $post)
                         <div class="swiper-slide tab-products-{{ implode(' tab-products-', $item['categories']) }}">
                             @include(includeTemplate('cards.product1'), ['product' => $item['product'], 'post' => $item['post']])
                         </div>
-                        @endforeach
                     @endforeach
                 </div>
             </div>
@@ -74,11 +73,15 @@
                     }
                 });
                 $(document).on('click', '.key-{{ $key }} ul li', function () {
+                    var id = $(this).attr('id');
                     var parent = $(this).closest('.key-{{ $key }}');
                     parent.find('.swiper-slide').addClass('d-none');
                     parent.find('ul li').removeClass('active');
-                    $('.'+$(this).attr('id')).removeClass('d-none');
+                    $('.'+id).removeClass('d-none');
                     $(this).addClass('active');
+                    if(id == 'all') {
+                        parent.find('.swiper-slide').removeClass('d-none');
+                    }
                 });
             </script>
         </div>

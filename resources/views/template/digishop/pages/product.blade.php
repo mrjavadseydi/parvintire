@@ -43,15 +43,17 @@
             </nav>
             <div class="d-flex flex-wrap bg-white rounded p-3 mb-3 border">
                 <div class="d-flex flex-column justify-content-between thumbs">
-                    @foreach($gallery->random(4) as $i => $image)
-                        @if($i <= 2)
-                            <figure onclick="$('[data-fancybox=images]:first').click()" class="border overflow-hidden rounded">
-                                <img class="rounded" src="{{ resizeImage($image->value, 150, 150) }}" alt="{{ $post->title }}">
-                            </figure>
-                        @else
-                            <figure onclick="$('[data-fancybox=images]:first').click()" class="border overflow-hidden rounded d-block d-md-none">
-                                <img class="rounded" src="{{ resizeImage($image->value, 150, 150) }}" alt="{{ $post->title }}">
-                            </figure>
+                    @foreach($gallery as $i => $image)
+                        @if($i <= 3)
+                            @if($i <= 2)
+                                <figure onclick="$('[data-fancybox=images]:first').click()" class="border overflow-hidden rounded">
+                                    <img class="rounded" src="{{ resizeImage($image->value, 150, 150) }}" alt="{{ $post->title }}">
+                                </figure>
+                            @else
+                                <figure onclick="$('[data-fancybox=images]:first').click()" class="border overflow-hidden rounded d-block d-md-none">
+                                    <img class="rounded" src="{{ resizeImage($image->value, 150, 150) }}" alt="{{ $post->title }}">
+                                </figure>
+                            @endif
                         @endif
                     @endforeach
                 </div>

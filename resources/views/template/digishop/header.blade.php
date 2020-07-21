@@ -34,9 +34,11 @@
                 </li>
             </ul>
             <ul class="main-menu">
-                <figure class="d-block d-md-none text-center py-3 border-bottom">
-                    <img height="60px" src="{{ picsum(180, 60) }}" alt="">
-                </figure>
+                <a target="{{ $logo['target'] }}" href="{{ $logo['href'] }}">
+                    <figure class="d-block d-md-none text-center py-3 border-bottom">
+                        <img height="60px" src="{{ $logo['src'] }}" alt="{{ $logo['alt'] }}">
+                    </figure>
+                </a>
                 @foreach(getMenu(false, getOption('digishopMainMenu')) as $menu)
                     <li class="main-li">
                         <a href="{{ $menu['link'] }}">
@@ -81,11 +83,49 @@
                                 </a>
                             </li>
                         @endcan
-                        <li>
-                            <a class="" href="{{ url('profile') }}">
-                                <span class="ml-1">{{ auth()->user()->name() }}</span>
-                                <img class="rounded-circle border" width="30" src="{{ auth()->user()->avatar() }}" alt="{{ auth()->user()->name() }}">
+                        <li class="main-li my-account">
+                            <a href="#">
+                                <i class=""></i>
+                                <span>حساب کاربری من</span>
                             </a>
+                            <i class="dropdown-icon fal fa-angle-down align-middle"></i>
+                            <div class="dropdown">
+                                <a href="{{ route('profile') }}">
+                                    <figure class="d-flex">
+                                        <img class="rounded-circle" width="50" height="50" src="{{ auth()->user()->avatar() }}" alt="{{ auth()->user()->name() }}">
+                                        <div class="d-flex flex-column justify-content-around">
+                                            <figcaption class="text-muted">{{ auth()->user()->name() }}</figcaption>
+                                            <figcaption>مشاهده حساب کاربری</figcaption>
+                                        </div>
+                                    </figure>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{{ route('profile.orders') }}">
+                                            <i class="fa fa-shopping-basket"></i>
+                                            <span>سفارشات من</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('profile.favorites') }}">
+                                            <i class="fa fa-heart"></i>
+                                            <span>علاقه مندی ها</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('profile.password') }}">
+                                            <i class="fa fa-lock"></i>
+                                            <span>تغییر رمز عبور</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('logout') }}">
+                                            <i class="fa fa-sign-out"></i>
+                                            <span>خروج از حساب کاربری</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     @else
                         <li>
@@ -100,7 +140,7 @@
 
                     @if(auth()->check())
                         <a class="" href="{{ url('profile') }}">
-                            <span>{{ auth()->user()->name() }}</span>
+                            <span>حساب کاربری من</span>
                         </a>
                         @can('controlPanel')
                             <a href="{{ url('admin') }}">

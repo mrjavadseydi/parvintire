@@ -70,6 +70,6 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-sm btn-block btn-secondary mt-3">ثبت تغییرات</button>
+            <button class="btn btn-block btn-outline-success mt-3">ثبت تغییرات</button>
         </form>
 @endsection

@@ -10,8 +10,8 @@
         </a>
         <div class="hover">
             <div class="icons">
-                <i class="fal fa-share-alt"></i>
-                <i class="fal fa-heart"></i>
+{{--                <i class="fal fa-share-alt"></i>--}}
+{{--                <i class="fal fa-heart"></i>--}}
             </div>
             <form action="{{ route('addToCart') }}" class="addToCart" method="post">
                 @csrf

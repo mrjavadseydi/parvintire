@@ -15,7 +15,7 @@
                     <label class="pb-2" for="name">تکرار رمز عبور</label>
                     <input id="c2" type="text" class="ltr text-left form-control" name="password_confirmation" value="">
                 </div>
-                <button class="btn btn-sm btn-block btn-secondary mt-3">تغییر رمز عبور</button>
+                <button class="btn btn-block btn-outline-success mt-3">تغییر رمز عبور</button>
             </div>
         </div>
     </form>
