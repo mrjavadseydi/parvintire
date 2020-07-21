@@ -4,9 +4,9 @@
 @section('content')
 
     {!! uploader()->relation('menu', $menuItem->id)->validations([
-        'thumbnail' => [
+        'menuItem' => [
             'in' => 1,
-            'key' => 'thumbnail',
+            'key' => 'menuItem',
             'validations' => 'mimes:png,jpg,jpeg,gif,PNG,JPG,JPEG,GIF|min:0|max:2048'
         ]
     ])->theme('default')->load() !!}
@@ -173,7 +173,7 @@
                             <div class="input-group">
                                 <label for="">تصویر</label>
                                 <input class="ltr tal" type="hidden" name="image" value="{{ old('image') ?? (empty($menuItem->image) ? '' : $menuItem->image) }}">
-                                <span key="thumbnail" callback="menuImage" buttonTitle="ثبت تصویر" class="btn btn-info uploader-open">باگذاری تصویر</span>
+                                <span key="menuItem" callback="menuImage" buttonTitle="ثبت تصویر" class="btn btn-info uploader-open">باگذاری تصویر</span>
                                 <img style="vertical-align: text-top;" id="menuImage" width="150px" src="{{ empty(old('image')) ? (empty($menuItem->image) ? '' : url($menuItem->image)) : url(old('image')) }}">
                                 <script>
                                     function menuImage(data){

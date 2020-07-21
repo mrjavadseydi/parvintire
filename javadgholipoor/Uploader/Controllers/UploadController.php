@@ -95,7 +95,7 @@ class UploadController extends CoreController {
 
     public function loadOptions($uploaderKey) {
 
-        $key = $uploaderKey .'_'. md5(ip() . $_SERVER['HTTP_REFERER']);
+        $key = $uploaderKey .'_'. md5(str_replace('/', '', str_replace('?', '', ip() . $_SERVER['HTTP_REFERER'])));
         $option = getCache($key);
         if ($option != null) {
             foreach (json_decode($option, true) as $key => $value) {

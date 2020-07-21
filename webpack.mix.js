@@ -28,7 +28,7 @@ mix // default
     .js('resources/mixer/tools/js/store.js', 'assets/admin/default')
 
     // boxes
-    .js('resources/mixer/default/boxes.js', 'assets/admin/default')
+    .js('resources/mixer/default/boqxes.js', 'assets/admin/default')
 
     // icons
     .sass('resources/mixer/default/icons.scss', 'assets/admin/default')
