@@ -197,3 +197,12 @@ img {
 .faq-active {
     color: var(--second-color) !important;
 }
+
+.category-flex {
+    flex: 0 0 24%;
+    max-width: 24%;
+}
+
+.flex-40 {
+    flex: 0 0 40%;
+}
