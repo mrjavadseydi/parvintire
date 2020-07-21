@@ -39,7 +39,8 @@ class PageController
             return abort(404);
         }
         $parents = Category::where('parent', $category->id)->get();
-        return templateView('pages.category', compact('category', 'parents'));
+        $posts = Post::pulished()->categories([$id])->paginate($_GET['count'] ?? 20);
+        return templateView('pages.category', compact('category', 'parents', 'posts'));
     }
 
 }
