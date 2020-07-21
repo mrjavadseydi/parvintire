@@ -12,7 +12,7 @@ class Manager {
 
     public function load() {
 
-        $hash = md5(ip() . url()->full());
+        $hash = md5(str_replace('/', '', str_replace('?', '', ip() . url()->full())));
         $value = json_encode($this->options);
         foreach ($this->options['validations'] as $key => $validation) {
             $cacheKey = "{$key}_{$hash}";
