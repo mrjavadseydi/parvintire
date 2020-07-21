@@ -26,6 +26,8 @@ Route::group(['prefix' => 'language', 'namespace' => 'LaraBase\App\Controllers']
 Route::group(['namespace'  => 'LaraBase\App\Controllers'], function () {
 
     Route::get('faq', 'PageController@faq')->name('faq');
+    Route::get('categories', 'PageController@categories')->name('categories');
+    Route::get('categories/{id}/{slug}', 'PageController@category')->name('category');
 
 });
 

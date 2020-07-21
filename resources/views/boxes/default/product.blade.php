@@ -85,7 +85,6 @@ if (in_array('plan', $postBoxes)) {
                 <div class="input-group">
                     <label>حمل و نقل</label>
                     <select name="product_shipping_id">
-                        <option value="">هیچ کدام</option>
                         @foreach (shipping() as $shipping)
                             <option {{ ($shipping->id == $shippingId ? 'selected' : '') }} value="{{ $shipping->id }}">{{ $shipping->title }}</option>
                         @endforeach

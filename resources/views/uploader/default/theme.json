@@ -1,6 +1,6 @@
 {
     "name": "default",
-    "version": "5",
+    "version": "6",
     "type": "uploader",
     "assets": {
         "plugins": {
