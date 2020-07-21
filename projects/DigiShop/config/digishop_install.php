@@ -50,7 +50,8 @@ return [
         'template' => 'digishop',
         'auth'     => 'default',
         'uploader' => 'default',
-        'mail'     => 'default'
+        'mail'     => 'default',
+        'errors'     => 'digishop'
     ]
 
 ];

@@ -50,7 +50,9 @@ mix // default
 
 mix // digishop
     .sass('resources/mixer/digishop/template.scss', 'assets/template/digishop')
+    .sass('resources/mixer/digishop/errors.scss', 'assets/errors/digishop')
     .js('resources/mixer/digishop/template.js', 'assets/template/digishop')
+    .copyDirectory('resources/mixer/digishop/images/errors', 'public_html/assets/errors/digishop/images')
     .copyDirectory('resources/mixer/digishop/images/template', 'public_html/assets/template/digishop/images')
 ;
 

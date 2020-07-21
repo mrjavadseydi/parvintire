@@ -1,0 +1,29 @@
+{
+    "name": "digishop",
+    "type": "errors",
+    "version": "1",
+    "support": {
+        "name": "javadGholipoor",
+        "email": "apkmaker74@gmail.com",
+        "mobile": "09376525788"
+    },
+    "assets": {
+        "plugins": {
+        },
+        "fonts": {
+            "iransans": "5.5",
+            "iransansDN": "1",
+            "fontawesome": "5.11.12"
+        }
+    },
+    "options": {
+        "values": [
+            {
+                "title": "منوی صفحه ارور",
+                "description": "آیدی منو را وارد کنید",
+                "key": "digishopErrorPagesMenu",
+                "more": "autoload"
+            }
+        ]
+    }
+}

@@ -1,5 +1,5 @@
 <?php
-    $logo = getOptionImage('digishopLogo', 130, 60);
+    $logo = getOptionImage('digishopLogo');
 ?>
 <header>
     <div class="container-fluid px-3 px-sm-5">

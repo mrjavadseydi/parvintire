@@ -6,6 +6,7 @@
     "/assets/errors/default/errors.css": "/assets/errors/default/errors.css",
     "/assets/uploader/default/uploader.css": "/assets/uploader/default/uploader.css",
     "/assets/template/digishop/template.css": "/assets/template/digishop/template.css",
+    "/assets/errors/digishop/errors.css": "/assets/errors/digishop/errors.css",
     "/assets/admin/default/boxes.js": "/assets/admin/default/boxes.js",
     "/assets/admin/default/icons.js": "/assets/admin/default/icons.js",
     "/assets/admin/default/store.js": "/assets/admin/default/store.js",
