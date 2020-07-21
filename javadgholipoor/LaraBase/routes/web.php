@@ -23,6 +23,8 @@ Route::group([
 
         if (isDev()) {
 
+            Artisan::call('clear:cache');
+
             $result = checkForUpdates();
 
             $old = getVersion();

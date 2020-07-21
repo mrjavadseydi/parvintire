@@ -29,7 +29,7 @@ class CartController extends CoreController
             return  redirect(url('cart'));
         }
         if (empty($order->address_id)) {
-            return  redirect(url('cart/address'));
+            return redirect(url('cart/address'));
         }
         return templateView('order.payment');
     }
