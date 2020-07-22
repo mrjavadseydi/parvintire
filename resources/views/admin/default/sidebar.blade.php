@@ -283,6 +283,45 @@
             </li>
         @endif
 
+        @if($user->can('transactions'))
+            <li class="treeview">
+
+                <a class="sidebar-item">
+                    <i class="icon-credit-card"></i>
+                    <span>تراکنش ها</span>
+                    <i class="icon-toggle icon-keyboard_arrow_left"></i>
+                </a>
+
+                <ul class="submenu">
+                    @if($user->can('createTransaction'))
+{{--                        <li class="">--}}
+{{--                            <a class="sidebar-item" href="{{ route('admin.transactions.create') }}">--}}
+{{--                                <i class="icon-add"></i>--}}
+{{--                                <span>افزودن تراکنش</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+                    @endif
+                    @if($user->can('transactions'))
+                        <li class="">
+                            <a class="sidebar-item" href="{{ route('admin.transactions.index') }}">
+                                <i class="icon-credit-card"></i>
+                                <span>تراکنش ها</span>
+                            </a>
+                        </li>
+                        @foreach(config('transaction.status') as $status => $item)
+                            <li class="">
+                                <a class="sidebar-item" href="{{ route('admin.transactions.index') }}?status={{ $status }}">
+                                    <i class="{{ $item['icon'] }}"></i>
+                                    <span>تراکنش های {{ $item['title'] }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
+                </ul>
+
+            </li>
+        @endif
+
         @if($user->can('reports'))
             <li class="treeview">
 
