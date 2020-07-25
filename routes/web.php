@@ -11,6 +11,25 @@
 |
 */
 
+Route::get('change-panel', function () {
+    if (isDev()) {
+        $get = \LaraBase\Options\Models\Option::where('key', 'adminTheme')->first();
+        if($get->value == 'default') {
+            $get->update(['value' => 'javadgholipoor']);
+            echo 'javadgholipoor is active';
+        } else {
+            $get->update(['value' => 'default']);
+            echo 'default is active';
+        }
+    }
+});
+
+Route::get('view', function () {
+    if (isDev()) {
+        return view('admin.javadgholipoor.helps.'.$_GET['view']);
+    }
+});
+
 Route::get('log', function () {
     if (isDev()) {
         dd(DB::getQueryLog());

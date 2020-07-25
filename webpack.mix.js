@@ -48,6 +48,12 @@ mix // default
 
 ;
 
+mix // javadgholipoor
+    .js('resources/mixer/javadgholipoor/admin.js', 'assets/admin/javadgholipoor')
+    .sass('resources/mixer/javadgholipoor/admin.scss', 'assets/admin/javadgholipoor')
+    .copyDirectory('resources/mixer/javadgholipoor/images/admin', 'public_html/assets/admin/javadgholipoor/images')
+;
+
 if (mix.inProduction()) {
     mix.version();
 }

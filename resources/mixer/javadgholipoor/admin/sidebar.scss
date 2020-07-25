@@ -1,0 +1,137 @@
+.sidebar {
+    top: 0;
+    right: 0;
+    z-index: 3;
+    width: 80px;
+    height: 100%;
+    position: fixed;
+    background: white;
+    line-height: $headerHeight;
+    background-color: white;
+    padding-top: $headerHeight + 15px;
+    padding-bottom: 15px;
+    box-shadow: -2px 0 2.94px 0.06px rgba(4,26,55,.16);
+    transition: 0.2s ease;
+    overflow-x: auto;
+    direction: ltr;
+
+    @include media-breakpoint-down('sm') {
+        right: -80px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            display: block;
+            line-height: normal;
+
+            a {
+                display: block;
+                text-align: center;
+                color: #545454 !important;
+                margin-bottom: 15px;
+                cursor: pointer;
+
+                &:hover {
+                    color: darken($mainColor, 15) !important;
+                    text-decoration: none !important;
+                }
+
+                i {
+                    display: block;
+                    font-size: 1.8em;
+                    text-align: center;
+                    vertical-align: middle;
+                    transition: 0.2s;
+                }
+
+                span {
+                    display: block;
+                    text-align: center;
+                    text-decoration: none;
+                    font-size: 0.9em;
+                }
+
+                .arrow {
+                    display: none;
+                }
+
+             }
+
+        }
+
+    }
+
+    .treeview-ul {
+        padding-right: 20px;
+        display: none;
+        background-color: lighten($mainColor, 50);
+    }
+
+}
+
+.sidebar.open, .sidebar.active {
+    width: 200px;
+    transition: 0.2s ease;
+    right: 0;
+
+    ul {
+
+        li {
+
+            a {
+                text-align: right;
+                padding: 0 10px;
+                height: 30px;
+                line-height: 30px;
+
+                i {
+                    display: inline-block;
+                    font-size: 1.2em;
+                }
+
+                span {
+                    display: inline-block;
+                }
+
+                .arrow {
+                    font-size: 0.9em;
+                    float: left;
+                    height: 30px;
+                    line-height: 30px;
+                    display: none;
+                    transition: 0.3s ease;
+                }
+
+            }
+
+        }
+
+    }
+
+    .treeview {
+        .arrow {
+            display: block;
+            transition: 0.3s ease;
+        }
+    }
+
+    .treeview.active {
+        .arrow {
+            transform: rotate(270deg);
+        }
+    }
+
+}
+
+.sidebar-open-content {
+    transform: translateX(-120px);
+}
+
+@include media-breakpoint-down('md') {
+    .sidebar-open-content {
+        transform: translateX(-205px);
+    }
+}
