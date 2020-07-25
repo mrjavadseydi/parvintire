@@ -56,7 +56,7 @@
                                                 @foreach($menu2['list'] as $menu3)
                                                     <li>
                                                         <a href="{{ $menu3['link'] }}">
-                                                            <i class="fa fa-home"></i>
+                                                            <i class="fa fa-angle-left"></i>
                                                             <span>{{ $menu3['title'] }}</span>
                                                         </a>
                                                     </li>
