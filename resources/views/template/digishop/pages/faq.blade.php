@@ -14,6 +14,9 @@
                     <div class="card-body position-relative">
                         @include(includeTemplate('divider.2'), ['title' => "<small>دسته بندی ها</small>" ?? ''])
                         <br>
+                        <div class="dropdown-filter">
+                            <a class="{{ isset($_GET['categoryId']) ? '' : 'faq-active' }}" href="{{ url('faq') }}">همه</a>
+                        </div>
                         @foreach($categories as $item)
                             <div class="dropdown-filter">
                                 <a class="{{ $item->id == ($_GET['categoryId'] ?? '') ? 'faq-active' : '' }}" href="{{ url('faq?categoryId=' . $item->id) }}">{{ $item->title }}</a>

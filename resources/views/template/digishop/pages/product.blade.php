@@ -21,7 +21,7 @@
     <?php
         $price = $product->price();
         $discount = $product->discount();
-        $percent = intval($price * 100 / ($price+$discount));
+        $percent = intval(100 - ($price * 100 / ($price+$discount)));
     ?>
     <div class="d-none">
         @foreach($gallery as $meta)
@@ -99,12 +99,12 @@
                                 $title = $post->title;
                                 $href = $post->href();
                                 ?>
-                                <a href="{{ shareToTelegram($title, $href) }}" target="_blank" dropdown-item" type="button">تلگرام</a>
-                                <a href="{{ shareToWhatsApp($title, $href) }}" target="_blank" dropdown-item" type="button">واتس‌اپ</a>
-                                <a href="{{ shareToEmail($title, $href) }}" target="_blank" dropdown-item" type="button">ایمیل</a>
-                                <a href="{{ shareToTwitter($title, $href) }}" target="_blank" dropdown-item" type="button">توئیتر</a>
-                                <a href="{{ shareToFacebook($title, $href) }}" target="_blank" dropdown-item" type="button">فیسبوک</a>
-                                <a href="{{ shareToPinterest($title, $href) }}" target="_blank" dropdown-item" type="button">پینترست</a>
+                                <a href="{{ shareToTelegram($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-telegram ml-2 align-middle"></i>تلگرام</a>
+                                <a href="{{ shareToWhatsApp($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-whatsapp ml-2 align-middle"></i>واتس‌اپ</a>
+                                <a href="{{ shareToEmail($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fa fa-envelope ml-2 align-middle"></i>ایمیل</a>
+                                <a href="{{ shareToTwitter($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-twitter ml-2 align-middle"></i>توئیتر</a>
+                                <a href="{{ shareToFacebook($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-facebook ml-2 align-middle"></i>فیسبوک</a>
+                                <a href="{{ shareToPinterest($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-pinterest ml-2 align-middle"></i>پینترست</a>
                             </div>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                     <li id="t4">برچسب ها</li>
                 </ul>
                 <div class="content digishop-contents py-2">
-                    <div class="contents t1 {{ ($_GET['section'] ?? '' == 'comment') ? 'd-none' : '' }}">
+                    <div class="contents text-content t1 {{ ($_GET['section'] ?? '' == 'comment') ? 'd-none' : '' }}">
                         {!! $post->content !!}
                     </div>
                     <div class="contents t2 d-none">

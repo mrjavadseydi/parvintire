@@ -29,15 +29,15 @@
             </ol>
         </nav>
         <div class="bg-white p-3">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-wrap flex-md-nowrap justify-content-between align-items-center">
                 <div>
-                    <i class="text-second-color fa fa-diamond"></i>
+                    <i class="text-second-color fa fa-diamond d-none d-md-inline-block"></i>
                     <h1 class="d-inline-block h5">{{ $post->title }}</h1>
                     <br>
                     <span class="text-muted">{{ jDateTime('d F Y', strtotime($post->created_at)) }}</span>
                 </div>
-                <div>
-                    <div class="d-flex align-items-center">
+                <div class="flex-fill">
+                    <div class="d-flex align-items-center justify-content-end">
                         <div class="position-relative d-inline-block">
                             <i id="share" data-toggle="dropdown" class="share text-muted far fa-share-alt mr-2 position-relative"></i>
                             <div class="article-share dropdown-menu single-share-dropdown iransans" aria-labelledby="share">
@@ -45,12 +45,12 @@
                                 $title = $post->title;
                                 $href = $post->href();
                                 ?>
-                                <a href="{{ shareToTelegram($title, $href) }}" target="_blank" dropdown-item" type="button">تلگرام</a>
-                                <a href="{{ shareToWhatsApp($title, $href) }}" target="_blank" dropdown-item" type="button">واتس‌اپ</a>
-                                <a href="{{ shareToEmail($title, $href) }}" target="_blank" dropdown-item" type="button">ایمیل</a>
-                                <a href="{{ shareToTwitter($title, $href) }}" target="_blank" dropdown-item" type="button">توئیتر</a>
-                                <a href="{{ shareToFacebook($title, $href) }}" target="_blank" dropdown-item" type="button">فیسبوک</a>
-                                <a href="{{ shareToPinterest($title, $href) }}" target="_blank" dropdown-item" type="button">پینترست</a>
+                                <a href="{{ shareToTelegram($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-telegram ml-2 align-middle"></i>تلگرام</a>
+                                <a href="{{ shareToWhatsApp($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-whatsapp ml-2 align-middle"></i>واتس‌اپ</a>
+                                <a href="{{ shareToEmail($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fa fa-envelope ml-2 align-middle"></i>ایمیل</a>
+                                <a href="{{ shareToTwitter($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-twitter ml-2 align-middle"></i>توئیتر</a>
+                                <a href="{{ shareToFacebook($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-facebook ml-2 align-middle"></i>فیسبوک</a>
+                                <a href="{{ shareToPinterest($title, $href) }}" target="_blank" dropdown-item" type="button"><i class="fab fa-pinterest ml-2 align-middle"></i>پینترست</a>
                             </div>
                         </div>
                         <?php $rate = $post->rateByLikes() ;?>
@@ -67,7 +67,7 @@
             <figure class="text-center mt-3">
                 <img class="rounded" src="{{ $post->thumbnail() }}" alt="{{ $post->title }}">
             </figure>
-            <p class="my-3">
+            <p class="my-3 text-content">
                 {!! $post->content !!}
             </p>
             <div class="d-flex justify-content-between align-items-center mt-3">

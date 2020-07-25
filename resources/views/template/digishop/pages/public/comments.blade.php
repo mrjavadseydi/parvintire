@@ -29,7 +29,7 @@
     @foreach($comments as $comment)
         <div class="item mt-3">
         <div class="d-flex justify-content-between">
-            <h6>{{ $usernames[$comment->user_id] }}</h6>
+            <h6>{{ $usernames[$comment->user_id] ?? 'کاربر مهمان' }}</h6>
             <div class="position-relative">
                 <span class="reply reply-comment">پاسخ</span>
                 <span>|</span>
@@ -47,19 +47,19 @@
             {{ $comment->comment }}
         </p>
         <div class="replys pr-5">
-                @foreach(\LaraBase\Comments\Models\Comment::where('parent', $comment->id)->get() as $c)
-                    <div class="item mt-3">
-                        <div class="d-flex justify-content-between">
-                            <h6>{{ $usernames[$c->user_id] }}</h6>
-                            <div class="position-relative">
-                                <span>{{ jDateTime('H:i Y/m/d', strtotime($c->created_at)) }}</span>
-                            </div>
+            @foreach(\LaraBase\Comments\Models\Comment::where(['parent' => $comment->id, 'status' => '2'])->get() as $c)
+                <div class="item mt-3">
+                    <div class="d-flex justify-content-between">
+                        <h6>{{ $usernames[$c->user_id] ?? 'کاربر مهمان' }}</h6>
+                        <div class="position-relative">
+                            <span>{{ jDateTime('H:i Y/m/d', strtotime($c->created_at)) }}</span>
                         </div>
-                        <p class="pt-3">
-                            {{ $comment->comment }}
-                        </p>
                     </div>
-                @endforeach
+                    <p class="pt-3">
+                        {{ $comment->comment }}
+                    </p>
+                </div>
+            @endforeach
         </div>
     </div>
     @endforeach
