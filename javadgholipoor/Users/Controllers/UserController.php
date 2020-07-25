@@ -24,6 +24,9 @@ class UserController extends AuthCore
     public function index()
     {
         can('users');
+        if (isset($_GET['vue'])) {
+            return adminView('users.all');
+        }
         $users = User::canView()->search()->sort()->paginate(usersPaginationCount());
         return adminView('users.all', compact('users'));
     }
@@ -50,21 +53,22 @@ class UserController extends AuthCore
     {
 
         can('createUser');
-
         $this->storeValidator($request);
-
         $verifiedAt =  "{$this->getType()}_verified_at";
-
         $userData = [
             $this->getType() => $request->userLogin,
             'password'       => Hash::make($request->password),
             $verifiedAt      => Carbon::now()->toDateTimeString()
         ];
-
         $user = User::create($userData);
         RegisterNotification::dispatch($request->userLogin, $request->password);
-
         $user->log(true);
+        if ($request->ajax()) {
+            return [
+                'status' => 'success',
+                'message' => 'کاربر با موفقیت افزوده شد'
+            ];
+        }
         session()->flash('success', 'عملیات ثبت کاربر جدید با موفقیت انجام شد');
         return redirect(route('admin.users.edit', ['id' => $user->id]));
 

@@ -1,0 +1,89 @@
+{
+    "name": "javadgholipoor",
+    "type": "admin",
+    "version": "2.0.0",
+    "assets": {
+        "plugins": {
+            "jquery" : {
+                "version": "3.4.1",
+                "files": [
+                    "jquery.js"
+                ]
+            },
+            "jquery-ui": {
+                "version": "1.12.1",
+                "files": [
+                    "jquery-ui.min.css",
+                    "jquery-ui.min.js"
+                ]
+            },
+            "jquery-form": {
+                "version": "3.51.0",
+                "files": [
+                    "jquery-form.min.js"
+                ]
+            },
+            "select2": {
+                "version": "4.0.12",
+                "files": [
+                    "select2.min.css",
+                    "select2.min.js"
+                ]
+            },
+            "template7": {
+                "version": "1.4.0",
+                "files": [
+                    "template7.min.js"
+                ]
+            },
+            "inputmask": {
+                "version": "5.0.0",
+                "files": [
+                    "inputmask.min.js"
+                ]
+            },
+            "leaflet": {
+                "version": "1.5.1",
+                "files": [
+                    "leaflet.css",
+                    "gh-fork-ribbon.css",
+                    "gh-fork-ribbon.ie.css"
+                ]
+            },
+            "ckeditor": {
+                "version": "4",
+                "files": [
+                    "ckeditor.js"
+                ]
+            },
+            "bootstrap": {
+                "version": "4.4.1",
+                "files": [
+                    "bootstrap.min.css",
+                    "bootstrap.min.js"
+                ]
+            }
+        },
+        "images": [
+
+        ],
+        "fonts": {
+            "iransansDN": "1",
+            "sahel": "3.3.0",
+            "fontawesome": "5.11.12"
+        },
+        "css": [
+            "admin.css"
+        ]
+    },
+    "options": {
+        "images": [
+            {
+                "title": "لوگوی پنل مدیریت",
+                "description": "سایز استاندارد لوگوی پنل مدیریت 50x50 پیکسل می باشد.",
+                "key": "javadgholipoorHeaderLogo",
+                "more": "autoload"
+            }
+        ]
+    }
+}

@@ -1,9 +1,11 @@
 <?php
 
+Route::group(['namespace' => 'LaraBase\App\Controllers'], function () {
+    Route::get('sidebar', 'SidebarController@sidebar')->middleware('can:administrator')->name('sidebar');
+});
+
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace'  => 'LaraBase', 'middleware' => 'auth:web'], function () {
-
     Route::post('delete', 'CoreController@delete')->name('delete');
-
 });
 
 Route::group(['prefix' => 'profile', 'middleware' => 'auth:web', 'namespace' => 'LaraBase\App\Controllers'], function () {

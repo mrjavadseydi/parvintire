@@ -263,6 +263,24 @@ return [
         ]
     ],
 
+    'transactions' => [
+        'title' => 'تراکنش ها',
+        'permissions' => [
+            'showTransaction' => [
+                'title' => 'مشاهده تراکنش'
+            ],
+            'createTransaction' => [
+                'title' => 'افزودن تراکنش'
+            ],
+            'updateTransaction' => [
+                'title' => 'ویرایش تراکنش',
+            ],
+            'deleteTransaction' => [
+                'title' => 'حذف تراکنش',
+            ],
+        ]
+    ],
+
     'comments' => [
         'title' => 'نظرات',
         'permissions' => [

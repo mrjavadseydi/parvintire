@@ -1,5 +1,5 @@
 @extends("admin.{$adminTheme}.master")
-@section('title', 'سفارشات')
+@section('title', $title)
 
 @section('content')
 
@@ -23,7 +23,7 @@
                             <th></th>
                             <th>شناسه</th>
                             <th>کاربر</th>
-                            <th>مبلغ (تومان)</th>
+                            <th>مبلغ (ریال)</th>
                             <th>کد رهگیری</th>
                             <th>درگاه</th>
                             <th>وضعیت</th>
@@ -41,14 +41,14 @@
                             <tr>
                                 <td>{{ ++$i }}</td>
                                 <td>#{{ $record->id }}</td>
-                                <td>{{ \App\User::where('id', $record->user_id)->first()->name() }}</td>
-                                <td class="color-green">{{ $record->price() }}</td>
-                                <td class="color-orange">{{ $record->referenceId() }}</td>
-                                <td><img width="50px" src="{{ asset("/images/gateway/{$record->gateway}.png") }}" alt="{{ $record->gateway }}"></td>
-                                <td style="color: {{ config("status.transactionStatus.{$record->status}.color") }}; background-color: {{ config("status.transactionStatus.{$record->status}.lightColor") }};">{{ config("status.transactionStatus.{$record->status}.title") }}</td>
-                                <td class="ltr">{{ $record->updatedAt() }}</td>
+                                <td>{{ $record->user->name() }}</td>
+                                <td class="color-green">{{ number_format($record->price) }}</td>
+                                <td class="color-orange">{{ $record->reference_id ?? '-' }}</td>
+                                <td title="{{ $record->gateway }}"><img width="50px" src="{{ image("gateway/{$record->gateway}.png") }}" alt="{{ $record->gateway }}"></td>
+                                <td style="color: {{ config("transaction.status.{$record->status}.color") }}; background-color: {{ config("transaction.status.{$record->status}.lightColor") }};">{{ config("transaction.status.{$record->status}.title") }}</td>
+                                <td class="ltr">{{ jDateTime('Y/m/d H:i:s', strtotime($record->created_at)) }}{!! $record->updated_at == null ? '' : ($record->created_at != $record->updated_at ? '<br>' . jDateTime('Y/m/d H:i:s', strtotime($record->updated_at)) : '') !!}</td>
                                 <td>
-                                    <a class="btn-icon btn-icon-info icon-visibility toolip" title="مشاهده" href="{{ url("admin/transactions/show/{$record->id}") }}"></a>
+                                    <a class="btn-icon btn-icon-success icon-pencil toolip" title="مشاهده" href="{{ route("admin.transactions.edit", $record) }}"></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -58,13 +58,9 @@
                 </div>
 
                 <div class="tac pt15">
-                    {!! $records->render() !!}
+                    {!! $records->appends($_GET)->links() !!}
                 </div>
 
-            </div>
-
-            <div class="box-footer tal">
-                <a href="{{ route('admin.users.roles.create') }}" class="btn-lg btn-primary">افزودن نقش جدید</a>
             </div>
 
         </div>
