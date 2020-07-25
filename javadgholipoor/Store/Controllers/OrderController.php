@@ -456,7 +456,7 @@ class OrderController extends CoreController
                     $output['price'] = $product->price();
                     $output['discount'] = $product->discount();
                     $output['totalPrice'] = $output['price'] + $output['discount'];
-                    $output['percent'] = intval($output['price'] * 100 / ($output['price'] + $output['discount']));
+                    $output['percent'] = intval(100 - ($output['price'] * 100 / ($output['price'] + $output['discount'])));
                     if (isset($request->view1)) {
                         $output['html1'] = templateView($request->view1, compact('post', 'product', 'products'))->render();
                         $output['view1'] = true;
