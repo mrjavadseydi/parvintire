@@ -18,17 +18,11 @@
         }
     </style>
 </head>
-
 <body>
-
     @include("template.{$templateTheme}.header")
-
     <main>
         @yield('content')
     </main>
-
     @include("template.{$templateTheme}.footer")
-
-
 </body>
 </html>

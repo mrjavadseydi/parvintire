@@ -363,7 +363,7 @@ header {
         overflow: hidden;
         font-size: 0.8em;
         font-family: iransansFa;
-        z-index: 999;
+        z-index: 99999;
         opacity: 0;
         overflow: hidden;
         transition: .35s;
@@ -377,6 +377,7 @@ header {
 
             a, b {
                 color: var(--main-color);
+                font-size: 1.4em !important;
             }
         }
 
@@ -423,11 +424,12 @@ header {
 
         .footer {
             a {
-                color: white;
+                color: white !important;
                 display: block;
                 background: var(--main-color);
                 text-align: center;
                 padding: 10px 0;
+                font-size: 1.4em !important;
             }
         }
     }

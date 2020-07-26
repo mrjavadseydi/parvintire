@@ -64,7 +64,7 @@
                                             </ul>
                                         @endif
                                         <figure>
-                                            <img width="100%" class="rounded" src="{{ $menu2['image'] }}" alt="{{ $menu2['title'] }}">
+                                            <img width="100%" class="rounded" src="{{ url($menu2['image']) }}" alt="{{ $menu2['title'] }}">
                                         </figure>
                                     </div>
                                 @endforeach

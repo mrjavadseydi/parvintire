@@ -4,7 +4,7 @@
         <input type="hidden" name="view1" value="{{ includeTemplate('pages.search.include-articles') }}">
         @include(includeTemplate('pages.search.search'), ['title' => 'دسته بندی محصولات'])
         <input type="hidden" name="postType" value="{{ $_GET['postType'] ?? 'products' }}">
-        @include(includeTemplate('pages.search.categories'), ['title' => 'دسته بندی مقالات'])
+        @include(includeTemplate('pages.search.categories'), ['title' => 'دسته بندی وبلاگ'])
         @include(includeTemplate('pages.search.akv'))
         @include(includeTemplate('pages.search.product-categories'))
     </form>

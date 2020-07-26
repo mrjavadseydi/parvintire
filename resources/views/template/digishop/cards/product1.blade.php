@@ -2,14 +2,17 @@
     $price = $product->price();
     $discount = $product->discount();
 ?>
-<div class="product-card-1 position-relative">
+<div class="product-card-1 position-relative px-3">
     <figure class="text-center">
-        <img src="{{ $post->thumbnail(250, 250) }}" alt="">
+        <a href="{{ $post->href() }}?productId={{ $product->product_id }}">
+            <img src="{{ $post->thumbnail(250, 250) }}" alt="">
+        </a>
         <a href="{{ $post->href() }}?productId={{ $product->product_id }}">
             <figcaption class="py-3 iransansMedium">{{ $post->title }}</figcaption>
         </a>
         <div class="hover">
             <div class="icons">
+                <a href="{{ $post->href() }}?productId={{ $product->product_id }}" class="fal fa-eye"></a>
 {{--                <i class="fal fa-share-alt"></i>--}}
 {{--                <i class="fal fa-heart"></i>--}}
             </div>

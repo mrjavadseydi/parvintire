@@ -47,7 +47,7 @@
                 $discount = $product->discount();
                 $rate = $post->rateByLikes();
             ?>
-            <div class="flex-fill center order-3 order-md-2 {{ $i == 0 ? 'd-flex' : 'd-none' }} offer-{{ $i }} special-offer position-relative align-items-center bg-white py-4 pl-3 ml-4">
+            <div class="flex-fill center order-3 order-md-2 {{ $i == 0 ? 'd-flex' : 'd-none' }} offer-{{ $i }} special-offer position-relative align-items-center bg-white py-4 pl-3 ml-0 ml-md-4">
                 <div class="w-right w-50 px-3">
                     <figure class="text-center">
                         <a href="{{ $post->href() }}?product={{ $product->product_id }}">

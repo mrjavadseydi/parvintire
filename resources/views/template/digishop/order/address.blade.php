@@ -42,166 +42,117 @@
 {{--                    </div>--}}
                 </div>
                 <div class="row">
-                    <div class="provinceParent col-md-3">
-                        <div class="input-group">
-                            <label>استان</label>
-                            <select id="provinceSelect" name="provinceId" style="width: 100%" class="cartSelect2 form-control rounded w-100">
-                                <option value="">انتخاب کنید</option>
-                                @foreach(getProvinces(['country_id' => 244, 'active_postage' => 1]) as $province)
-                                    <option {{ selected($province->id, $address->province_id ?? '') }} value="{{ $province->id }}">{{ $province->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="cityParent col-md-3 mt-3 mt-md-0 {{ $cityId != null ? '' : 'd-none' }}">
-                        <div class="input-group">
-                            <label>شهرستان</label>
-                            <select id="citySelect" name="cityId" class="form-control rounded w-100">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($cities as $city)
-                                    <option {{ selected($city->id, $cityId ?? '') }} latitude="{{ $city->latitude }}" longitude="{{ $city->longitude }}" value="{{ $city->id }}">{{ $city->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="townParent col-md-3 mt-3 mt-md-0 {{ $townId != null ? '' : 'd-none' }}">
-                        <div class="input-group">
-                            <label>شهر</label>
-                            <select id="townSelect" name="townId" class="form-control rounded w-100">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($towns as $town)
-                                    <option {{ selected($town->id, $townId ?? '') }} latitude="{{ $town->latitude }}" longitude="{{ $town->longitude }}" value="{{ $town->id }}">{{ $town->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="regionParent col-md-3 mt-3 mt-md-0 {{ $regionId != null ? '' : 'd-none' }} mt-3">
-                        <div class="input-group">
-                            <label>محله</label>
-                            <select id="regionSelect" name="regionId" class="form-control rounded w-100">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($regions as $region)
-                                    <option {{ selected($region->id, $regionId ?? '') }} latitude="{{ $region->latitude }}" longitude="{{ $region->longitude }}" value="{{ $region->id }}">{{ $region->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-12 my-3">
-                        <div class="input-group">
-                            <label>نشانی پستی</label>
-                            <input type="text" name="address" value="{{ $address->address ?? '' }}" class="form-control rounded w-100">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="provinceParent col-md-3">
+                                <div class="input-group">
+                                    <label>استان</label>
+                                    <select id="provinceSelect" name="provinceId" style="width: 100%" class="cartSelect2 form-control rounded w-100">
+                                        <option value="">انتخاب کنید</option>
+                                        @foreach(getProvinces(['country_id' => 244, 'active_postage' => 1]) as $province)
+                                            <option {{ selected($province->id, $address->province_id ?? '') }} value="{{ $province->id }}">{{ $province->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="cityParent col-md-3 mt-3 mt-md-0 {{ $cityId != null ? '' : 'd-none' }}">
+                                <div class="input-group">
+                                    <label>شهرستان</label>
+                                    <select id="citySelect" name="cityId" class="form-control rounded w-100">
+                                        <option value="">انتخاب کنید</option>
+                                        @foreach($cities as $city)
+                                            <option {{ selected($city->id, $cityId ?? '') }} latitude="{{ $city->latitude }}" longitude="{{ $city->longitude }}" value="{{ $city->id }}">{{ $city->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="townParent col-md-3 mt-3 mt-md-0 {{ $townId != null ? '' : 'd-none' }}">
+                                <div class="input-group">
+                                    <label>شهر</label>
+                                    <select id="townSelect" name="townId" class="form-control rounded w-100">
+                                        <option value="">انتخاب کنید</option>
+                                        @foreach($towns as $town)
+                                            <option {{ selected($town->id, $townId ?? '') }} latitude="{{ $town->latitude }}" longitude="{{ $town->longitude }}" value="{{ $town->id }}">{{ $town->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="regionParent col-md-3 mt-3 mt-md-0 {{ $regionId != null ? '' : 'd-none' }} mt-3">
+                                <div class="input-group">
+                                    <label>محله</label>
+                                    <select id="regionSelect" name="regionId" class="form-control rounded w-100">
+                                        <option value="">انتخاب کنید</option>
+                                        @foreach($regions as $region)
+                                            <option {{ selected($region->id, $regionId ?? '') }} latitude="{{ $region->latitude }}" longitude="{{ $region->longitude }}" value="{{ $region->id }}">{{ $region->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 my-3">
+                                <div class="input-group">
+                                    <label>نشانی پستی</label>
+                                    <input type="text" name="address" value="{{ $address->address ?? '' }}" class="form-control rounded w-100">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <label>کدپستی</label>
+                                    <input type="text" name="postalCode" value="{{ $address->postal_code ?? '' }}" class="form-control ltr text-left rounded w-100">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-3 mt-md-0">
+                                <div class="input-group">
+                                    <label>نام و نام خانوادگی تحویل گیرنده</label>
+                                    <input type="text" name="nameFamily" value="{{ $address->name_family ?? '' }}" class="form-control rounded w-100">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-3 mt-md-0">
+                                <div class="input-group">
+                                    <label>شماره موبایل</label>
+                                    <input type="text" name="mobile" value="{{ $address->mobile ?? '' }}" class="form-control rounded ltr text-left w-100">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3 mt-md-0">
+                                <div class="input-group">
+                                    <label>توضیحات</label>
+                                    <textarea rows="10" name="description" class="form-control rounded ltr text-left w-100"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="input-group">
-                            <label>کدپستی</label>
-                            <input type="text" name="postalCode" value="{{ $address->postal_code ?? '' }}" class="form-control ltr text-left rounded w-100">
-                        </div>
-                    </div>
-                    <div class="col-md-4 mt-3 mt-md-0">
-                        <div class="input-group">
-                            <label>نام و نام خانوادگی تحویل گیرنده</label>
-                            <input type="text" name="nameFamily" value="{{ $address->name_family ?? '' }}" class="form-control rounded w-100">
-                        </div>
-                    </div>
-                    <div class="col-md-4 mt-3 mt-md-0">
-                        <div class="input-group">
-                            <label>شماره موبایل</label>
-                            <input type="text" name="mobile" value="{{ $address->mobile ?? '' }}" class="form-control rounded ltr text-left w-100">
-                        </div>
-                    </div>
-                    <div class="col-md-12 mt-3">
-                        <div class="input-group">
-                            <label>موقعیت روی نقشه</label>
-                        </div>
-                        @php
-                            $world = [
-                                'divClass' => 'col-md-4',
-                                'map'   => true
-                            ];
-                            $mapZoom = 5;
-                            $latitude  = $address->latitude ?? 32.27406254744859;
-                            $longitude = $address->longitude ?? 53.75866242865163;
-                        @endphp
-                        <div id="map" style="width: 100%; height:400px; z-index: 0; overflow: hidden;"></div>
-                        <script>
-
-                            var map = L.map('map', {
-                                center: [{{ $latitude }}, {{ $longitude }}],
-                                zoom: {{ $mapZoom }},
-                                zoomControl: true,
-                                scrollWheelZoom: false
-                            });
-
-                            var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
-
-                            var greenIcon = L.icon({
-                                iconUrl: '{{ image('marker.png') }}',
-                                shadowUrl: '',
-                                iconSize:     [32, 50], // size of the icon
-                                shadowSize:   [32, 50], // size of the shadow
-                                iconAnchor:   [19, 54], // point of the icon which will correspond to marker's location
-                                shadowAnchor: [4, 62],  // the same for the shadow
-                                popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-                            });
-
-                            marker = L.marker([{{ $latitude }}, {{ $longitude }}], {icon: greenIcon, draggable: true}).addTo( map )
-                                .on('mouseover',function(e) {
-                                    e.target.openPopup();
-                                }).on('mouseout',function(e) {
-                                    e.target.closePopup();
-                                }).on('drag',function(e) {
-                                    var lat = e.latlng.lat;
-                                    var lng = e.latlng.lng;
-                                    $('input[name="latitude"]').val(lat);
-                                    $('input[name="longitude"]').val(lng);
-                                    cacheDistance();
-                                });
-
-                            function onMapClick(e) {
-                                var lat = e.latlng.lat;
-                                var lng = e.latlng.lng;
-                                var newLatLng = new L.LatLng(lat, lng);
-                                marker.setLatLng(newLatLng);
-                                $('input[name="latitude"]').val(lat);
-                                $('input[name="longitude"]').val(lng);
-                                cacheDistance();
-                            }
-
-                            map.on('click', onMapClick);
-
-                            $(document).ready(function () {
-
-                                $('input[name="latitude"], input[name="longitude"]').keyup(function () {
-                                    var latlng = {
-                                        lat: parseFloat($('input[name="latitude"]').val()),
-                                        lng: parseFloat($('input[name="longitude"]').val())
-                                    };
-                                    marker.setLatLng(latlng);
-                                    map.panTo(latlng);
-                                    cacheDistance();
-                                });
-
-                            });
-
-                            function cacheDistance() {
-                                if ($('input[name=cacheDistance]').length == 0) {
-                                    $('.map').append('<input type="hidden" name="cacheDistance" value="true">');
+                        <div class="col-md-12 mt-3">
+                            <div class="input-group">
+                                <label>موقعیت روی نقشه</label>
+                            </div>
+                            @php
+                                $mapZoom = 5;
+                                $latitude  = $address->latitude ?? 32.27406254744859;
+                                $longitude = $address->longitude ?? 53.75866242865163;
+                            @endphp
+                            <style>
+                                #map * {
+                                    direction: ltr;
+                                    text-align: left;
                                 }
-                            }
-
-                        </script>
-                        <div class="row d-none">
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <label for="">طول جغرافیایی (longitude)</label>
-                                    <input class="ltr" type="text" name="longitude" value="{{ $longitude }}">
+                            </style>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="map" style="position: relative !important; width: 100%; height:400px; z-index: 0; overflow: hidden;"></div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <label for="">عرض جغرافیایی (latitude)</label>
-                                    <input class="ltr" type="text" name="latitude" value="{{ $latitude }}">
+                            <div class="row d-none">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <label for="">طول جغرافیایی (longitude)</label>
+                                        <input class="ltr" type="text" name="longitude" value="{{ $longitude }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <label for="">عرض جغرافیایی (latitude)</label>
+                                        <input class="ltr" type="text" name="latitude" value="{{ $latitude }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -217,6 +168,70 @@
                 </div>
             </form>
             <script>
+
+                map = L.map('map', {
+                    center: [{{ $latitude }}, {{ $longitude }}],
+                    zoom: {{ $mapZoom }},
+                    zoomControl: true,
+                    scrollWheelZoom: false
+                });
+
+                var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+
+                var greenIcon = L.icon({
+                    iconUrl: '{{ image('marker.png') }}',
+                    shadowUrl: '',
+                    iconSize:     [32, 50], // size of the icon
+                    shadowSize:   [32, 50], // size of the shadow
+                    iconAnchor:   [19, 54], // point of the icon which will correspond to marker's location
+                    shadowAnchor: [4, 62],  // the same for the shadow
+                    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                });
+
+                marker = L.marker([{{ $latitude }}, {{ $longitude }}], {icon: greenIcon, draggable: true})
+                .on('mouseover',function(e) {
+                        e.target.openPopup();
+                    }).on('mouseout',function(e) {
+                        e.target.closePopup();
+                    }).on('drag',function(e) {
+                    var lat = e.latlng.lat;
+                    var lng = e.latlng.lng;
+                    $('input[name="latitude"]').val(lat);
+                    $('input[name="longitude"]').val(lng);
+                    cacheDistance();
+                }).addTo( map );
+
+                function onMapClick(e) {
+                    var lat = e.latlng.lat;
+                    var lng = e.latlng.lng;
+                    var newLatLng = new L.LatLng(lat, lng);
+                    marker.setLatLng(newLatLng);
+                    $('input[name="latitude"]').val(lat);
+                    $('input[name="longitude"]').val(lng);
+                    cacheDistance();
+                }
+
+                map.on('click', onMapClick);
+
+                $(document).ready(function () {
+
+                    $('input[name="latitude"], input[name="longitude"]').keyup(function () {
+                        var latlng = {
+                            lat: parseFloat($('input[name="latitude"]').val()),
+                            lng: parseFloat($('input[name="longitude"]').val())
+                        };
+                        marker.setLatLng(latlng);
+                        map.panTo(latlng);
+                        cacheDistance();
+                    });
+
+                });
+
+                function cacheDistance() {
+                    if ($('input[name=cacheDistance]').length == 0) {
+                        $('.map').append('<input type="hidden" name="cacheDistance" value="true">');
+                    }
+                }
 
                 $('.cartSelect2').select2();
 

@@ -2,6 +2,7 @@
     width: 100%;
     background-color: white;
     cursor: pointer;
+    height: 100%;
 
     .hover {
         position: absolute;
@@ -19,7 +20,7 @@
             left: 5px;
             top: 5px;
 
-            i {
+            i, a {
                 display: block;
                 background-color: white;
                 width: 30px;
@@ -153,6 +154,14 @@
     border-radius: 7px;
     overflow: hidden;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+
+    img {
+        transition: 0.3s;
+    }
+
+    &:hover img {
+        transform: scale(1.05);
+    }
 
     figcaption {
         font-size: 1.2em;

@@ -2,7 +2,7 @@
     <div class="card-body">
         @include(includeTemplate('divider.2'), ['title' => "<small>{$title}</small>" ?? ''])
         <br>
-        @foreach(treeView($categories->where('post_type', $postType)->filter()) as $i => $item)
+        @foreach(treeView(\LaraBase\Categories\Models\Category::where('post_type', $postType)->get()) as $i => $item)
             <div class="dropdown-filter {{ $i == 0 ? 'active' : '' }}">
                 <h5>{{ $item['title'] }}<i class="fal {{ $i == 0 ? 'fa-minus' : 'fa-plus' }}"></i></h5>
                 @if(isset($item['list']))

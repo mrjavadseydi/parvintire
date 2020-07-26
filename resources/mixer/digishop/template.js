@@ -9,14 +9,16 @@ $(document).on('click', '.menu-toggle', function () {
 
 $(document).on('click', '.main-li', function (e) {
     e.stopPropagation();
-    var li = $(this);
-    var dropdown = $(this).find('.dropdown');
-    if (li.hasClass('open')) {
-        li.css('height', 45);
-        li.removeClass('open');
-    } else {
-        li.css('height', dropdown.height() + 65);
-        li.addClass('open');
+    if ($(window).width() <= 768) {
+        var li = $(this);
+        var dropdown = $(this).find('.dropdown');
+        if (li.hasClass('open')) {
+            li.css('height', 45);
+            li.removeClass('open');
+        } else {
+            li.css('height', dropdown.height() + 65);
+            li.addClass('open');
+        }
     }
 });
 
