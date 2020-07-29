@@ -141,6 +141,7 @@ header {
                     line-height: 45px;
                     color: #505050;
                     display: inline-block;
+                    transition: 0.4s;
 
                     &:hover {
                         color: var(--main-color);

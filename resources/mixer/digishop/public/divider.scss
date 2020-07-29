@@ -46,3 +46,16 @@
     }
 
 }
+
+.divider-4 {
+    .line {
+        padding: 2px;
+        background: var(--main-color-hover);
+        display: inline-block;
+        height: 25px;
+        vertical-align: top;
+    }
+    .line1 {
+        margin-top: 10px;
+    }
+}

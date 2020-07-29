@@ -1,0 +1,145 @@
+@import "template";
+
+$height: 100px;
+
+:root {
+    --main-color: #01A8ED !important;
+    --main-color-hover: #006dba !important;
+    --main-color-light: rgba(0, 190, 101, 0.3) !important;
+    --second-color: gold !important;
+    --second-color-hover: #e3bf00 !important;
+    --text-color: #505050 !important;
+    --mute-color: #AFAEAE !important;
+}
+
+body {
+    background-color: white;
+}
+
+header {
+    background-color: transparent;
+    box-shadow: none;
+    height: $height;
+    line-height: $height;
+
+    img {
+        max-width: $height - 20px !important;
+    }
+
+    nav {
+        border-top: none;
+    }
+
+    .left {
+        line-height: $height !important;
+
+        a, i {
+            color: white;
+        }
+
+        li:hover a {
+            color: var(--main-color-hover) !important;
+        }
+
+        li:hover i {
+            color: var(--main-color-hover) !important;
+        }
+    }
+}
+
+.circle-triangle {
+    position: absolute;
+    left: 0;
+    top: -$height;
+    width: 625px;
+    z-index: -1;
+
+    .main-color {
+        background-color: var(--main-color);
+    }
+
+    img {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .person {
+        width: 290px !important;
+        height: 530px !important;
+        position: absolute;
+        left: 175px;
+        top: 95px;
+
+        img {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
+}
+
+.circle-triangle-right {
+    position: absolute;
+    right: 0;
+    top: 100px;
+    z-index: -1;
+
+    img {
+        background-color: var(--main-color);
+    }
+}
+
+.broken-triangle-sm {
+    width: 60%;
+    z-index: -1;
+    img {
+        background-color: var(--mute-color) !important;
+        opacity: 0.1;
+    }
+}
+
+.site-description {
+    width: 100%;
+    padding: 0 100px 0 495px;
+
+    p {
+        font-size: 1.3em;
+        text-align: justify;
+        line-height: 40px;
+        color: #4B3030;
+    }
+
+    form {
+        position: relative;
+        box-shadow: 0 0 10px #d7d7d7;
+        border-radius: 10px;
+        overflow: hidden;
+        line-height: 50px;
+        margin-top: 50px;
+
+        input {
+            outline: none;
+            border: none;
+            width: 100%;
+            font-size: 1.3em;
+            padding-right: 15px;
+            padding-left: 120px;
+        }
+
+        button {
+            position: absolute;
+            border: none;
+            outline: none;
+            left: 5px;
+            top: 5px;
+            line-height: 40px;
+            background: var(--second-color);
+            border-radius: 100px;
+            width: 100px;
+            text-align: center;
+
+            &:hover {
+                background-color: var(--second-color-hover);
+            }
+        }
+    }
+}

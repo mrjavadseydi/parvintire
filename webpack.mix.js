@@ -56,6 +56,12 @@ mix // digishop
     .copyDirectory('resources/mixer/digishop/images/template', 'public_html/assets/template/digishop/images')
 ;
 
+mix // personal-shop
+    .sass('resources/mixer/digishop/personal-shop.scss', 'assets/template/personal-shop/template.css')
+    .js('resources/mixer/digishop/personal-shop.js', 'assets/template/personal-shop/template.js')
+    .copyDirectory('resources/mixer/digishop/images/template', 'public_html/assets/template/personal-shop/images')
+;
+
 if (mix.inProduction()) {
     mix.version();
 }
