@@ -6,6 +6,8 @@
             <div class="col-md-4">
                 <form @submit.prevent="onSubmit" @keydown="errors.clear($event.target.name)" class="card">
                     <div class="card-body">
+                        <form-group title="ایمیل یا موبایل">
+                        </form-group>
                         <div class="form-group">
                             <label class="col-form-label">ایمیل / موبایل</label>
                             <input v-model="data.userLogin" type="text" id="userLogin" name="userLogin" value="" :class=" ['form-control ltr text-left' , { 'is-invalid' : errors.has('userLogin')}]">

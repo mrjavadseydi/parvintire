@@ -95,7 +95,7 @@ class UploadController extends CoreController {
 
     public function loadOptions($uploaderKey) {
 
-        $key = $uploaderKey .'_'. md5(str_replace('/', '', str_replace('?', '', ip() . $_SERVER['HTTP_REFERER'])));
+        $key = $uploaderKey .'_'. uploaderHash($_SERVER['HTTP_REFERER']);
         $option = getCache($key);
         if ($option != null) {
             foreach (json_decode($option, true) as $key => $value) {
@@ -246,11 +246,14 @@ class UploadController extends CoreController {
                         }
                     }
 
+                } else {
+                    $where['user_id'] = 0;
                 }
 
             } else {
                 $where['user_id'] = 0;
             }
+
 
             $attachments = Attachment::where($where)->extensions($extensions)->orderBy('updated_at', 'desc')->paginate($request->count ?? 20);
             return uploaderView($request->view, compact('attachments', 'all'))->render();

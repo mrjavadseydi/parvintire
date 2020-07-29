@@ -2,8 +2,11 @@
 
 namespace LaraBase\Posts\Models;
 
+use LaraBase\Attachments\Models\Attachment;
 use LaraBase\CoreModel;
 use Cviebrock\EloquentSluggable\Sluggable;
+use LaraBase\FileStore\Models\File;
+use LaraBase\FileStore\Models\FileGroup;
 use LaraBase\Tags\Models\Tag;
 use LaraBase\Categories\Models\Category;
 
@@ -97,6 +100,45 @@ class Post extends CoreModel {
 
     public function usersFavorite() {
         return $this->belongsToMany(User::class);
+    }
+
+    public function fileGroups()
+    {
+        return FileGroup::where('post_id', $this->id)->orderBy('sort', 'asc')->get();
+    }
+
+    public function files($onlyActives = true)
+    {
+        $where = [
+            'post_id' => $this->id
+        ];
+        if ($onlyActives) {
+            $where[] = ['status', '!=', '0'];
+        }
+        return File::where($where)->orderBy('sort', 'asc')->get();
+    }
+
+    public function filesGroups($onlyActives = true)
+    {
+        $groups = $this->fileGroups();
+        $allFiles = $this->files($onlyActives);
+        $attachments = Attachment::whereIn('id', $allFiles->pluck('attachment_id')->toArray())->get();
+        $output = [];
+        foreach ($groups as $g) {
+            $files = [];
+            foreach ($allFiles->where('group_id', $g->id)->filter() as $file) {
+                $files[] = [
+                    'file' => $file,
+                    'attachment' => $attachments->where('id', $file->attachment_id)->first()
+                ];
+            }
+            $output[] = [
+                'id' => $g->id,
+                'title' => $g->title,
+                'files' => $files,
+            ];
+        }
+        return $output;
     }
 
     public function survey() {
@@ -358,5 +400,6 @@ class Post extends CoreModel {
         $postTypes = getPostTypes();
         $query->whereIn('post_type', $postTypes->where('search', '1')->pluck('type')->toArray());
     }
+
 
 }

@@ -23,7 +23,7 @@ Route::group([
 
         if (isDev()) {
 
-            Artisan::call('clear:cache');
+            Cache::clear();
 
             $result = checkForUpdates();
 
@@ -75,4 +75,9 @@ Route::group([
     Route::get('sync', 'SyncController@sync');
     Route::get('sync/run', 'SyncController@run');
 
+});
+
+Route::get('t', function () {
+    $post = \LaraBase\Posts\Models\Post::find(7);
+    return view('template.default.store.files', compact('post'));
 });

@@ -44,26 +44,37 @@ class Converter
         $string = str_replace(self::$numbers['persian'], self::$numbers['arabic'], $string);
         return $string;
     }
-    
+
     public static function distance( $meter, $lang = 'fa' ) {
-        
+
         $units = [
             'en' => ['km', 'm', 'cm'],
             'fa' => ['ک.م', 'متر', 'س.م']
         ];
-        
+
         if ($meter >= 1000) {
             return round(($meter/1000), 1) . ' ' . $units[$lang][0];
         }
-        
+
         if ($meter >= 1 && $meter < 1000) {
             return round($meter, 1) . ' ' . $units[$lang][1];
         }
-        
+
         if ($meter >= 0.99) {
             return round(($meter*100), 1)  . ' ' . $units[$lang][2];
         }
-        
+
     }
-    
+
+    public static function secondToTime($seconds)
+    {
+        $hours  = floor($seconds / 3600);
+        $mins   = floor($seconds / 60 % 60);
+        $secs   = floor($seconds % 60);
+        if ($hours > 0) {
+            return sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
+        }
+        return sprintf('%02d:%02d', $mins, $secs);
+    }
+
 }

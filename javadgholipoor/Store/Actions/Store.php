@@ -73,7 +73,6 @@ trait Store {
         $output['values'] = $values;
 
         $output['products'] = Product::where('post_id', $this->id)->orderBy('sort', 'asc')->get();
-        $output['files'] = ProductFile::where(['post_id' => $this->id])->with('attachment')->orderBy('sort', 'asc')->get();
 
         $productAttributes = [];
         $getProductAttributes = ProductAttribute::whereIn('product_id', $output['products']->pluck('product_id')->toArray())->get();

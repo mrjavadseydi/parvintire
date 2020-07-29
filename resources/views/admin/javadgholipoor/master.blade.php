@@ -14,15 +14,15 @@
     <link rel="stylesheet" href="http://localhost:8000/fonts/iransansDN/1/font.min.css">
     <link rel="stylesheet" href="http://localhost:8000/fonts/sahel/3.3.0/font.min.css">
     <link rel="stylesheet" href="http://localhost:8000/fonts/fontawesome/5.11.12/font.min.css">
-    <script src="http://localhost:8000/plugins/jquery/3.4.1/jquery.js"></script>
-    <script src="http://localhost:8000/plugins/jquery-ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="http://localhost:8000/plugins/jquery-form/3.51.0/jquery-form.min.js"></script>
-    <script src="http://localhost:8000/plugins/select2/4.0.12/select2.min.js"></script>
-    <script src="http://localhost:8000/plugins/template7/1.4.0/template7.min.js"></script>
-    <script src="http://localhost:8000/plugins/inputmask/5.0.0/inputmask.min.js"></script>
-    <script src="http://localhost:8000/plugins/ckeditor/4/ckeditor.js"></script>
-    <script src="http://localhost:8000/plugins/bootstrap/4.4.1/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://localhost:8000/assets/admin/javadgholipoor/plugins.css">
+{{--    <script src="http://localhost:8000/plugins/jquery/3.4.1/jquery.js"></script>--}}
+{{--    <script src="http://localhost:8000/plugins/jquery-ui/1.12.1/jquery-ui.min.js"></script>--}}
+{{--    <script src="http://localhost:8000/plugins/jquery-form/3.51.0/jquery-form.min.js"></script>--}}
+{{--    <script src="http://localhost:8000/plugins/select2/4.0.12/select2.min.js"></script>--}}
+{{--    <script src="http://localhost:8000/plugins/template7/1.4.0/template7.min.js"></script>--}}
+{{--    <script src="http://localhost:8000/plugins/inputmask/5.0.0/inputmask.min.js"></script>--}}
+{{--    <script src="http://localhost:8000/plugins/ckeditor/4/ckeditor.js"></script>--}}
+{{--    <script src="http://localhost:8000/plugins/bootstrap/4.4.1/bootstrap.min.js"></script>--}}
+{{--    <link rel="stylesheet" href="http://localhost:8000/assets/admin/javadgholipoor/plugins.css">--}}
     <link rel="stylesheet   " href="http://localhost:8000/assets/admin/javadgholipoor/admin.css?v=2.0.0">
 {{--    <script src="http://localhost:8000/assets/admin/javadgholipoor/admin.js?v=2.0.0"></script>--}}
 
@@ -73,46 +73,46 @@ $user = auth()->user();
 <script src="{{ asset('assets/admin/javadgholipoor/admin.js') }}?v={{ strtotime('now') }}"></script>
 <script>
 
-    $(document).on('click', '.menu', function () {
-        if ($('.sidebar').hasClass('active')) {
-            $('.sidebar').removeClass('active');
-            $('.treeview-ul').slideUp();
-            $('.treeview').removeClass('active').removeClass('clicked');
-            $('.content').removeClass('sidebar-open-content');
-        } else {
-            $('.sidebar').addClass('active');
-            $('.content').addClass('sidebar-open-content');
-        }
-        $(this).toggleClass('active');
-    });
-
-    $( ".sidebar" ).hover(
-        function() {
-            $(this).addClass('open');
-            $('.content').addClass('sidebar-open-content');
-        }, function() {
-            $(this).removeClass('open');
-            if (!$(this).hasClass('active')) {
-                $('.treeview-ul').slideUp();
-                $('.treeview').removeClass('active').removeClass('clicked');
-                $('.content').removeClass('sidebar-open-content');
-            }
-        }
-    );
-
-    $(document).on('click', '.treeview > a', function () {
-
-        $('.treeview').removeClass('active');
-        $('.treeview-ul').slideUp();
-
-        if (!$(this).parent().hasClass('clicked')) {
-            $(this).parent().toggleClass('active').addClass('clicked');
-            $(this).parent().find('.treeview-ul').slideToggle();
-        } else {
-            $(this).parent().removeClass('clicked');
-        }
-
-    });
+    // $(document).on('click', '.menu', function () {
+    //     if ($('.sidebar').hasClass('active')) {
+    //         $('.sidebar').removeClass('active');
+    //         $('.treeview-ul').slideUp();
+    //         $('.treeview').removeClass('active').removeClass('clicked');
+    //         $('.content').removeClass('sidebar-open-content');
+    //     } else {
+    //         $('.sidebar').addClass('active');
+    //         $('.content').addClass('sidebar-open-content');
+    //     }
+    //     $(this).toggleClass('active');
+    // });
+    //
+    // $( ".sidebar" ).hover(
+    //     function() {
+    //         $(this).addClass('open');
+    //         $('.content').addClass('sidebar-open-content');
+    //     }, function() {
+    //         $(this).removeClass('open');
+    //         if (!$(this).hasClass('active')) {
+    //             $('.treeview-ul').slideUp();
+    //             $('.treeview').removeClass('active').removeClass('clicked');
+    //             $('.content').removeClass('sidebar-open-content');
+    //         }
+    //     }
+    // );
+    //
+    // $(document).on('click', '.treeview > a', function () {
+    //
+    //     $('.treeview').removeClass('active');
+    //     $('.treeview-ul').slideUp();
+    //
+    //     if (!$(this).parent().hasClass('clicked')) {
+    //         $(this).parent().toggleClass('active').addClass('clicked');
+    //         $(this).parent().find('.treeview-ul').slideToggle();
+    //     } else {
+    //         $(this).parent().removeClass('clicked');
+    //     }
+    //
+    // });
 
 </script>
 </body>

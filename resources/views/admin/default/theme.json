@@ -1,7 +1,7 @@
 {
     "name": "default",
     "type": "admin",
-    "version": "42",
+    "version": "43",
     "support": {
         "name": "javadGholipoor",
         "email": "apkmaker74@gmail.com",
@@ -78,7 +78,7 @@
                 ]
             },
             "ajax": {
-                "version": "1",
+                "version": "2",
                 "files": [
                     "ajax.min.js"
                 ]

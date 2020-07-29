@@ -52,7 +52,7 @@ class LoginController extends AuthCore {
                 if (Hash::check($password, $user->password)) {
                     $user->login();
                     $user->log();
-                    return $this->redirect();
+                    return $this->redirect($user);
                 }
             }
         }
@@ -129,7 +129,10 @@ class LoginController extends AuthCore {
 
     }
 
-    public function redirect() {
+    public function redirect($user) {
+        if ($user->can('administrator')) {
+            return redirect('/admin');
+        }
         return redirect('/');
     }
 

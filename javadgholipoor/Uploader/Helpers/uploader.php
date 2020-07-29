@@ -13,6 +13,19 @@ function uploaderOptions() {
         return json_decode($get->value, true);
 }
 
+function uploaderHash($fullUrl) {
+    $parse = parse_url($fullUrl);
+    $url = $parse['host'];
+    if (isset($parse['path']))
+        $url .= $parse['path'];
+    if (isset($parse['query'])) {
+        $parts = explode('&', $parse['query']);
+        sort($parts);
+        $url .= implode($parts);
+    }
+    return md5($url . ip());
+}
+
 function uploaderTheme() {
     return getTheme('uploader');
 }

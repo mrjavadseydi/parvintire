@@ -25,3 +25,9 @@ if(!function_exists('convertDistance')){
         return Converter::distance($meter, $lang);
     }
 }
+
+if(!function_exists('convertSecondToTime')){
+    function convertSecondToTime($seconds){
+        return Converter::secondToTime($seconds);
+    }
+}
