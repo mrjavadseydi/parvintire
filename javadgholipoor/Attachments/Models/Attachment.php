@@ -7,9 +7,9 @@ namespace LaraBase\Attachments\Models;
 use LaraBase\CoreModel;
 
 class Attachment extends CoreModel {
-    
+
     use \LaraBase\Attachments\Actions\Attachment;
-    
+
     protected $fillable = [
         'user_id',
         'relation_type',
@@ -28,5 +28,5 @@ class Attachment extends CoreModel {
         'created_at',
         'updated_at',
     ];
-    
+
 }

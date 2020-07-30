@@ -176,3 +176,23 @@
     }
 
 }
+
+.podcast-cart {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+
+    .play {
+        position: absolute;
+        left: 0;
+        top: 290px;
+        width: 45px;
+        background: white;
+        height: 45px;
+        border: 100px;
+        border-radius: 100px;
+        text-align: center;
+        line-height: 47px;
+        box-shadow: 0 0 3px #0000004d;
+        font-size: 1em;
+    }
+}

@@ -1,4 +1,5 @@
 @import "template";
+@import "../tools/sass/file-store";
 
 $height: 100px;
 
@@ -141,5 +142,85 @@ header {
                 background-color: var(--second-color-hover);
             }
         }
+    }
+}
+
+.gallery {
+    .header {
+        background: var(--main-color);
+        height: 200px;
+
+        .divider-4 {
+            color: white;
+
+            .line {
+                background: white;
+            }
+        }
+    }
+
+    .margin {
+        padding: 0 10em;
+        margin-top: -55px;
+    }
+
+    figcaption {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.58);
+        line-height: 45px;
+        text-align: center;
+        color: white;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.61);
+        border-radius: 0 0 5px 5px;
+    }
+
+    .gallery-item {
+        cursor: pointer;
+        border: 2px solid transparent;
+        border-radius: 5px;
+
+        &:hover {
+            border-color: var(--main-color);
+        }
+    }
+
+}
+
+.circle-right {
+    right: -155px;
+    left: auto;
+    transform: rotate(162deg);
+
+    .person {
+        transform: rotate(200deg);
+        height: 500px !important;
+        top: 255px;
+        width: 330px !important;
+        right: 87px;
+    }
+}
+
+.site-description-2 {
+    padding: 80px 435px 0 150px;
+}
+
+.circle-triangle-right.left {
+    left: 0;
+    right: auto;
+    transform: rotate(180deg);
+}
+
+@include media-breakpoint-down('lg') {
+    body {
+        background: red;
+    }
+    .circle-triangle {
+        width: 425px !important;
+    }
+    .site-description {
+        padding: 0 100px 0 370px;
     }
 }

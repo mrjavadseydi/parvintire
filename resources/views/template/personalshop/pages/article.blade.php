@@ -113,6 +113,7 @@
                     <a href="{{ url("search?q={$tag->tag}") }}" class="mr-2">#{{ $tag->tag }}</a>
                 @endforeach
             </div>
+            @include(includeTemplate('sections.downloadBox'))
             <div class="mt-3 border p-3 rounded">
                 @include(includeTemplate('pages.public.comments'))
             </div>

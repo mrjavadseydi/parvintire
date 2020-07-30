@@ -5,7 +5,7 @@
 <div class="product-card-1 position-relative px-3">
     <figure class="text-center">
         <a href="{{ $post->href() }}?productId={{ $product->product_id }}">
-            <img src="{{ $post->thumbnail(250, 250) }}" alt="">
+            <img src="{{ $post->thumbnail(250, 250) }}" alt="{{ $post->title }}">
         </a>
         <a href="{{ $post->href() }}?productId={{ $product->product_id }}">
             <figcaption class="py-3 iransansMedium">{{ $post->title }}</figcaption>

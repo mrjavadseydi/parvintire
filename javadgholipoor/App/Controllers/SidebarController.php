@@ -55,6 +55,7 @@ class SidebarController extends CoreController
         $this->user = auth()->user();
         $this->add($this->panel);
         $this->add($this->users);
+        $this->add($this->users);
         return $this->sidebar;
     }
 

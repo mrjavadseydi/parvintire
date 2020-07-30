@@ -1,7 +1,7 @@
 {
-    "name": "personal-shop",
+    "name": "personalshop",
     "type": "template",
-    "version": "1",
+    "version": "4",
     "support": {
         "name": "javadGholipoor",
         "email": "apkmaker74@gmail.com",
@@ -93,6 +93,18 @@
                 "description": "سایز استاندارد لوگوی سایت 40x40 پیکسل می باشد.",
                 "key": "digishopLogo",
                 "more": "autoload"
+            },
+            {
+                "title": "عکس شخص سمت چپ",
+                "description": "",
+                "key": "digishopPeronLeft",
+                "more": "autoload"
+            },
+            {
+                "title": "عکس شخص سمت راست",
+                "description": "",
+                "key": "digishopPeronRight",
+                "more": "autoload"
             }
         ],
         "values": [
@@ -145,15 +157,33 @@
                 "more": "autoload"
             },
             {
-                "title": "فهرست توانمندی ها",
-                "description": "آیدی فهرست را وارد کنید",
-                "key": "personal-skill-menu",
+                "title": "عنوان متن اول توضیحات شخص",
+                "description": "",
+                "key": "personal-title-1",
                 "more": "autoload"
             },
             {
-                "title": "برند محصول",
-                "description": "آیدی کلید را وارد کنید (ویژگی/کلید/مقدار)",
-                "key": "digishopBrandKeyId",
+                "title": "متن اول توضیحات شخص",
+                "description": "",
+                "key": "personal-description-1",
+                "more": "autoload"
+            },
+            {
+                "title": "عنوان متن دوم توضیحات شخص",
+                "description": "",
+                "key": "personal-title-2",
+                "more": "autoload"
+            },
+            {
+                "title": "متن دوم توضیحات شخص",
+                "description": "",
+                "key": "personal-description-2",
+                "more": "autoload"
+            },
+            {
+                "title": "فهرست توانمندی ها",
+                "description": "آیدی فهرست را وارد کنید",
+                "key": "personal-skill-menu",
                 "more": "autoload"
             },
             {
@@ -163,57 +193,9 @@
                 "more": "autoload"
             },
             {
-                "title": "منوی پایین اسلایدر صفحه اصلی",
-                "description": "آیدی منو را وارد کنید",
-                "key": "digishopBottomSliderMenu",
-                "more": "autoload"
-            },
-            {
-                "title": "دسته های تازه ترین محصولات",
+                "title": "دسته های سایر توانایی ها",
                 "description": "آیدی دسته ها را وارد کنید. با کاما , جدا شود",
-                "key": "digishopHomeNewProductsCats",
-                "more": "autoload"
-            },
-            {
-                "title": "توضیح پیشنهاد ویژه صفحه اصلی",
-                "description": "",
-                "key": "digishopHomeSpecialText",
-                "more": "autoload"
-            },
-            {
-                "title": "آیدی محصولات پیشنهاد ویژه صفحه اصلی",
-                "description": "آیدی محصولات وارد شود product_id با کاما , جدا شود",
-                "key": "digishopHomeSpecialIds",
-                "more": "autoload"
-            },
-            {
-                "title": "دسته های پرفروش ترین محصولات",
-                "description": "آیدی دسته ها را وارد کنید. با کاما , جدا شود",
-                "key": "digishopHomeMostSalesProductsCats",
-                "more": "autoload"
-            },
-            {
-                "title": "فهرست ۴باکس صفحه‌اصلی",
-                "description": "آیدی فهرست را وارد کنید",
-                "key": "digishop4Menu",
-                "more": "autoload"
-            },
-            {
-                "title": "فهرست دایره ای صفحه‌اصلی",
-                "description": "آیدی فهرست را وارد کنید",
-                "key": "digishopHomeCircleMenu",
-                "more": "autoload"
-            },
-            {
-                "title": "سوالات متداول صفحه اصلی",
-                "description": "آیدی سوالات متداول را وارد کنید. با کاما , جدا شود",
-                "key": "digishopHomeFaqIds",
-                "more": "autoload"
-            },
-            {
-                "title": "فهرست برندها صفحه‌اصلی",
-                "description": "آیدی فهرست را وارد کنید",
-                "key": "digishopHomeBrandMenu",
+                "key": "digishopHomeOtherSkill",
                 "more": "autoload"
             },
             {

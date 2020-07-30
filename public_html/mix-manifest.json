@@ -7,12 +7,12 @@
     "/assets/uploader/default/uploader.css": "/assets/uploader/default/uploader.css",
     "/assets/template/digishop/template.css": "/assets/template/digishop/template.css",
     "/assets/errors/digishop/errors.css": "/assets/errors/digishop/errors.css",
-    "/assets/template/personal-shop/template.css": "/assets/template/personal-shop/template.css",
+    "/assets/template/personalshop/template.css": "/assets/template/personalshop/template.css",
     "/assets/admin/default/boxes.js": "/assets/admin/default/boxes.js",
     "/assets/admin/default/icons.js": "/assets/admin/default/icons.js",
     "/assets/admin/default/store.js": "/assets/admin/default/store.js",
     "/assets/template/digishop/template.js": "/assets/template/digishop/template.js",
-    "/assets/template/personal-shop/template.js": "/assets/template/personal-shop/template.js",
+    "/assets/template/personalshop/template.js": "/assets/template/personalshop/template.js",
     "/assets/uploader/default/uploader.js": "/assets/uploader/default/uploader.js",
     "/assets/uploader/default/uploader2.js": "/assets/uploader/default/uploader2.js"
 }

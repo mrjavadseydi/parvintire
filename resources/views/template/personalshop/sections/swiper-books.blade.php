@@ -1,5 +1,5 @@
 <?php
-$posts = \LaraBase\Posts\Models\Post::postType('podcasts')->published()->limit(6)->get();
+$posts = \LaraBase\Posts\Models\Post::postType('books')->published()->latest()->limit(8)->get();
 ?>
 @if(isset($posts))
     @if(count($posts) > 0)
@@ -46,7 +46,7 @@ $posts = \LaraBase\Posts\Models\Post::postType('podcasts')->published()->limit(6
         </style>
 
         <section class="swiper-{{ $swiperKey }} overflow-hidden">
-            <div class="swiper-wrapper py-2">
+            <div class="swiper-wrapper py-2 px-1">
                 <?php
                 $postIds = [];
                 foreach ($posts as $post) {
@@ -59,7 +59,7 @@ $posts = \LaraBase\Posts\Models\Post::postType('podcasts')->published()->limit(6
                     $product = $products->where('post_id', $post->id)->first();
                     ?>
                     <div class="swiper-slide">
-                        @include(includeTemplate('cards.podcast'))
+                        @include(includeTemplate('cards.book'))
                     </div>
                 @endforeach
             </div>
@@ -72,23 +72,23 @@ $posts = \LaraBase\Posts\Models\Post::postType('podcasts')->published()->limit(6
             var swiper = new Swiper('.swiper-{{ $swiperKey }}', {
                 breakpoints: {
                     1200: {
-                        slidesPerView: 6,
-                        slidesPerGroup: 6,
-                        spaceBetween: 10,
-                    },
-                    992: {
                         slidesPerView: 5,
                         slidesPerGroup: 5,
                         spaceBetween: 10,
                     },
+                    992: {
+                        slidesPerView: 3,
+                        slidesPerGroup: 3,
+                        spaceBetween: 10,
+                    },
                     768: {
-                        slidesPerView: 4,
-                        slidesPerGroup: 4,
+                        slidesPerView: 2,
+                        slidesPerGroup: 2,
                         spaceBetween: 10,
                     },
                     576: {
-                        slidesPerView: 3,
-                        slidesPerGroup: 3,
+                        slidesPerView: 2,
+                        slidesPerGroup: 2,
                         spaceBetween: 10,
                     },
                     0: {

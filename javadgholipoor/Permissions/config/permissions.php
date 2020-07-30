@@ -53,6 +53,39 @@ return [
         ]
     ],
 
+    'files' => [
+        'title' => 'فایل ها',
+        'permissions' => [
+            'addFile' => [
+                'title' => 'افزودن فایل'
+            ],
+            'getFile' => [
+                'title' => 'دریافت فایل'
+            ],
+            'deleteFile' => [
+                'title' => 'حذف فایل'
+            ],
+            'sortFiles' => [
+                'title' => 'مرتب سازی فایل ها'
+            ],
+            'addFileGroup' => [
+                'title' => 'افزودن گروه'
+            ],
+            'updateFileGroup' => [
+                'title' => 'ویرایش گروه'
+            ],
+            'getFileGroup' => [
+                'title' => 'دریافت گروه'
+            ],
+            'deleteFileGroup' => [
+                'title' => 'حذف گروه'
+            ],
+            'sortGroups' => [
+                'title' => 'مرتب سازی گروه ها'
+            ],
+        ]
+    ],
+
     'permissions' => [
         'title' => 'مجوز ها',
         'permissions' => [
