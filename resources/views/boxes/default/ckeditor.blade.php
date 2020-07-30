@@ -36,11 +36,9 @@
             })
         }
         function ckEditorLinkCopy(data) {
+            $('#ckEditorCopyInput').remove();
             $('body').append('<input id="ckEditorCopyInput" type="text" value="'+data['result']['url']+'">');
             copyToClipboard('ckEditorCopyInput');
-            if ($('#ckEditorCopyInput').lenght > 0) {
-                $('#ckEditorCopyInput').remove();
-            }
         }
         function copyToClipboard(id) {
             var copyText = document.getElementById(id);

@@ -275,10 +275,6 @@ if (in_array('plan', $postBoxes)) {
 
         </div>
 
-        <div class="download {{ ($productType == 'download' ? '' : 'dn') }} input-group mt20">
-            @include('boxes.default.files-groups')
-        </div>
-
     </div>
 
 </div>
