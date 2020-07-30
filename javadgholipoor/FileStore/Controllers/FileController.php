@@ -153,10 +153,11 @@ class FileController
 
             }
 
-            return [
-                'status' => 'error',
-                'message' => 'bug attachment is ' . $attachment->id
-            ];
+            // TODO box download attachment bug
+//            return [
+//                'status' => 'error',
+//                'message' => 'bug attachment is ' . $attachment->id
+//            ];
 
             $where = [
                 'post_id' => $request->postId,

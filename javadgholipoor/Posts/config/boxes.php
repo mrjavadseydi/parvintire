@@ -168,6 +168,11 @@ return [
     'contentMetas' => [
         'title'      => 'متاهای محتوا',
         'box'        => 'contentMetas',
+    ],
+
+    'downloadBox' => [
+        'title'      => 'باکس دانلود',
+        'box'        => 'downloadBox',
     ]
 
 //    'parent' => [

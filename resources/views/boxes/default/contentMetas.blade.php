@@ -48,11 +48,9 @@
                             })
                         }
                         function ckEditorCmLinkCopy(data) {
+                            $('#CmCkEditorCopyInput').remove();
                             $('body').append('<input id="CmCkEditorCopyInput" type="text" value="'+data['result']['url']+'">');
                             copyToClipboard('ckEditorCopyInput');
-                            if ($('#CmCkEditorCopyInput').lenght > 0) {
-                                $('#CmCkEditorCopyInput').remove();
-                            }
                         }
                         function copyToClipboard(id) {
                             var copyText = document.getElementById(id);

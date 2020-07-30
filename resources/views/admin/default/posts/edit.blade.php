@@ -50,6 +50,7 @@
                 @include('admin.default.posts.box', [
                     'loadBoxes' => [
                         'product',
+                        'downloadBox',
                         'preview',
                         'attributes',
                         'plan',
