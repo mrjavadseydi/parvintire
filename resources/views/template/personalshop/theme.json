@@ -1,7 +1,7 @@
 {
     "name": "personalshop",
     "type": "template",
-    "version": "4",
+    "version": "7",
     "support": {
         "name": "javadGholipoor",
         "email": "apkmaker74@gmail.com",
@@ -190,6 +190,12 @@
                 "title": "ویژگی های محصول با ساختار رنگ",
                 "description": "آیدی ویژگی ها را وارد کنید. با کاما , جدا شود",
                 "key": "digishopColorAttributes",
+                "more": "autoload"
+            },
+            {
+                "title": "عنوان بخش دسته ها و پست ها",
+                "description": "",
+                "key": "digishopTabProductTitle",
                 "more": "autoload"
             },
             {

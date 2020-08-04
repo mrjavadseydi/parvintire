@@ -2,8 +2,10 @@
     $filesGroups = $post->filesGroups();
 ?>
 @if(count($filesGroups))
-    <div class="py-2">
-        <div class="files-groups {{ $font ?? 'sahel' }}">
+    <div class="pt-3">
+        @include(includeTemplate('divider.2') , ['title' => 'باکس دانلود'])
+        </h1>
+        <div class="mt-3 files-groups {{ $font ?? 'sahel' }}">
             <?php $i = 1;?>
             @foreach($post->filesGroups() as $item)
                 @if(count($item['files']) > 0)
@@ -30,7 +32,7 @@
                                     </div>
                                 </div>
                             @else
-                                <a href="{{ $file['file']->href() }}" class="file {{ $file['file']->status == '2' ? 'disable' : ($file['file']->can() ? '' : 'lock') }}">
+                                <a target="_blank" href="{{ url($file['attachment']->path) }}" class="file {{ $file['file']->status == '2' ? 'disable' : ($file['file']->can() ? '' : 'lock') }}">
                                     <div class="circle">
                                         <span class="counter">{{ $i }}</span>
                                         <span class="lock far fa-lock"></span>

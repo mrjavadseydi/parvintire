@@ -10,6 +10,7 @@ use LaraBase\CoreController;
 use LaraBase\Options\Models\Option;
 use LaraBase\Posts\Models\Post;
 use LaraBase\Posts\Models\PostAttribute;
+use LaraBase\Store\Models\Product;
 
 class PageController extends CoreController
 {
@@ -56,6 +57,30 @@ class PageController extends CoreController
             'post',
             'categories',
             'brand',
+            'gallery',
+            'tags',
+            'product',
+            'comments',
+            'user'
+        ));
+    }
+
+    public function podcast($id, $slug)
+    {
+        $post = Post::find($id);
+        $user = User::find($post->user_id);
+        initPost($post);
+        $product = Product::where('post_id', $id)->first();
+        $categories = $post->categories;
+        $tags = $post->tags;
+        $gallery = $post->gallery();
+        $comments = $post->comments();
+        $attributes = $post->attributes();
+
+        return templateView('pages.podcast', compact(
+            'product',
+            'post',
+            'categories',
             'gallery',
             'tags',
             'product',

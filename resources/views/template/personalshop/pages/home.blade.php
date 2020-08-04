@@ -79,7 +79,7 @@
     </div>
     <br><br><br><br><br>
     <div class="container-fluid px-6 position-relative">
-        @include(includeTemplate('divider.1'), ['title' => 'سایر توانایی های ' . siteName()])
+        @include(includeTemplate('divider.1'), ['title' => getOption('digishopTabProductTitle') . siteName()])
         @include(includeTemplate('sections.tabs-articles-latest'), ['cats' => getOption('digishopHomeOtherSkill')])
     </div>
 @endsection
