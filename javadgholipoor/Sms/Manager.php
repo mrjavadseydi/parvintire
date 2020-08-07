@@ -67,4 +67,21 @@ class Manager {
         return curl_exec($curl);
     }
 
+    public function getPatterns()
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, getRepository('api/sms/getPatterns/'. env('APP_KEY')));
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        return curl_exec($curl);
+    }
+
+    public function setPatterns($patterns)
+    {
+       return $this->httpRequest(getRepository('api/sms/createPatterns/'. env('APP_KEY')), [
+           'patterns' => json_encode($patterns)
+       ]);
+    }
+
 }

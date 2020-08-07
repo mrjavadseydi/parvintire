@@ -4,6 +4,7 @@ namespace LaraBase\Store\Controllers;
 
 use App\Events\NewOrder;
 use Illuminate\Http\Request;
+use LaraBase\Auth\Models\User;
 use LaraBase\CoreController;
 use LaraBase\Payment\Models\Transaction;
 use LaraBase\Posts\Models\Post;
@@ -21,6 +22,21 @@ use LaraBase\World\models\Town;
 
 class OrderController extends CoreController
 {
+
+    public function index()
+    {
+        can('orders');
+        $title = 'سفارش ها';
+        $records = Order::status()->latest()->paginate(50);
+        $users = User::whereIn('id', $records->pluck('user_id')->toArray())->get();
+        return adminView('orders.all', compact('records', 'users', 'title'));
+    }
+
+    public function edit()
+    {
+        can('updateOrder');
+        return adminView('orders.edit');
+    }
 
     public function hash()
     {

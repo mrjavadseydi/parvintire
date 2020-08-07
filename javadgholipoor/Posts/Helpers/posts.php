@@ -48,11 +48,11 @@ function getPostTypeId($id) {
 }
 
 function initPost($post) {
-    addVisit('post', $post->id);
-
     if ($post == null)
         return  abort(404);
 
     if ($post->status != 'publish')
         return abort(404);
+
+    addVisit('post', $post->id);
 }

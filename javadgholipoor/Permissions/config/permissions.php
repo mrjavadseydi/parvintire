@@ -314,6 +314,24 @@ return [
         ]
     ],
 
+    'orders' => [
+        'title' => 'سفارش ها',
+        'permissions' => [
+            'showOrder' => [
+                'title' => 'مشاهده سفارش'
+            ],
+            'createOrder' => [
+                'title' => 'افزودن سفارش'
+            ],
+            'updateOrder' => [
+                'title' => 'ویرایش سفارش',
+            ],
+            'deleteOrder' => [
+                'title' => 'حذف سفارش',
+            ],
+        ]
+    ],
+
     'comments' => [
         'title' => 'نظرات',
         'permissions' => [

@@ -75,9 +75,7 @@ Route::group([
     Route::get('sync', 'SyncController@sync');
     Route::get('sync/run', 'SyncController@run');
 
-});
+    Route::get('sms', 'SmsController@sms');
+    Route::post('sms/sync', 'SmsController@sync');
 
-Route::get('t', function () {
-    $post = \LaraBase\Posts\Models\Post::find(7);
-    return view('template.default.store.files', compact('post'));
 });

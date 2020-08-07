@@ -5,23 +5,33 @@ return [
     'orderStatus' => [
         '0' => [
             'title' => 'باز',
-            'color' => 'deeppink'
+            'icon' => 'icon-hourglass_empty',
+            'color' => 'deeppink',
+            'lightColor' => '#ffe4fe',
         ],
         '1' => [
             'title' => 'ثبت شده',
-            'color' => 'green'
+            'icon' => 'icon-check',
+            'color' => 'green',
+            'lightColor' => '#e5ffe5',
         ],
         '2' => [
             'title' => 'منقضی شده',
-            'color' => 'gray'
+            'icon' => 'icon-remove',
+            'color' => 'gray',
+            'lightColor' => '#eaeaea',
         ],
         '3' => [
             'title' => 'کنسل شده',
-            'color' => 'red'
+            'icon' => 'icon-block',
+            'color' => 'red',
+            'lightColor' => '#feb7b7',
         ],
         '4' => [
             'title' => 'سبد خرید بعدی',
-            'color' => 'orange'
+            'icon' => 'icon-keyboard_return',
+            'color' => 'orange',
+            'lightColor' => '#fff1ca',
         ]
     ],
 

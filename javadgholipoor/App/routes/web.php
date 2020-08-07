@@ -26,16 +26,16 @@ Route::group(['prefix' => 'language', 'namespace' => 'LaraBase\App\Controllers']
 });
 
 Route::group(['namespace'  => 'LaraBase\App\Controllers'], function () {
-
     Route::get('faq', 'PageController@faq')->name('faq');
     Route::get('categories', 'PageController@categories')->name('categories');
     Route::get('categories/{id}/{slug}', 'PageController@category')->name('category');
-
+    foreach (['article', 'product', 'book'] as $type) {
+//        Route::get($type . 's/{id}/{slug}', 'PageController@singlePage')->name("{$type}");
+//        Route::post($type . 's/{id}/{slug}', 'PageController@singlePage')->name("{$type}");
+    }
 });
 
 Route::group(['namespace'  => 'LaraBase'], function () {
-
     Route::get('down', 'CoreController@down')->name('siteDown');
     Route::get('up', 'CoreController@up')->name('siteUp');
-
 });

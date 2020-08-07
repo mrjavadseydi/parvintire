@@ -238,10 +238,6 @@ class PostController extends CoreController
 
         $postData = [];
 
-        if ($request->has('needChange')) {
-            $post->updateMeta('needChange', $request->needChange);
-        }
-
         $publishedStatuses = [
             'publish',
             'publishTime'
@@ -254,7 +250,14 @@ class PostController extends CoreController
             } else {
                 $postData['status'] = $post->status;
             }
+            if ($postData['final_status'] == 'needChange') {
+                telegram()->message([
+                    "🚫 در مطلب شما مواردی دیده شده که نیازمند تغییر می باشد",
+                    "<a href='".url("admin/posts/{$post->id}/edit")."'>{$post->title}</a>"
+                ])->tags(['needChange', 'post_'.$post->id])->sendToGroup();
+            }
             if (in_array($request->status, $publishedStatuses)) {
+                $post->updateMeta('needChange', $request->needChange);
                 $post->deleteMeta(false, 'needChange');
             }
         } else {
