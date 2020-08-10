@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['prefix' => 'upload', 'namespace' => 'LaraBase\Uploader\Controllers'], function () {
+Route::group(['prefix' => 'upload'], function () {
 
     Route::post('', 'UploadController@upload')->name('upload');
     Route::post('delete/{attachmentId}', 'UploadController@delete')->name('delete');
@@ -9,7 +9,7 @@ Route::group(['prefix' => 'upload', 'namespace' => 'LaraBase\Uploader\Controller
 
 });
 
-Route::group(['prefix' => 'render', 'middleware' => 'auth:web', 'namespace' => 'LaraBase\Uploader\Controllers'], function () {
+Route::group(['prefix' => 'render', 'middleware' => 'auth:web'], function () {
 
     Route::get('image/{id}/{width}/{height}', 'UploadController@renderImage')->name('renderImage');
 

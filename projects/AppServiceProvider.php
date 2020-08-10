@@ -9,7 +9,6 @@ class AppServiceProvider extends ServiceProvider {
 
     private
         $appName = null,
-        $routesPath = 'routes',
         $configPath = 'config';
 
     /**
@@ -23,7 +22,6 @@ class AppServiceProvider extends ServiceProvider {
         $this->appName = env('APP_NAME');
 
         $this->publishConfigs();
-        $this->loadRoutes();
 
         $this->app->singleton('Store', function () {
             return new Store();
@@ -70,27 +68,6 @@ class AppServiceProvider extends ServiceProvider {
                 }
             }
         }
-
-    }
-
-    public function loadRoutes() {
-
-        $appName = env('APP_NAME');
-        $path = __DIR__ . "/{$appName}/{$this->routesPath}";
-        if ( file_exists( $path ) && is_dir( $path ) ) {
-            foreach (glob("{$path}/*.php") as $file) {
-                $this->loadRoutesFrom($file);
-            }
-        }
-
-//        foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $directory) {
-//            $path = "{$directory}/{$this->routesPath}";
-//            if ( file_exists( $path ) && is_dir( $path ) ) {
-//                foreach (glob("{$path}/*.php") as $file) {
-//                    $this->loadRoutesFrom($file);
-//                }
-//            }
-//        }
 
     }
 

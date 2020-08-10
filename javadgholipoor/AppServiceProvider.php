@@ -17,7 +17,6 @@ class AppServiceProvider extends ServiceProvider {
 
     private
         $defaultStringLength = 191,
-        $routesPath = 'routes',
         $configPath = 'config';
 
     /**
@@ -32,7 +31,6 @@ class AppServiceProvider extends ServiceProvider {
         $this->publishConfigs();
         $this->hook();
         $this->init();
-        $this->loadRoutes();
 
     }
 
@@ -266,19 +264,6 @@ class AppServiceProvider extends ServiceProvider {
                     $this->mergeConfigFrom(
                         $file, str_replace('.php', '', $fileName)
                     );
-                }
-            }
-        }
-
-    }
-
-    public function loadRoutes() {
-
-        foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $directory) {
-            $path = "{$directory}/{$this->routesPath}";
-            if ( file_exists( $path ) && is_dir( $path ) ) {
-                foreach (glob("{$path}/*.php") as $file) {
-                    $this->loadRoutesFrom($file);
                 }
             }
         }

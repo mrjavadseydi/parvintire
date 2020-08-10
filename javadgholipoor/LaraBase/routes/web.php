@@ -2,7 +2,6 @@
 
 Route::group([
     'prefix'     => 'larabase',
-    'namespace'  => 'LaraBase\LaraBase\Controllers',
     'as'         => 'larabase.'
 ], function () {
 

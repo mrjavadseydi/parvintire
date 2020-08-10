@@ -53,7 +53,11 @@ class File extends CoreModel
 
     public function url()
     {
+        if ($this->server == 'website') {
+            return url('download/file/' . $this->id);
+        } else {
 
+        }
     }
 
 }

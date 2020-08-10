@@ -27,17 +27,46 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+
         foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $directory) {
             $path = "{$directory}/routes";
             if ( file_exists( $path ) && is_dir( $path ) ) {
-                dd($path);
-                Route::middleware('web')
-                    ->middleware('App\Http\Controllers')
-                    ->group($path . '/web.php');
-//                Route::prefix('api')
-//                    ->middleware('api')
-//                    ->group($path . '/api.php');
+                $this->loadRoute($directory, $path);
             }
+        }
+
+        $appName = env('APP_NAME');
+        $path = __DIR__ . "/{$appName}/routes";
+        if ( file_exists( $path ) && is_dir( $path ) ) {
+            $this->loadRoute($appName, $path);
+        }
+
+    }
+
+    public function loadRoute($directory, $path)
+    {
+        $parts = explode('/', $directory);
+        $namespace = 'LaraBase\\'.end($parts).'\Controllers';
+        $admin = $path . '/admin.php';
+        $web = $path . '/web.php';
+        $api = $path . '/api.php';
+        if (file_exists($admin)) {
+            Route::middleware(['web', 'auth:web'])
+                ->as('admin.')
+                ->prefix('admin')
+                ->namespace($namespace)
+                ->group($admin);
+        }
+        if (file_exists($web)) {
+            Route::middleware('web')
+                ->namespace($namespace)
+                ->group($web);
+        }
+        if (file_exists($api)) {
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($namespace)
+                ->group($api);
         }
     }
 
