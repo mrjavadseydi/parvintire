@@ -451,9 +451,11 @@ header {
         width: 200px;
         left: 0;
         right: auto;
+        line-height: normal;
 
         figcaption {
             line-height: normal;
+            font-size: 0.9em;
         }
         ul {
             border-top: 1px dashed #ddd;

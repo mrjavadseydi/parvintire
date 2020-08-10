@@ -1,6 +1,6 @@
 <div class="position-relative overflow-hidden tabs-products pt-2">
 
-    <div class="container-fluid px-6">
+    <div class="container">
         <div class="products py-3">
             <?php
             $key = md5(microtime());

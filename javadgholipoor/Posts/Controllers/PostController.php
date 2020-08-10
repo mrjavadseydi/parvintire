@@ -1142,38 +1142,7 @@ class PostController extends CoreController
             ->appends(request()->query());
 
         $postCount = $posts->count();
-
-        $mobileDetected = new MobileDetect();
-
-        if (!isset($_GET['noLog'])) {
-            if(!empty($q)) {
-                $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
-                $bots = [
-                    'bot',
-                    'checkmarknetwork'
-                ];
-                $addSearch = true;
-                foreach ($bots as $bot) {
-                    if (strpos($agent, $bot) === true) {
-                        $addSearch = false;
-                        break;
-                    }
-                }
-                if ($addSearch) {
-                    Search::create([
-                        'user_id' => (auth()->check() ? auth()->id() : null),
-                        'os' => ($mobileDetected->isMobile() ? 'mobile' : ($mobileDetected->isTablet() ? 'tablet' : 'desktop')),
-                        'keyword' => $q,
-                        'ip' => ip(),
-                        'url' => url()->full(),
-                        'count' => $postCount,
-                        'check' => ($postCount > 0 ? '1' : '0'),
-                        'server' => json_encode($_SERVER),
-                        'agent' => $mobileDetected->getUserAgent()
-                    ]);
-                }
-            }
-        }
+        addSearch($q, $postCount);
 
         $postTypes = [];
         $getPostTypes = $posts->pluck('post_type')->toArray();

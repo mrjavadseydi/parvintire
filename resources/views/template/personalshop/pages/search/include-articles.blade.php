@@ -3,6 +3,7 @@ if (isset($data)) {
     extract($data);
 }
 ?>
+<h5 class="mb-3">شما در حال جستجو در <b class="text-main-color">وبلاگ</b> می باشید</h5>
 @if($posts->count() > 0)
     <div class="row items">
         @foreach($posts as $post)

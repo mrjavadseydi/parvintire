@@ -6,6 +6,7 @@
 @section('ogTitle', getOption('site-title'))
 @section('ogDescription', siteDescription())
 @section('ogImage', siteLogo())
+@section('header', '')
 @section('head-content')
     @if(view()->exists('admin.seo.pages.home'))
         @include('admin.seo.pages.home')
@@ -30,14 +31,16 @@
                 <img src="{{ image('broken-triangle.png', 'template') }}" alt="broken triangle">
             </figure>
         </div>
-        <div class="site-description">
-            <h1>{{ getOption('personal-title-1') }}</h1>
-            <p>{!! getOption('personal-description-1') !!}</p>
-            <form action="{{ route('search') }}">
-                <input type="hidden" name="postType" value="products">
-                <input type="text" name="q" placeholder="دنبال چی میگردی؟">
-                <button>جستجو</button>
-            </form>
+        <div class="container">
+            <div class="site-description pt-5">
+                <h1 class="h3">{{ getOption('personal-title-1') }}</h1>
+                <p>{!! getOption('personal-description-1') !!}</p>
+                <form action="{{ route('search') }}">
+                    <input type="hidden" name="postType" value="podcasts">
+                    <input type="text" name="q" placeholder="دنبال چی میگردی؟">
+                    <button>جستجو</button>
+                </form>
+            </div>
         </div>
         <br><br><br><br>
         <?php $m = \LaraBase\Menus\Models\Menu::find(getOption('personal-skill-menu')); ?>
@@ -65,9 +68,13 @@
             </figure>
         </div>
     </div>
-    <div class="site-description site-description-2 position-relative">
-        <h1>{{ getOption('personal-title-2') }}</h1>
-        <p>{!! getOption('personal-description-2') !!}</p>
+    <div class="position-relative">
+        <div class="container">
+            <div class="site-description site-description-2">
+                <h1 class="h2 site-description-title">{{ getOption('personal-title-2') }}</h1>
+                <p>{!! getOption('personal-description-2') !!}</p>
+            </div>
+        </div>
         <div class="circle-triangle-right left">
             <figure>
                 <img src="{{ image('broken-triangle.png', 'template') }}" alt="broken triangle">
@@ -77,8 +84,8 @@
             </figure>
         </div>
     </div>
-    <br><br><br><br><br>
-    <div class="container-fluid px-6 position-relative">
+    <br><br>
+    <div class="container position-relative">
         @include(includeTemplate('divider.1'), ['title' => getOption('digishopTabProductTitle') . siteName()])
         @include(includeTemplate('sections.tabs-articles-latest'), ['cats' => getOption('digishopHomeOtherSkill')])
     </div>

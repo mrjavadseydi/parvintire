@@ -65,6 +65,46 @@ class PageController extends CoreController
         ));
     }
 
+    public function book($id, $slug)
+    {
+        $post = Post::find($id);
+        $user = User::find($post->user_id);
+        initPost($post);
+        $products = $post->products();
+        $product = null;
+        if (isset($_GET['productId'])) {
+            $product = $products['products']->where('product_id', $_GET['productId'])->first();
+        }
+        if ($product == null) {
+            $product = $products['products']->first();
+        }
+        $categories = $post->categories;
+        $tags = $post->tags;
+        $gallery = $post->gallery();
+        $comments = $post->comments();
+
+        $brandKeyId = getOption('digishopBrandKeyId');
+        $brand = AttributeValue::whereIn('id', PostAttribute::where([
+            'type' => 'post',
+            'post_id' => $post->id,
+            'key_id' => $brandKeyId,
+            'active' => '1'
+        ])->pluck('value_id')->toArray())->get()->implode('title', ', ');
+        $attributes = $post->attributes();
+
+        return templateView('pages.book', compact(
+            'products',
+            'post',
+            'categories',
+            'brand',
+            'gallery',
+            'tags',
+            'product',
+            'comments',
+            'user'
+        ));
+    }
+
     public function podcast($id, $slug)
     {
         $post = Post::find($id);

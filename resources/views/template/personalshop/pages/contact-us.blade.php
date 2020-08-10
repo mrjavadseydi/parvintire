@@ -8,7 +8,7 @@
 @section('ogImage', siteLogo())
 @section('content')
     <div class="product py-3 contact-us">
-        <div class="container-fluid px-6">
+        <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>

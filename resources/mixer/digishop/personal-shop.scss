@@ -46,6 +46,24 @@ header {
             color: var(--main-color-hover) !important;
         }
     }
+    .dropdown {
+        top: 70px;
+    }
+}
+
+body.header header {
+    box-shadow: 0 1px 3px #0000002b !important;
+
+    .left {
+        li {
+            a {
+                color: #505050;
+            }
+            i {
+                color: #505050;
+            }
+        }
+    }
 }
 
 .circle-triangle {
@@ -100,7 +118,7 @@ header {
 
 .site-description {
     width: 100%;
-    padding: 0 100px 0 495px;
+    padding: 0 10px 0 495px;
 
     p {
         font-size: 1.3em;
@@ -204,7 +222,7 @@ header {
 }
 
 .site-description-2 {
-    padding: 80px 435px 0 150px;
+    padding: 80px 350px 0 150px;
 }
 
 .circle-triangle-right.left {
@@ -214,13 +232,162 @@ header {
 }
 
 @include media-breakpoint-down('lg') {
-    body {
-        //background: red;
-    }
     .circle-triangle {
-        width: 425px !important;
+        width: 480px !important;
+
+        .person {
+            width: 230px !important;
+            height: 421px !important;
+            left: 125px;
+            top: 62px;
+        }
     }
     .site-description {
-        padding: 0 100px 0 370px;
+        padding: 0 100px 0 370px !important;
+    }
+    .circle-triangle.circle-right .person {
+        height: 340px !important;
+        top: 170px !important;
+    }
+}
+
+@include media-breakpoint-down('md') {
+    .circle-triangle {
+        width: 430px !important;
+
+        .person {
+            width: 190px !important;
+            height: 348px !important;
+            left: 125px;
+            top: 80px;
+        }
+    }
+    .site-description {
+        padding: 0 75px 0 370px !important;
+    }
+    .circle-triangle-right {
+        figure {
+            width: 60% !important;
+        }
+        .broken-triangle-sm {
+            width: 45% !important;
+        }
+    }
+    .circle-triangle.circle-right {
+        right: -60px !important;
+
+        .person {
+            height: 211px !important;
+            top: 110px !important;
+            right: 53px;
+        }
+    }
+}
+
+@include media-breakpoint-down('md') {
+    .circle-triangle {
+        width: 300px !important;
+
+        .person {
+            width: 140px !important;
+            height: 256px !important;
+            left: 100px;
+            top: 35px;
+        }
+    }
+    .site-description {
+        padding: 0 65px 0 250px !important;
+    }
+    .circle-triangle-right {
+        figure {
+            width: 60% !important;
+        }
+        .broken-triangle-sm {
+            width: 45% !important;
+        }
+    }
+    .circle-triangle.circle-right {
+        right: -60px !important;
+        margin-top: 20px;
+
+        .person {
+            height: 150px !important;
+            top: 90px !important;
+            right: 35px;
+        }
+    }
+    .site-description-title {
+        padding-right: 25%;
+    }
+}
+
+@include media-breakpoint-down('sm') {
+    .circle-triangle {
+        width: 220px !important;
+
+        .person {
+            width: 100px !important;
+            height: 183px !important;
+            left: 66px;
+            top: 35px;
+        }
+    }
+    .site-description {
+        padding: 40px 30px !important;
+        padding-top: 90px !important;
+    }
+    .circle-triangle-right {
+        figure {
+            width: 40% !important;
+        }
+        .broken-triangle-sm {
+            width: 25% !important;
+        }
+    }
+
+    .menu-skill li {
+        width: 90px !important;
+        height: 90px !important;
+
+        img {
+            width: 45px !important;
+            height: 45px !important;
+        }
+    }
+    .margin {
+        padding: 0 1em !important;
+    }
+    .circle-triangle.circle-right {
+        right: -60px !important;
+    }
+}
+
+.icon-menu {
+    font-size: 2em !important;
+}
+
+.my-account {
+    .dropdown {
+        border-radius: 5px !important;
+        ul {
+            li {
+                a, i {
+                    color: #505050 !important;
+
+                    &:hover {
+                        color: var(--main-color) !important;
+                    }
+                    &:hover i {
+                        color: var(--main-color) !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.blog-card-1 {
+    @include media-breakpoint-down('md') {
+        font-size: 0.7em !important;
     }
 }

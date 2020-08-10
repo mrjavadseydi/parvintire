@@ -7,7 +7,7 @@
 @section('ogDescription', siteDescription())
 @section('ogImage', siteLogo())
 @section('content')
-    <div class="container-fluid px-6 py-3">
+    <div class="container py-3">
         <div class="row">
             <div class="col-md-3">
                 <div class="card mt-2">

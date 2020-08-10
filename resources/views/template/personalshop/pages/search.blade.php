@@ -10,7 +10,7 @@
     @endif
 @endsection
 @section('content')
-    <div class="container-fluid px-6 py-3">
+    <div class="container py-3">
         <?php $postType = $_GET['postType'] ?? 'products';?>
         @include(includeTemplate('pages.search.' . $postType))
     </div>

@@ -3,7 +3,7 @@
 ?>
 @if(count($filesGroups))
     <div class="pt-3">
-        @include(includeTemplate('divider.2') , ['title' => 'باکس دانلود'])
+        @include(includeTemplate('divider.2') , ['title' => $title ?? 'باکس دانلود'])
         </h1>
         <div class="mt-3 files-groups {{ $font ?? 'sahel' }}">
             <?php $i = 1;?>

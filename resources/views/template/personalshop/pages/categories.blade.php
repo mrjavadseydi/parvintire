@@ -7,7 +7,7 @@
 @section('ogDescription', siteDescription())
 @section('ogImage', siteLogo())
 @section('content')
-    <div class="container-fluid px-6 py-3">
+    <div class="container py-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent">
                 <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>

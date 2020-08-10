@@ -16,7 +16,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent">
                 <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>
-                <li class="breadcrumb-item"><a href="{{ url('categories') }}">دسته بندی ها</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('categories') }}?postType={{ $category->post_type }}">دسته بندی ها</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $category->title }}</li>
             </ol>
         </nav>

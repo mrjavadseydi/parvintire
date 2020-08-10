@@ -18,7 +18,7 @@
     @endif
 @endsection
 @section('content')
-    <div class="container-fluid px-6 article">
+    <div class="container article">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent">
                 <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>
@@ -71,7 +71,7 @@
                 {!! $post->content !!}
             </p>
             <div class="d-flex justify-content-between align-items-center mt-3">
-                <h6>امتیاز شما این مقاله</h6>
+                <h6>امتیاز شما به این مقاله</h6>
                 <div class="likes d-flex align-items-center">
                     <form onSuccess="onLike" method="post" action="{{ route('posts.like') }}" class="ajaxForm" action="{{ route('posts.like') }}">
                         <input type="hidden" name="type" value="1">

@@ -8,7 +8,7 @@
             'method' => 'profile'
         ]
     ])->load() !!}
-    <div class="container-fluid px-6 profile">
+    <div class="container profile">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0">
                 <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>
@@ -17,7 +17,7 @@
             </ol>
         </nav>
         <div class="row mb-3">
-            <div class="col-md-3">
+            <div class="col-md-3 mb-3">
                 <div class="shadow sidebar bg-white rounded p-3">
                     <div class="avatar text-center">
                         <figure onComplete="onComplete" onAddFiles="onAddFiles" url="{{ route('upload') }}" key="profile" class="uploader-click d-inline-block position-relative text-center">
@@ -71,7 +71,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-9 pr-0 pr-md-1">
+            <div class="col-md-9 pr-3 pr-md-0">
                 <div class="shadow content bg-white rounded p-3">
                     <div class="divider-2 d-flex justify-content-between">
                         <div class="d-flex align-items-center">

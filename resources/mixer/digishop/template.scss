@@ -211,3 +211,11 @@ img {
 .text-content p {
     line-height: 35px;
 }
+
+.swiper-slide {
+    height: auto !important;
+}
+
+.text-main-color {
+    color: var(--main-color);
+}

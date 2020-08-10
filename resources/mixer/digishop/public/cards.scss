@@ -181,10 +181,20 @@
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.24);
     border-radius: 10px;
 
+    figcaption {
+        font-size: 1em;
+    }
+
+    @include media-breakpoint-down('md') {
+        figcaption {
+            font-size: 0.7em !important;
+        }
+    }
+
     .play {
         position: absolute;
-        left: 0;
-        top: 290px;
+        left: 10px;
+        top: 25px;
         width: 45px;
         background: white;
         height: 45px;
@@ -194,5 +204,12 @@
         line-height: 47px;
         box-shadow: 0 0 3px #0000004d;
         font-size: 1em;
+
+        @include media-breakpoint-down('sm') {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 0.7em;
+        }
     }
 }
