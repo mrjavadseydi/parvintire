@@ -6,6 +6,7 @@ namespace LaraBase\FileStore\Controllers;
 
 use Illuminate\Http\Request;
 use LaraBase\Attachments\Models\Attachment;
+use LaraBase\FileStore\Models\File;
 use LaraBase\Options\Models\Option;
 use LaraBase\Posts\Models\Post;
 use Mockery\Exception;
@@ -165,25 +166,42 @@ class FileController
                 'group_id' => $request->groupId
             ];
 
+            $edit = false;
             if ($request->has('fileId')) {
                 if (!empty($request->fileId)) {
-                    $where['id'] = $request->fileId;
+                    $edit = true;
                 }
             }
 
-            $getFile = \LaraBase\FileStore\Models\File::where($where);
+            if ($edit) {
 
-            $oldFile = $getFile->first();
+                $file = File::where('id', $request->fileId)->first();
+                if ($file->post_id != $request->postId && $file->group_id != $request->groupId) {
+                    return [
+                        'status' => 'error',
+                        'message' => 'لطفا پارامترهای استاندارد را تغییر ندهید'
+                    ];
+                }
 
-            $episode = $getFile->orderBy('episode', 'asc')->first();
-            if ($episode == null) {
-                $episode = 1;
+                $file->update([
+                    'attachment_id' => $attachment->id,
+                    'title' => $request->title,
+                    'server' => $server,
+                    'type' => $request->type,
+                    'status' => $request->status,
+                    'note' => $request->note,
+                ]);
+
             } else {
-                $episode = $episode->episode + 1;
-            }
 
-            if ($oldFile == null) {
-                \LaraBase\FileStore\Models\File::create([
+                $episode = File::where('post_id', $request->postId)->orderBy('episode', 'desc')->first();
+                if ($episode == null) {
+                    $episode = 1;
+                } else {
+                    $episode = $episode->episode + 1;
+                }
+
+                File::create([
                     'post_id' => $request->postId,
                     'attachment_id' => $attachment->id,
                     'group_id' => $request->groupId,
@@ -195,14 +213,7 @@ class FileController
                     'note' => $request->note,
                     'sort' => $episode
                 ]);
-            } else {
-                $getFile->update([
-                    'title' => $request->title,
-                    'server' => $server,
-                    'type' => $request->type,
-                    'status' => $request->status,
-                    'note' => $request->note,
-                ]);
+
             }
 
         }
