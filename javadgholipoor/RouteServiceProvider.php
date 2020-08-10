@@ -31,22 +31,22 @@ class RouteServiceProvider extends ServiceProvider
         foreach (glob(__DIR__ . '/*', GLOB_ONLYDIR) as $directory) {
             $path = "{$directory}/routes";
             if ( file_exists( $path ) && is_dir( $path ) ) {
-                $this->loadRoute($directory, $path);
+                $this->loadRoute($directory, $path, 'LaraBase');
             }
         }
 
         $appName = env('APP_NAME');
-        $path = __DIR__ . "/{$appName}/routes";
+        $path = str_replace('javadgholipoor', 'projects', __DIR__ . "/{$appName}/routes");
         if ( file_exists( $path ) && is_dir( $path ) ) {
-            $this->loadRoute($appName, $path);
+            $this->loadRoute($appName, $path, 'Project');
         }
 
     }
 
-    public function loadRoute($directory, $path)
+    public function loadRoute($directory, $path, $ns)
     {
         $parts = explode('/', $directory);
-        $namespace = 'LaraBase\\'.end($parts).'\Controllers';
+        $namespace = $ns . '\\'.end($parts).'\Controllers';
         $admin = $path . '/admin.php';
         $web = $path . '/web.php';
         $api = $path . '/api.php';
