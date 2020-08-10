@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider {
         $this->publishConfigs();
         $this->hook();
         $this->init();
-        $this->loadRoutes();
+        // $this->loadRoutes();
 
     }
 

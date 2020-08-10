@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
                             @else
-                                <a target="_blank" href="{{ url($file['attachment']->path) }}" class="file {{ $file['file']->status == '2' ? 'disable' : ($file['file']->can() ? '' : 'lock') }}">
+                                <a href="{{ $file['file']->url($post) }}" class="file {{ $file['file']->status == '2' ? 'disable' : ($file['file']->can() ? '' : 'lock') }}">
                                     <div class="circle">
                                         <span class="counter">{{ $i }}</span>
                                         <span class="lock far fa-lock"></span>
@@ -64,7 +64,47 @@
                     $(this).addClass('active');
                     $(this).next().addClass('active');
                 }
-            })
+            });
         </script>
     </div>
 @endif
+
+<form onSuccess="coursePayment" method="post" action="{{ url('payment/course') }}" id="payment-course-modal" class="modal fade ajaxForm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <input type="hidden" name="postId" value="{{ $post->id }}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ $post->title }}</h5>
+            </div>
+            <div class="modal-body iransansFa">
+                <span>مبلغ قابل پرداخت</span>
+                <div class="text-center">
+                    @if($product->discount() > 0)
+                        <del class="text-danger">{{ number_format($product->discount() + $product->price()) }}</del>
+                    @endif
+                    <h4 class="text-success text-center">{{ number_format($product->price()) }} تومان</h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="btn btn-danger" data-dismiss="modal">بستن</span>
+                <span id="payment-course-form-submit" class="btn btn-success mr-2">پرداخت آنلاین</span>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $('#payment-course-modal').modal();
+    $('.payment-course-button').click(function () {
+        $('#payment-course-modal').modal();
+    });
+    $('#payment-course-form-submit').click(function () {
+        if($(this).text() != 'درحال انتقال به درگاه پرداخت...') {
+            $(this).text('درحال انتقال به درگاه پرداخت...');
+            $('#payment-course-modal').submit();
+        }
+    });
+    function coursePayment() {
+
+    }
+</script>

@@ -28,8 +28,13 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ $post->title }}</li>
             </ol>
         </nav>
+        @if(session()->has('error'))
+            <div class="alert alert-danger">
+                {!! session()->get('error') !!}
+            </div>
+        @endif
         <div class="bg-white border rounded p-3 d-flex flex-wrap flex-md-nowrap">
-            <img width="25%" src="{{ $post->thumbnail(350, 350) }}" alt="{{ $post->title }}">
+            <img width="25%" height="100%" class="w-100-sm mb-3 mb-md-0" src="{{ $post->thumbnail(350, 350) }}" alt="{{ $post->title }}">
             <div class="pr-0 pr-md-3 flex-fill">
                 <div class="d-flex flex-wrap flex-md-nowrap justify-content-between align-items-center">
                     <div>

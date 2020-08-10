@@ -46,9 +46,18 @@ class File extends CoreModel
         return 'رایگان';
     }
 
-    public function href()
+    public function href($post)
     {
-        return '#no-code';
+        return $post->href() . '/episode/' . $this->episode;
+    }
+
+    public function url()
+    {
+        if ($this->server == 'website') {
+            return url('download/file/' . $this->id);
+        } else {
+
+        }
     }
 
 }

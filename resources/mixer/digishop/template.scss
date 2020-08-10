@@ -219,3 +219,13 @@ img {
 .text-main-color {
     color: var(--main-color);
 }
+
+.w-100-sm {
+    @include media-breakpoint-down('md') {
+        width: 100% !important;
+    }
+}
+
+.pointer {
+    cursor: pointer;
+}
