@@ -2,6 +2,7 @@
 
 namespace LaraBase\Store\Models;
 
+use LaraBase\Auth\Models\User;
 use LaraBase\CoreModel;
 use LaraBase\Posts\Models\Post;
 use ShippingWorld;
@@ -32,6 +33,21 @@ class Order extends CoreModel
     public function scopeUser($query, $userId)
     {
         $query->where('user_id', $userId);
+    }
+
+    public function scopeStatus($query, $status = -1)
+    {
+        $run = false;
+        if ($status >= 0) {
+            $run = true;
+        } else {
+            if (isset($_GET['status'])) {
+                $status = $_GET['status'];
+                $run = true;
+            }
+        }
+        if ($run)
+            $query->where('status', $status);
     }
 
     public function productsCounts()

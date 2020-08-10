@@ -11,6 +11,7 @@ Route::group([
         Route::get('store', 'OptionController@store')->name('options.store');
     });
 
+    Route::resource('orders', 'OrderController');
 });
 
 Route::group(['namespace' => 'LaraBase\Store\Controllers'], function () {

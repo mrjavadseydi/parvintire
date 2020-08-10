@@ -17,6 +17,7 @@ class TransactionController extends CoreController
      */
     public function index()
     {
+        can('transactions');
         $title = 'تراکنش ها';
         $records = Transaction::status()->with('user')->latest()->paginate(50);
         return adminView('transactions.all', compact('records', 'title'));
@@ -41,7 +42,7 @@ class TransactionController extends CoreController
      */
     public function store(Request $request)
     {
-        can('createTag');
+        can('createTransaction');
         $request->validate(['tag' => 'required|max:191|unique:tags,tag']);
         $tag = Tag::create($request->all());
         session()->flash('success', 'با موفقیت درج شد');
@@ -56,7 +57,7 @@ class TransactionController extends CoreController
      */
     public function show($id)
     {
-        can('showTag');
+        can('showTransaction');
         //
     }
 
@@ -68,7 +69,7 @@ class TransactionController extends CoreController
      */
     public function edit($id)
     {
-        can('updateTag');
+        can('updateTransaction');
         $tag = Tag::find($id);
         return adminView('tags.edit', compact('tag'));
     }
@@ -82,18 +83,13 @@ class TransactionController extends CoreController
      */
     public function update(Request $request, $id)
     {
-        can('updateTag');
+        can('updateTransaction');
         $tag = Tag::find($id);
         $request->validate(['tag' => 'required|max:191|unique:tags,tag,' . $tag->id]);
         $tag->update($request->all());
         session()->flash('success', 'بروزرسانی با موفقیت انجام شد');
         $this->clearCache($id);
         return redirect(route('admin.tags.index'));
-    }
-
-    public function destroyConfirm($id) {
-        $record = Tag::find($id);
-        return adminView('tags.destroy', compact('record'));
     }
 
     /**
@@ -104,7 +100,7 @@ class TransactionController extends CoreController
      */
     public function destroy($id, Request $request)
     {
-        can('deleteTag');
+        can('deleteTransaction');
         $record = Tag::find($id);
         $record->delete();
         $this->clearCache($id);
@@ -114,44 +110,6 @@ class TransactionController extends CoreController
         }
 
         return redirect(route('admin.tags.index'));
-    }
-
-    public function search() {
-
-        $tag = null;
-        if (isset($_GET['term']))
-            $tag = $_GET['term'];
-
-        $tags = Tag::where('tag', 'like', "%{$tag}%")->limit(100)->get();
-
-        $output = [
-            'items' => []
-        ];
-
-        foreach ($tags as $tag) {
-            $output['items'][] = [
-                'id'  => $tag->tag,
-                'text' => $tag->tag,
-            ];
-        }
-
-        return response()->json($output);
-
-    }
-
-    public function clearCache($tagId) {
-        $this->menusClearCache($tagId);
-    }
-
-    public function menusClearCache($tagId) {
-
-        $cacheKeys = MenuMeta::where(['key' => 'cache', 'value' => "postsTags_" . $tagId])->pluck('more')->toArray();
-        foreach (array_unique($cacheKeys) as $cacheKey) {
-            if (Cache::has($cacheKey)) {
-                Cache::delete($cacheKey);
-            }
-        }
-
     }
 
 }

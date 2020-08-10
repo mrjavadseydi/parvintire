@@ -165,6 +165,12 @@ class FileController
                 'group_id' => $request->groupId
             ];
 
+            if ($request->has('fileId')) {
+                if (!empty($request->fileId)) {
+                    $where['id'] = $request->fileId;
+                }
+            }
+
             $getFile = \LaraBase\FileStore\Models\File::where($where);
 
             $oldFile = $getFile->first();

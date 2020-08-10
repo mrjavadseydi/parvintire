@@ -30,4 +30,10 @@ Route::group(['namespace' => 'LaraBase\Auth\Controllers'], function () {
         return redirect('login?signout');
     })->name('logout');
 
+    // api/login => api/auth
+    // api/register => api/auth
+    Route::group(['prefix' => 'api'], function () {
+
+    });
+
 });

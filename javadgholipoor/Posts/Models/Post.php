@@ -3,6 +3,11 @@
 namespace LaraBase\Posts\Models;
 
 use LaraBase\Attachments\Models\Attachment;
+use LaraBase\Attributes\Models\Attribute;
+use LaraBase\Attributes\Models\AttributeKey;
+use LaraBase\Attributes\Models\AttributeRelation;
+use LaraBase\Attributes\Models\AttributeValue;
+use LaraBase\Auth\Models\User;
 use LaraBase\CoreModel;
 use Cviebrock\EloquentSluggable\Sluggable;
 use LaraBase\FileStore\Models\File;
@@ -20,37 +25,7 @@ class Post extends CoreModel {
 
     protected $table = 'posts';
 
-    protected $fillable = [
-        'user_id',
-        'slug',
-        'title',
-        'excerpt',
-        'content',
-        'thumbnail',
-        'lang',
-        'parent',
-        'comments',
-        'views',
-        'post_type',
-        'status',
-        'final_status',
-        'published_at',
-        'deleted_at',
-        'created_at',
-        'updated_at',
-//        'image',
-//        'price',
-//        'stock',
-//        'unit_id',
-//        'unit_id',
-//        'parent',
-//        'course_type',
-//        'course_status',
-//        'teacher',
-//        'post_type',
-//        'code',
-//        'display',
-    ];
+    protected $guarded = [];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -83,6 +58,10 @@ class Post extends CoreModel {
         }
     }
 
+    /*
+     * relationShips
+     */
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'post_category', 'post_id');
@@ -101,6 +80,238 @@ class Post extends CoreModel {
     public function usersFavorite() {
         return $this->belongsToMany(User::class);
     }
+
+    /*
+     * relationShips
+     */
+
+    /*
+     * methods
+     */
+
+    public function attributes($onlyActive = false, $lang = 'fa')
+    {
+
+        // TODO 10Query Optimize
+        // TODO Please code method activeAttributes
+
+        if ($onlyActive) {
+            return $this->activeAttributes($lang);
+        }
+
+        $output = [];
+
+        $actives = PostAttribute::where([
+            'type' => 'post',
+            'post_id' => $this->id,
+            'active' => '1'
+        ])->get();
+
+        if ($onlyActive) {
+            if ($actives->count() == 0) {
+                return [];
+            }
+        }
+
+        $postTypeAttributes = AttributeRelation::where(['key' => 'attribute_postType', 'more' => $this->post_type])->get();
+        $attributes = Attribute::where(['type' => 'post'])->whereIn('id', $postTypeAttributes->pluck('value')->toArray())->get();
+        $attributes = $attributes->merge(Attribute::whereIn('parent', $attributes->pluck('id')->toArray())->get());
+
+        $attributeKeys = AttributeRelation::where('key', 'attribute_key')->whereIn('value', $postTypeAttributes->pluck('value')->toArray())->get();
+        $keys = AttributeKey::whereIn('id', $attributeKeys->pluck('more')->toArray())->get();
+        $keys = $keys->merge(AttributeKey::whereIn('parent', $keys->pluck('id')->toArray())->get());
+
+        $attributeValues = AttributeRelation::where('key', 'key_value')->whereIn('value', $attributeKeys->pluck('more')->toArray())->get();
+        $values = AttributeValue::whereIn('id', $attributeValues->pluck('more')->toArray())->get();
+        $values = $values->merge(AttributeValue::whereIn('parent', $values->pluck('id')->toArray())->get());
+
+        $filterAttributes = $attributes->where('lang', $lang)->filter();
+        foreach ($filterAttributes as $attribute) {
+
+            $attributeId = $attribute->id;
+            $isActiveAttribute = $actives->where('attribute_id', $attributeId)->count();
+            $showAttribute = true;
+
+            if ($onlyActive) {
+                if ($isActiveAttribute == 0) {
+                    $showAttribute = false;
+                }
+            }
+
+            if ($showAttribute) {
+
+                $keysArray = [];
+
+                if (empty($attribute->parent))
+                    $filterKeys = $keys->whereIn('id', $attributeKeys->where('value', $attributeId)->pluck('more')->toArray())->filter();
+                else
+                    $filterKeys = $keys->whereIn('parent', $attributeKeys->where('value', $attribute->parent)->pluck('more')->toArray())->filter();
+
+                foreach ($filterKeys as $key) {
+
+                    $keyId = $key->id;
+                    $isActiveKey = $actives->where('attribute_id', $attributeId)->where('key_id', $keyId)->count();
+                    $showKey = true;
+
+                    if ($onlyActive) {
+                        if ($isActiveKey == 0) {
+                            $showKey = false;
+                        }
+                    }
+
+                    if ($showKey) {
+
+                        $valuesArray = [];
+
+                        if (empty($key->parent))
+                            $filterValues = $values->whereIn('id', $attributeValues->where('value', $keyId)->pluck('more')->toArray())->filter();
+                        else
+                            $filterValues = $values->whereIn('parent', $attributeValues->where('value', $key->parent)->pluck('more')->toArray())->filter();
+
+                        foreach ($filterValues as $value) {
+
+                            $valueId = $value->id;
+                            $isActiveValue = $actives->where('attribute_id', $attributeId)->where('key_id', $keyId)->where('value_id', $valueId)->count();
+                            $showValue = true;
+
+                            if ($onlyActive) {
+                                if ($isActiveValue == 0) {
+                                    $showValue = false;
+                                }
+                            }
+
+                            if ($showValue) {
+
+                                $valuesArray[$valueId] = [
+                                    'id' => $valueId,
+                                    'title' => $value->title,
+                                    'active' => $isActiveValue
+                                ];
+
+                            }
+
+                        }
+
+                        $keysArray[$keyId] = [
+                            'id' => $keyId,
+                            'title' => $key->title,
+                            'values' => $valuesArray,
+                            'active' => $isActiveKey
+                        ];
+
+                    }
+
+                }
+
+                $output[$attributeId] = [
+                    'id' => $attributeId,
+                    'title' => $attribute->title,
+                    'keys' => $keysArray,
+                    'active' => $isActiveAttribute
+                ];
+
+            }
+
+        }
+
+        return $output;
+
+    }
+
+    public function activeAttributes($lang = 'fa') {
+
+        // TODO 10Query Optimize
+        // TODO Please code method activeAttributes
+
+        $output = [];
+
+        $actives = PostAttribute::where([
+            'type' => 'post',
+            'post_id' => $this->id,
+            'active' => '1'
+        ])->get();
+
+        if ($actives->count() == 0) {
+            return [];
+        }
+
+        $attributesIds = $actives->pluck('attribute_id')->toArray();
+        $attributes = Attribute::where(['type' => 'post'])->whereIn('id', $attributesIds)->get();
+        $keys = AttributeKey::whereIn('id', $actives->pluck('key_id')->toArray())->get();
+        $values = AttributeValue::whereIn('id', $actives->pluck('value_id')->toArray())->get();
+
+        if ($lang != 'fa') {
+            $attributes = $attributes->merge(Attribute::whereIn('parent', $attributes->pluck('id')->toArray())->get());
+            $keys = $keys->merge(AttributeKey::whereIn('parent', $keys->pluck('id')->toArray())->get());
+            $values = $values->merge(AttributeValue::whereIn('parent', $values->pluck('id')->toArray())->get());
+        }
+
+        $filterAttributes = $attributes->where('lang', $lang)->filter();
+        foreach ($filterAttributes as $attribute) {
+
+            $attributeId = $attribute->id;
+
+            $keysArray = [];
+
+            if (empty($attribute->parent))
+                $filterKeys = $keys->whereIn('id', $actives->where('attribute_id', $attributeId)->pluck('key_id')->toArray())->filter();
+            else
+                $filterKeys = $keys->whereIn('parent', $actives->where('attribute_id', $attribute->parent)->pluck('key_id')->toArray())->filter();
+
+            foreach ($filterKeys as $key) {
+
+                $keyId = $key->id;
+
+                $valuesArray = [];
+
+                if (empty($key->parent))
+                    $filterValues = $values->whereIn('id', $actives->where('key_id', $keyId)->pluck('value_id')->toArray())->filter();
+                else
+                    $filterValues = $values->whereIn('parent', $actives->where('key_id', $key->parent)->pluck('value_id')->toArray())->filter();
+
+                foreach ($filterValues as $value) {
+
+                    $valueId = $value->id;
+
+                    $valuesArray[$valueId] = [
+                        'id' => $valueId,
+                        'title' => $value->title
+                    ];
+
+                }
+
+                $keysArray[$keyId] = [
+                    'id' => $keyId,
+                    'title' => $key->title,
+                    'values' => $valuesArray
+                ];
+
+            }
+
+            $output[$attributeId] = [
+                'id' => $attributeId,
+                'title' => $attribute->title,
+                'keys' => $keysArray
+            ];
+
+        }
+
+        return $output;
+    }
+
+    /*
+     * methods
+     */
+
+    /*
+     * scopes
+     */
+
+
+
+    /*
+     * scopes
+     */
 
     public function fileGroups()
     {
@@ -400,6 +611,5 @@ class Post extends CoreModel {
         $postTypes = getPostTypes();
         $query->whereIn('post_type', $postTypes->where('search', '1')->pluck('type')->toArray());
     }
-
 
 }

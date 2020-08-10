@@ -9,7 +9,7 @@ function addSearch($keyword, $count)
 
         $mobileDetected = new MobileDetect();
 
-        if(!empty($q)) {
+        if(!empty($keyword)) {
             $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
             $bots = [
                 'bot',

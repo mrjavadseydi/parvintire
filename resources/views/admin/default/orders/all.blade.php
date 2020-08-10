@@ -1,5 +1,5 @@
 @extends("admin.{$adminTheme}.master")
-@section('title', 'سفارشات')
+@section('title', $title)
 
 @section('content')
 
@@ -23,8 +23,9 @@
                             <th></th>
                             <th>شناسه</th>
                             <th>کاربر</th>
-                            <th>مبلغ (تومان)</th>
+                            <th>مبلغ (ریال)</th>
                             <th>کد رهگیری</th>
+                            <th>درگاه</th>
                             <th>وضعیت</th>
                             <th>تاریخ</th>
                             <th>عملیات</th>
@@ -37,36 +38,31 @@
                         @endphp
 
                         @foreach($records as $record)
+                            <?php
+                                $user = $users->where('id', $record->user_id)->first();
+                            ?>
                             <tr>
                                 <td>{{ ++$i }}</td>
                                 <td>#{{ $record->id }}</td>
-                                <td>{{ \App\User::where('id', $record->user_id)->first()->name() }}</td>
-                                <td class="color-green">{{ $record->price() }}</td>
-                                <td class="color-orange">{{ $record->referenceId() }}</td>
-                                <td style="color: {{ config("status.orderStatus.{$record->status}.color") }}; background-color: {{ config("status.orderStatus.{$record->status}.lightColor") }};">{{ config("status.orderStatus.{$record->status}.title") }}</td>
-                                <td class="ltr">{{ $record->createdAt() }}</td>
+                                <td>{{ $user == null ? 'کاربر مهمان' : $user->name() }}</td>
+                                <td class="color-green">{{ number_format($record->payed_price) }}</td>
+                                <td class="color-orange">{{ $record->reference_id ?? '-' }}</td>
+                                <td title="{{ $record->gateway }}"><img width="50px" src="{{ image("gateway/{$record->gateway}.png") }}" alt="{{ $record->gateway }}"></td>
+                                <td style="color: {{ config("store.orderStatus.{$record->status}.color") }}; background-color: {{ config("store.orderStatus.{$record->status}.lightColor") }};">{{ config("store.orderStatus.{$record->status}.title") }}</td>
+                                <td class="ltr">{{ jDateTime('Y/m/d H:i:s', strtotime($record->created_at)) }}{!! $record->updated_at == null ? '' : ($record->created_at != $record->updated_at ? '<br>' . jDateTime('Y/m/d H:i:s', strtotime($record->updated_at)) : '') !!}</td>
                                 <td>
-                                    @if($record->status == 1)
-                                        <a class="btn-icon btn-icon-info icon-visibility toolip" title="مشاهده" href="{{ url("admin/orders/show/{$record->id}") }}"></a>
-                                    @endif
-                                    <a class="btn-icon btn-icon-success icon-pencil toolip" title="ویرایش" href="{{ url("admin/users/{$record->id}/edit") }}"></a>
-{{--                                    <a class="btn-icon btn-icon-danger icon-delete toolip" title="حذف" onclick="destroyRow('users/destroy', '{{ $record->id }}', this)"></a>--}}
+                                    <a class="btn-icon btn-icon-success icon-pencil toolip" title="مشاهده" href="{{ route("admin.orders.edit", $record) }}"></a>
                                 </td>
                             </tr>
                         @endforeach
-
                         </tbody>
                     </table>
                 </div>
 
                 <div class="tac pt15">
-                    {!! $records->render() !!}
+                    {!! $records->appends($_GET)->links() !!}
                 </div>
 
-            </div>
-
-            <div class="box-footer tal">
-                <a href="{{ route('admin.users.roles.create') }}" class="btn-lg btn-primary">افزودن نقش جدید</a>
             </div>
 
         </div>
