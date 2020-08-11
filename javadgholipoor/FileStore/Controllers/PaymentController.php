@@ -14,8 +14,6 @@ class PaymentController extends CoreController
     public function payment(Request $request)
     {
 
-        return 'mahdi akbari';
-
         $output = validate($request, ['postId' => 'required']);
 
         if ($output['status'] == 'success') {
@@ -30,16 +28,22 @@ class PaymentController extends CoreController
                     $output['message'] = 'لطفا پارامترهای استاندارد را تغییر ندهید';
                 } else {
 
-                    $userId = auth()->id();
-                    $product = Product::where('post_id', $postId)->first();
-                    $transaction = addTransaction($userId, 'course', $postId, $product->price, $request->gateway ?? null);
-                    $output['url'] = $transaction->url();
-                    $output['status'] = 'success';
+                    if (Transaction::where(['relation' => 'course', 'relation_id' => $post->id, 'status' => '1'])->exists()) {
+                        $output['message'] = 'قبلا پرداخت شده است';
+                    } else {
+                        $userId = auth()->id();
+                        $product = Product::where('post_id', $postId)->first();
+                        $transaction = addTransaction($userId, 'course', $postId, toIRR($product->price()), $request->gateway ?? null);
+                        $output['url'] = $transaction->url();
+                        $output['status'] = 'success';
+                    }
 
                 }
 
             } else {
-                $output['message'] = 'لطفا برای انجام پرداخت ابتدا وارد سایت شوید و یا در سایت ثبت نام کنید';
+                $login = '<a href="'.route('login').'" clss="text-danger">وارد سایت شوید</a>';
+                $register = '<a href="'.route('register').'" clss="text-success">ثبت نام</a>';
+                $output['message'] = "لطفا برای انجام پرداخت ابتدا {$login} و یا در سایت {$register} کنید";
             }
 
         }

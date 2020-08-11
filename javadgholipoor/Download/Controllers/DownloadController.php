@@ -2,6 +2,7 @@
 
 namespace LaraBase\Download\Controllers;
 
+use Illuminate\Support\Facades\Session;
 use LaraBase\Attachments\Models\Attachment;
 use LaraBase\CoreController;
 use LaraBase\FileStore\Models\File;
