@@ -2,7 +2,7 @@
 @section('title', 'سبدخرید | آدرس')
 @section('content')
 
-    <div class="container-fluid px-6 py-3">
+    <div class="container py-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent">
                 <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>
@@ -42,7 +42,7 @@
 {{--                    </div>--}}
                 </div>
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="row">
                             <div class="provinceParent col-md-3">
                                 <div class="input-group">
@@ -115,12 +115,12 @@
                             <div class="col-md-12 mt-3 mt-md-0">
                                 <div class="input-group">
                                     <label>توضیحات</label>
-                                    <textarea rows="10" name="description" class="form-control rounded ltr text-left w-100"></textarea>
+                                    <textarea rows="12" name="description" class="form-control rounded ltr text-left w-100"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="col-md-12 mt-3">
                             <div class="input-group">
                                 <label>موقعیت روی نقشه</label>
@@ -138,7 +138,7 @@
                             </style>
                             <div class="row">
                                 <div class="col-12">
-                                    <div id="map" style="position: relative !important; width: 100%; height:400px; z-index: 0; overflow: hidden;"></div>
+                                    <div id="map" style="position: relative !important; width: 100%; height:500px; z-index: 0; overflow: hidden;"></div>
                                 </div>
                             </div>
                             <div class="row d-none">

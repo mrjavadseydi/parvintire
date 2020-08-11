@@ -33,6 +33,11 @@
                 {!! session()->get('error') !!}
             </div>
         @endif
+        @if($transaction != null)
+            <div class="alert alert-success">
+                این پادکست با موفقیت برای شما فعال شده است
+            </div>
+        @endif
         <div class="bg-white border rounded p-3 d-flex flex-wrap flex-md-nowrap">
             <img width="25%" height="100%" class="w-100-sm mb-3 mb-md-0" src="{{ $post->thumbnail(350, 350) }}" alt="{{ $post->title }}">
             <div class="pr-0 pr-md-3 flex-fill">
@@ -76,6 +81,21 @@
                 </p>
             </div>
         </div>
+
+        @if($product->price > 0)
+            @if($transaction == null)
+                <div class="bg-white border rounded p-3 mt-3 text-center">
+                    <h5 class="text-center">این پادکست نقدی می باشد. برای فعال سازی تمام پادکست ها باید هزینه آن را پرداخت کنید.</h5>
+                    <h4 class="text-center iransansFa py-3">مبلغ قابل پرداخت:
+                        @if($product->discount() > 0)
+                            <del class="text-danger">{{ number_format($product->discount() + $product->price()) }}</del>
+                        @endif
+                        <b class="text-success">{{ number_format($product->price()) }} تومان</b>
+                    </h4>
+                    <span class="btn btn-success pointer payment-course-button">پرداخت آنلاین</span>
+                </div>
+            @endif
+        @endif
         <div class="row">
             <div class="col-md-4">
                 @include(includeTemplate('sections.downloadBox'), ['title' => 'پادکست ها'])

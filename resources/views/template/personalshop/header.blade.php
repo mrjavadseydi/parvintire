@@ -150,3 +150,6 @@
         </nav>
     </div>
 </header>
+<span class="cart-box align-middle mr-2 cart-view-1 d-none">
+    @include(includeTemplate('order.cart-header'))
+</span>

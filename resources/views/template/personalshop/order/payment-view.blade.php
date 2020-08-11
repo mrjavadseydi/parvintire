@@ -24,7 +24,7 @@ if ($address != null) {
     $textAddress .= $address->address;
 }
 ?>
-<div class="container-fluid px-6 py-3 iransansFa cart">
+<div class="container py-3 iransansFa cart">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>

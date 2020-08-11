@@ -10,17 +10,23 @@ if ($cart['carts'] != null) {
     }
 }
 ?>
+@csrf
 <input type="hidden" name="productId" value="{{ $product->product_id }}">
 <input type="hidden" name="view1" value="order.cart-header">
 <input type="hidden" name="view2" value="pages.product.add-to-cart">
-<div class="d-flex {{ $productCount > 0 ? '' : 'invisible' }}  count">
-    <i class="plus-count d-block fal fa-plus"></i>
-    <span class="counter" val="{{ $productCount }}">{{ $productCount }} عدد</span>
-    <input type="hidden" name="count" value="{{ $productCount }}">
-    @if($productCount == 1)
-        <i id="{{ $product->product_id }}" class="mines-count d-block fal fa-trash-alt text-danger"></i>
-    @else
-        <i id="{{ $product->product_id }}" class="mines-count d-block fal fa-minus"></i>
+<div class="d-flex">
+    <div class="d-flex {{ $productCount > 0 ? '' : 'invisible' }}  count">
+        <i class="plus-count d-block fal fa-plus"></i>
+        <span class="counter" val="{{ $productCount }}">{{ $productCount }} عدد</span>
+        <input type="hidden" name="count" value="{{ $productCount }}">
+        @if($productCount == 1)
+            <i id="{{ $product->product_id }}" class="mines-count d-block fal fa-trash-alt text-danger"></i>
+        @else
+            <i id="{{ $product->product_id }}" class="mines-count d-block fal fa-minus"></i>
+        @endif
+    </div>
+    @if($productCount > 0)
+        <a href="{{ route('cart') }}" class="btn btn-warning mr-3 d-flex align-items-center"><span>تسویه حساب</span></a>
     @endif
 </div>
 <div>

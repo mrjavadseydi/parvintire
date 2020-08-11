@@ -2,8 +2,13 @@
 @section('content')
     <?php
         $href = url('/');
+        $text = 'مشاهده فاکتور';
         if ($transaction->relation == 'order') {
             $href = url('profile/orders/'.$transaction->relation_id);
+        } else if ($transaction->relation == 'course') {
+            $post = \LaraBase\Posts\Models\Post::find($transaction->relation_id);
+            $href = $post->href();
+            $text = 'برگشت و دانلود فایل ها';
         }
     ?>
     <div class="container py-3 d-flex justify-content-center">
@@ -32,7 +37,7 @@
                 </div>
                 <div class="d-flex justify-content-center">
                     <a href="{{ url('/') }}" class="btn btn-outline-warning ml-2">برگشت به خانه</a>
-                    <a href="{{ $href }}" class="btn btn-outline-warning">مشاهده فاکتور</a>
+                    <a href="{{ $href }}" class="btn btn-outline-warning">{{ $text }}</a>
                 </div>
             </div>
         </div>

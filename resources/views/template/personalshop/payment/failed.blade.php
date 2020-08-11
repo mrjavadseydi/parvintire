@@ -6,6 +6,10 @@
         if ($transaction->relation == 'order') {
             $href = url('cart/payment');
             $text = 'بازگشت به صفحه پرداخت';
+        } else if ($transaction->relation == 'course') {
+            $post = \LaraBase\Posts\Models\Post::find($transaction->relation_id);
+            $href = $post->href();
+            $text = 'بازگشت به صفحه قبل';
         }
     ?>
     <div class="container py-3 d-flex justify-content-center">

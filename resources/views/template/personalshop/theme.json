@@ -65,7 +65,8 @@
                 "version": "1.5.1",
                 "files": [
                     "leaflet.js",
-                    "leaflet-providers.js"
+                    "leaflet-providers.js",
+                    "leaflet.css"
                 ]
             }
         },

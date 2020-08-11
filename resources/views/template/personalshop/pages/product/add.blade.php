@@ -12,6 +12,7 @@
     }
     ?>
     <form id="get-product-form" action="{{ route('getProduct') }}" method="post" class="attributes border-bottom pb-3 pb-md-5">
+        @csrf
         <input type="hidden" name="postId" value="{{ $post->id }}">
         <input type="hidden" name="view1" value="pages.product.add">
         @foreach($products['attributes'] as $attribute)
@@ -46,6 +47,7 @@
         @endforeach
     </form>
     <form id="single-add-to-cart-form" method="post" action="{{ route('addToCart') }}" class="cart-view-2 addToCart pricing d-flex justify-content-between align-items-end py-3">
+        @csrf
         @include(includeTemplate('pages.product.add-to-cart'))
     </form>
     <div class="unstock py-3 d-none">

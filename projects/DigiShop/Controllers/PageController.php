@@ -8,6 +8,7 @@ use LaraBase\Auth\Models\User;
 use LaraBase\Categories\Models\Category;
 use LaraBase\CoreController;
 use LaraBase\Options\Models\Option;
+use LaraBase\Payment\Models\Transaction;
 use LaraBase\Posts\Models\Post;
 use LaraBase\Posts\Models\PostAttribute;
 use LaraBase\Store\Models\Product;
@@ -116,6 +117,7 @@ class PageController extends CoreController
         $gallery = $post->gallery();
         $comments = $post->comments();
         $attributes = $post->attributes();
+        $transaction = Transaction::where(['relation' => 'course', 'relation_id' => $post->id, 'status' => '1'])->first();
 
         return templateView('pages.podcast', compact(
             'product',
@@ -125,7 +127,8 @@ class PageController extends CoreController
             'tags',
             'product',
             'comments',
-            'user'
+            'user',
+            'transaction'
         ));
     }
 

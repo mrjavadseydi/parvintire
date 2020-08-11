@@ -78,6 +78,7 @@
                         <div class="d-flex icons align-items-center position-relative">
                             @if(auth()->check())
                             <form onSuccess="favorite" method="post" class="ajaxForm" action="{{ route('posts.favorite') }}">
+                                @csrf
                                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                                 <button id="favorite" class="text-muted {{ $post->isFavorite() ? 'fa' : 'far' }} fa-heart"></button>
                                 <script>
@@ -91,9 +92,7 @@
                                 </script>
                             </form>
                             @endif
-                            <i id="share" data-toggle="dropdown" class="text-muted far fa-share-alt mr-2 position-relative">
-
-                            </i>
+                            <i id="share" data-toggle="dropdown" class="text-muted far fa-share-alt mr-2 position-relative"></i>
                             <div class="dropdown-menu single-share-dropdown iransans" aria-labelledby="share">
                                 <?php
                                 $title = $post->title;

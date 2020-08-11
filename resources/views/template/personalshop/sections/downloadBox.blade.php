@@ -84,6 +84,7 @@
                     @endif
                     <h4 class="text-success text-center">{{ number_format($product->price()) }} تومان</h4>
                 </div>
+                <div class="payment-error text-center mt-3"></div>
             </div>
             <div class="modal-footer">
                 <span class="btn btn-danger" data-dismiss="modal">بستن</span>
@@ -98,12 +99,18 @@
         $('#payment-course-modal').modal();
     });
     $('#payment-course-form-submit').click(function () {
+        $('.payment-error').html('');
         if($(this).text() != 'درحال انتقال به درگاه پرداخت...') {
             $(this).text('درحال انتقال به درگاه پرداخت...');
             $('#payment-course-modal').submit();
         }
     });
-    function coursePayment() {
-
+    function coursePayment(response) {
+        if (response.status == 'success') {
+            window.location = response.url;
+        } else {
+            $('.payment-error').html(response.message);
+            $('#payment-course-form-submit').text('پرداخت آنلاین');
+        }
     }
 </script>
