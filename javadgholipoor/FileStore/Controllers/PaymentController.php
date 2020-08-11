@@ -14,8 +14,6 @@ class PaymentController extends CoreController
     public function payment(Request $request)
     {
 
-        return 'mahdi akbari';
-
         $output = validate($request, ['postId' => 'required']);
 
         if ($output['status'] == 'success') {

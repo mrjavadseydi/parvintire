@@ -69,7 +69,7 @@
     </div>
 @endif
 
-<form onSuccess="coursePayment" method="post" action="{{ url('payment/course') }}" id="payment-course-modal" class="modal fade ajaxForm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<form onSuccess="coursePayment" method="post" action="{{ url('api/payment/course') }}" id="payment-course-modal" class="modal fade ajaxForm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <input type="hidden" name="postId" value="{{ $post->id }}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -94,7 +94,6 @@
 </form>
 
 <script>
-    $('#payment-course-modal').modal();
     $('.payment-course-button').click(function () {
         $('#payment-course-modal').modal();
     });
