@@ -19,10 +19,16 @@
     </style>
 </head>
 <body class="@yield('header', 'header')">
-    @include(includeTemplate('header'))
+    <?php
+        $personalShop = 1;
+        $getPersonalShop = getOption('personalShop');
+        if (!empty($getPersonalShop))
+            $personalShop = $getPersonalShop;
+    ?>
+    @include(includeTemplate('header'.$personalShop))
     <main>
         @yield('content')
     </main>
-    @include(includeTemplate('footer'))
+    @include(includeTemplate('footer'.$personalShop))
 </body>
 </html>

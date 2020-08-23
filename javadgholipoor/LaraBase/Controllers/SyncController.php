@@ -157,7 +157,7 @@ class SyncController extends CoreController
             Option::create(['key' => $key, 'value' => $version, 'more' => 'autoload']);
         }
 
-        return uploadFiles(getRepository('sync/larabase'), [
+        return uploadFiles(getRepository('api/v1/sync/larabase'), [
             'file' => base_path("downloads/apps/LaraBase/{$fileName}")
         ], [
             'token' => $this->masterToken,
@@ -184,7 +184,7 @@ class SyncController extends CoreController
             Option::create(['key' => $key, 'value' => $version, 'more' => 'autoload']);
         }
 
-        return uploadFiles(getRepository('sync/project'), [
+        return uploadFiles(getRepository('api/v1/sync/project'), [
             'file' => base_path("downloads/apps/{$appName}/{$fileName}")
         ], [
             'token' => $this->masterToken,
@@ -214,7 +214,7 @@ class SyncController extends CoreController
             "resources/views/{$type}/{$name}/theme.json",
         ], []);
 
-        return uploadFiles(getRepository('sync/theme'), [
+        return uploadFiles(getRepository('api/v1/sync/theme'), [
             'file' => base_path("downloads/themes/{$type}/{$name}/{$fileName}")
         ], [
             'token' => $this->masterToken,

@@ -63,6 +63,7 @@
                                         <td>
                                             <div class="counter">
                                                 <form class="d-inline-block addToCart" method="post" action="{{ route('addToCart') }}?page=cart">
+                                                    @csrf
                                                     <input type="hidden" name="productId" value="{{ $product->product_id }}">
                                                     <input type="hidden" name="view1" value="order.cart-header">
                                                     <input type="hidden" name="view2" value="order.include-cart">
@@ -70,6 +71,7 @@
                                                 </form>
                                                 <button>{{ $c->count }}</button>
                                                 <form class="d-inline-block deleteFromCart" method="post" action="{{ route('deleteFromCart') }}?page=cart">
+                                                    @csrf
                                                     <input type="hidden" name="productId" value="{{ $product->product_id }}">
                                                     <input type="hidden" name="view1" value="order.cart-header">
                                                     <input type="hidden" name="view2" value="order.include-cart">

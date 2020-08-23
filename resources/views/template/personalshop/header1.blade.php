@@ -22,9 +22,13 @@
                 </li>
             </ul>
             <ul class="main-menu">
-                <a target="{{ $logo['target'] }}" href="{{ $logo['href'] }}">
-                    <figure class="d-block d-md-none text-center py-3 border-bottom">
-                        <img height="60px" src="{{ $logo['src'] }}" alt="{{ $logo['alt'] }}">
+                <a class="d-block d-md-none" target="{{ $logo['target'] }}" href="{{ $logo['href'] }}">
+                    <figure class="d-flex align-items-center justify-content-center py-3 border-bottom">
+                        <img class="logo" src="{{ $logo['src'] }}" alt="{{ $logo['alt'] }}">
+                        <figcaption class="d-flex flex-column mr-2">
+                            <h1 class="h4 text-black-50 mb-1">{{ getOption('name') }}</h1>
+                            <h2 class="h6 text-black-50">{{ getOption('personal-skill-title') }}</h2>
+                        </figcaption>
                     </figure>
                 </a>
                 @foreach(getMenu(false, getOption('digishopMainMenu')) as $menu)
@@ -35,28 +39,45 @@
                         </a>
                         @if(isset($menu['list']))
                             <i class="dropdown-icon fal fa-angle-down align-middle"></i>
-                            <div class="dropdown d-flex justify-content-between">
-                                @foreach($menu['list'] as $menu2)
+                            @if(empty($menu['class']))
+                                <div class="dropdown simple">
                                     <div class="list px-2">
-                                        <h2 class="h6 py-1"><a href="{{ $menu2['link'] }}">{{ $menu2['title'] }}</a></h2>
-                                        @if(isset($menu2['list']))
-                                            <ul class="py-1">
-                                                @foreach($menu2['list'] as $menu3)
-                                                    <li>
-                                                        <a href="{{ $menu3['link'] }}">
-                                                            <i class="fa fa-angle-left"></i>
-                                                            <span>{{ $menu3['title'] }}</span>
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                        <figure>
-                                            <img width="100%" class="rounded" src="{{ url($menu2['image']) }}" alt="{{ $menu2['title'] }}">
-                                        </figure>
+                                        <ul class="py-1">
+                                            @foreach($menu['list'] as $menu2)
+                                                <li>
+                                                    <a href="{{ $menu2['link'] }}">
+                                                        <i class="fa fa-angle-left"></i>
+                                                        <span>{{ $menu2['title'] }}</span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
                                     </div>
-                                @endforeach
-                            </div>
+                                </div>
+                            @else
+                                <div class="dropdown d-flex justify-content-between">
+                                    @foreach($menu['list'] as $menu2)
+                                        <div class="list px-2">
+                                            <h2 class="h6 py-1"><a href="{{ $menu2['link'] }}">{{ $menu2['title'] }}</a></h2>
+                                            @if(isset($menu2['list']))
+                                                <ul class="py-1">
+                                                    @foreach($menu2['list'] as $menu3)
+                                                        <li>
+                                                            <a href="{{ $menu3['link'] }}">
+                                                                <i class="fa fa-angle-left"></i>
+                                                                <span>{{ $menu3['title'] }}</span>
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                            <figure>
+                                                <img width="100%" class="rounded" src="{{ url($menu2['image']) }}" alt="{{ $menu2['title'] }}">
+                                            </figure>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         @endif
                     </li>
                 @endforeach

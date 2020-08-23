@@ -73,6 +73,7 @@
             <div class="col-md-3">
                 <h4 class="h6">عضویت در خبرنامه</h4>
                 <form clear="#nl1, #nl2, #nl3" method="post" class="newsletters ajaxForm ajaxForm-iziToast" action="{{ route('addNewsLetters') }}">
+                    @csrf
                     <input id="nl1" name="name" placeholder="نام و نام خانوادگی " type="text">
                     <input id="nl2" name="mobile" placeholder="موبایل" type="text">
                     <input id="nl3" name="email" placeholder="ایمیل" type="text">

@@ -462,3 +462,20 @@ header {
         }
     }
 }
+
+.dropdown.simple {
+    left: auto;
+    right: auto;
+    min-width: 150px;
+}
+
+a.light {
+    background: var(--main-color-light);
+    border-radius: 50px;
+    padding: 0 15px;
+
+    &:hover {
+        background: var(--main-color);
+        color: white !important;
+    }
+}

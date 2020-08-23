@@ -19,9 +19,9 @@
 @endsection
 @section('content')
     <?php
-        $price = $product->price();
-        $discount = $product->discount();
-        $percent = intval(100 - ($price * 100 / ($price+$discount)));
+    $price = $product->price();
+    $discount = $product->discount();
+    $percent = intval(100 - ($price * 100 / ($price+$discount)));
     ?>
     <div class="d-none">
         @foreach($gallery as $meta)
@@ -31,7 +31,7 @@
         @endforeach
     </div>
     <div class="product py-3">
-        <div class="container px-6">
+        <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>
@@ -72,28 +72,27 @@
                             <i class="diamond fa fa-diamond"></i>
                             <div>
                                 <h1 class="title">{{ $post->title }}</h1>
-                                <h2 class="brand">نام برند :‌ {{ $brand }}</h2>
+                                {{--                                <h2 class="brand">نام برند : {{ $brand }}</h2>--}}
                             </div>
                         </div>
                         <div class="d-flex icons align-items-center position-relative">
                             @if(auth()->check())
-                            <form onSuccess="favorite" method="post" class="ajaxForm" action="{{ route('posts.favorite') }}">
-                                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                                <button id="favorite" class="text-muted {{ $post->isFavorite() ? 'fa' : 'far' }} fa-heart"></button>
-                                <script>
-                                    function favorite(response) {
-                                        if(response.active) {
-                                            $('#favorite').addClass('fa').removeClass('far');
-                                        } else {
-                                            $('#favorite').addClass('far').removeClass('fa');
+                                <form onSuccess="favorite" method="post" class="ajaxForm" action="{{ route('posts.favorite') }}">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                    <button id="favorite" class="text-muted {{ $post->isFavorite() ? 'fa' : 'far' }} fa-heart"></button>
+                                    <script>
+                                        function favorite(response) {
+                                            if(response.active) {
+                                                $('#favorite').addClass('fa').removeClass('far');
+                                            } else {
+                                                $('#favorite').addClass('far').removeClass('fa');
+                                            }
                                         }
-                                    }
-                                </script>
-                            </form>
+                                    </script>
+                                </form>
                             @endif
-                            <i id="share" data-toggle="dropdown" class="text-muted far fa-share-alt mr-2 position-relative">
-
-                            </i>
+                            <i id="share" data-toggle="dropdown" class="text-muted far fa-share-alt mr-2 position-relative"></i>
                             <div class="dropdown-menu single-share-dropdown iransans" aria-labelledby="share">
                                 <?php
                                 $title = $post->title;

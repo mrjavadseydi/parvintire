@@ -72,7 +72,7 @@
                             <i class="diamond fa fa-diamond"></i>
                             <div>
                                 <h1 class="title">{{ $post->title }}</h1>
-{{--                                <h2 class="brand">نام برند :‌ {{ $brand }}</h2>--}}
+{{--                                <h2 class="brand">نام برند : {{ $brand }}</h2>--}}
                             </div>
                         </div>
                         <div class="d-flex icons align-items-center position-relative">

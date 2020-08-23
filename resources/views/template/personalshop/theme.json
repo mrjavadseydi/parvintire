@@ -1,7 +1,7 @@
 {
     "name": "personalshop",
     "type": "template",
-    "version": "11",
+    "version": "25",
     "support": {
         "name": "javadGholipoor",
         "email": "apkmaker74@gmail.com",
@@ -112,6 +112,18 @@
                 "description": "",
                 "key": "digishopPeronRight",
                 "more": "autoload"
+            },
+            {
+                "title": "تصویر پارالاکس صفحه اصلی",
+                "description": "",
+                "key": "digishopHomeParallax",
+                "more": "autoload"
+            },
+            {
+                "title": "تصویر بالای مقالات صفحه اصلی",
+                "description": "",
+                "key": "digishopHomeImageLink",
+                "more": "autoload"
             }
         ],
         "values": [
@@ -164,6 +176,18 @@
                 "more": "autoload"
             },
             {
+                "title": "اسلایدر صفحه اصلی",
+                "description": "ایدی دسته بندی را وارد کنید",
+                "key": "digishopHomeSliderCatId",
+                "more": "autoload"
+            },
+            {
+                "title": "مهارت",
+                "description": "",
+                "key": "personal-skill-title",
+                "more": "autoload"
+            },
+            {
                 "title": "عنوان متن اول توضیحات شخص",
                 "description": "",
                 "key": "personal-title-1",
@@ -206,6 +230,18 @@
                 "more": "autoload"
             },
             {
+                "title": "دسته های جدیدترین محصولات صفحه اصلی",
+                "description": "آیدی دسته ها را وارد کنید. با کاما , جدا شود",
+                "key": "digishopHomeLatestProducts",
+                "more": "autoload"
+            },
+            {
+                "title": "دسته های محصولات دانلودی صفحه اصلی",
+                "description": "آیدی دسته ها را وارد کنید. با کاما , جدا شود",
+                "key": "digishopHomeLatestFiles",
+                "more": "autoload"
+            },
+            {
                 "title": "دسته های سایر توانایی ها",
                 "description": "آیدی دسته ها را وارد کنید. با کاما , جدا شود",
                 "key": "digishopHomeOtherSkill",
@@ -227,6 +263,18 @@
                 "title": "فهرست شبکه های اجتماعی فوتر",
                 "description": "آیدی فهرست را وارد کنید",
                 "key": "digishopFooterSocial",
+                "more": "autoload"
+            },
+            {
+                "title": "آیدی فهرست خدمات مشاوره",
+                "description": "آیدی فهرست را وارد کنید",
+                "key": "digishopConsultingMenuId",
+                "more": "autoload"
+            },
+            {
+                "title": "آیدی فهرست سوابق کاری",
+                "description": "آیدی فهرست را وارد کنید",
+                "key": "digishopResumeMenuId",
                 "more": "autoload"
             }
         ]

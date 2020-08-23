@@ -10,6 +10,7 @@ if ($cart['carts'] != null) {
     }
 }
 ?>
+@csrf
 <input type="hidden" name="productId" value="{{ $product->product_id }}">
 <input type="hidden" name="view1" value="order.cart-header">
 <input type="hidden" name="view2" value="pages.product.add-to-cart">

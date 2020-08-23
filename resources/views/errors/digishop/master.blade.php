@@ -21,8 +21,17 @@
 
 <body>
 
-@include("template.{$templateTheme}.header")
-
+<?php
+$personalShop = 1;
+$getPersonalShop = getOption('personalShop');
+if (!empty($getPersonalShop))
+    $personalShop = $getPersonalShop;
+?>
+@if($templateTheme == 'personalshop')
+    @include("template.{$templateTheme}.header".$personalShop)
+@else
+    @include("template.{$templateTheme}.header")
+@endif
 <main class="py-3">
     <div class="container-fluid px-6">
         <div class="row">
@@ -67,8 +76,10 @@
         </div>
     </div>
 </main>
-
-@include("template.{$templateTheme}.footer")
-
+@if($templateTheme == 'personalshop')
+    @include("template.{$templateTheme}.footer".$personalShop)
+@else
+    @include("template.{$templateTheme}.footer")
+@endif
 </body>
 </html>

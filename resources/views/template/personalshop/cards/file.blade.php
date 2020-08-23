@@ -9,7 +9,6 @@
         </a>
         <a href="{{ $post->href() }}">
             <figcaption class="py-3 iransansMedium">{{ $post->title }}</figcaption>
-            <i class="play fa fa-play"></i>
         </a>
     </figure>
     <div class="d-flex align-items-center py-3 iransansFa justify-content-center">

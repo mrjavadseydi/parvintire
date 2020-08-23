@@ -76,6 +76,7 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <form class="ml-3 addToCart" method="post" action="{{ route('addToCart') }}">
+                            @csrf
                             <input type="hidden" name="productId" value="{{ $product->product_id }}">
                             <input type="hidden" name="view1" value="order.cart-header">
                             <button><i class="fal fa-cart-plus ml-2 align-middle"></i>افزودن به سبد خرید</button>

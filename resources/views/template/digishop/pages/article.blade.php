@@ -74,12 +74,14 @@
                 <h6>امتیاز شما این مقاله</h6>
                 <div class="likes d-flex align-items-center">
                     <form onSuccess="onLike" method="post" action="{{ route('posts.like') }}" class="ajaxForm" action="{{ route('posts.like') }}">
+                        @csrf
                         <input type="hidden" name="type" value="1">
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
                         <button class="like-icon fa fa-thumbs-up like {{ $post->isLike('active') }}"></button>
                         <small class="like-count iransansFa">{{ $post->likes() }}</small>
                     </form>
                     <form onSuccess="onDisLike" method="post" action="{{ route('posts.like') }}" class="ajaxForm mr-1">
+                        @csrf
                         <input type="hidden" name="type" value="0">
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
                         <button class="dislike-icon fa fa-thumbs-down dislike {{ $post->isDislike('active') }}"></button>

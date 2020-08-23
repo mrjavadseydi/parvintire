@@ -22,6 +22,7 @@
                     @include(includeTemplate('divider.3'), ['title' => 'با ما در ارتباط باشید'])
                 </div>
                 <form action="{{  route('addComment') }}" method="post" clear="#c1, #c2, #c3, #c4" class="row ajaxForm ajaxForm-iziToast">
+                    @csrf
                     <div class="col-md-5">
                         <div class="d-flex">
                             <i class="i far fa-phone-volume"></i>

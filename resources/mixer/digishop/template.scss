@@ -220,6 +220,10 @@ img {
     color: var(--main-color);
 }
 
+.text-main-color-light {
+    color: var(--main-color-light);
+}
+
 .w-100-sm {
     @include media-breakpoint-down('md') {
         width: 100% !important;
@@ -232,4 +236,18 @@ img {
 
 .leaflet-control-zoom {
     text-align: center !important;
+
+    a {
+        text-align: center !important;
+    }
+}
+
+.certificate {
+    i {
+        font-size: 5em;
+    }
+}
+
+.border-radius-10 {
+    border-radius: 20px;
 }
