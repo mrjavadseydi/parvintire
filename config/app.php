@@ -209,6 +209,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         LaraBase\RouteServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
     ],
 

@@ -80,7 +80,8 @@ class Manager {
     public function setPatterns($patterns)
     {
        return $this->httpRequest(getRepository('api/sms/createPatterns/'. env('APP_KEY')), [
-           'patterns' => json_encode($patterns)
+           'patterns' => json_encode($patterns),
+           'url' => url('')
        ]);
     }
 

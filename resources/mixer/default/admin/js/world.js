@@ -13,7 +13,7 @@ $(document).ready(function () {
         $(document).on('change', '#world-province-select', function () {
 
             var id   = $(this).val();
-            var _url = '/api/world/city/' + id;
+            var _url = '/api/v1/world/city/' + id;
 
             $('#world-city-select, #world-town-select').html('<option value="">انتخاب کنید</option>').trigger('change');
 
@@ -73,7 +73,7 @@ $(document).ready(function () {
 
             if (id != '') {
 
-                var _url = '/api/world/region/' + id;
+                var _url = '/api/v1/world/town/' + id;
 
                 $('select[find="town_id"]').html('<option value="">انتخاب کنید</option>').trigger('change');
 

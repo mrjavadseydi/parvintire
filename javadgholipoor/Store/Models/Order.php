@@ -4,6 +4,7 @@ namespace LaraBase\Store\Models;
 
 use LaraBase\Auth\Models\User;
 use LaraBase\CoreModel;
+use LaraBase\Payment\Models\Transaction;
 use LaraBase\Posts\Models\Post;
 use ShippingWorld;
 
@@ -58,6 +59,26 @@ class Order extends CoreModel
     public function shippings()
     {
         return OrderShipping::where('order_id', $this->id)->get();
+    }
+
+    public function shippingStatuses()
+    {
+        return $this->hasMany(OrderShippingStatus::class);
+    }
+
+    public function shippingStatus()
+    {
+        return $this->hasOne(OrderShippingStatus::class);
+    }
+
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'relation', 'relation');
+    }
+
+    public function transaction($status = 1)
+    {
+        return Transaction::where('status', $status)->first();
     }
 
     public function carts()

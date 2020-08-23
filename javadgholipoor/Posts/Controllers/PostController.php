@@ -255,9 +255,9 @@ class PostController extends CoreController
                     "🚫 در مطلب شما مواردی دیده شده که نیازمند تغییر می باشد",
                     "<a href='".url("admin/posts/{$post->id}/edit")."'>{$post->title}</a>"
                 ])->tags(['needChange', 'post_'.$post->id])->sendToGroup();
+                $post->updateMeta('needChange', $request->needChange);
             }
             if (in_array($request->status, $publishedStatuses)) {
-                $post->updateMeta('needChange', $request->needChange);
                 $post->deleteMeta(false, 'needChange');
             }
         } else {

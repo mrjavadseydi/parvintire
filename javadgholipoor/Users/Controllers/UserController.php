@@ -66,7 +66,8 @@ class UserController extends AuthCore
         if ($request->ajax()) {
             return [
                 'status' => 'success',
-                'message' => 'کاربر با موفقیت افزوده شد'
+                'message' => 'کاربر با موفقیت افزوده شد',
+                'user' => $user
             ];
         }
         session()->flash('success', 'عملیات ثبت کاربر جدید با موفقیت انجام شد');
@@ -113,7 +114,42 @@ class UserController extends AuthCore
      */
     public function show($id)
     {
-        //
+
+        $this->apiSecurity('showUser');
+        $user = User::find($id);
+
+        $roles = [];
+        foreach ($user->roles() as $role)
+            $roles[] = $role->id;
+
+        $more = [
+            'avatar' => $user->avatar(),
+            'birthday' => $user->birthday == null ? null : toEnglish(jDateTime('Y/m/d', strtotime($user->birthday))),
+            'status' => 'success',
+            'roles' => $roles,
+            'walletCredit' => getWalletCredit($user->id),
+            'metas' => [
+                'phone' => null,
+                'nationalCode' => null,
+                'postalCode' => null,
+                'provinceId' => null,
+                'cityId' => null,
+                'townId' => null,
+                'regionId' => null,
+            ]
+        ];
+
+        foreach ($user->metas() as $meta) {
+            $more['metas'][$meta->key] = $meta->value;
+        }
+
+        $output = [
+            'status' => 'success',
+            'user' => array_merge($user->toArray(), $more)
+        ];
+
+        return response()->json($output);
+
     }
 
     /**
@@ -145,86 +181,94 @@ class UserController extends AuthCore
     public function update(Request $request, $id)
     {
 
+        can('updateUser');
+
         $output = [
             'status' => 'error',
             'message' => 'خطا'
         ];
 
-        can('updateUser');
         $user = User::find($id);
 
-        $output = $this->updateValidator($request, $user);
+        $this->updateValidator($request, $user);
 
         if (!$request->ajax()) {
             // TODO check security
             $output['status'] = 'success';
         }
 
-        if ($output['status'] == 'success') {
+        $inputs = [
+            'username',
+            'mobile',
+            'email',
+            'name',
+            'family',
+            'gender'
+        ];
 
+        $userData = [];
+        foreach ($inputs as $name) {
+            if ($request->has($name)) {
+                $userData[$name] = $request->$name;
+            }
+        }
 
-            $inputs = [
-                'username',
-                'mobile',
-                'email',
-                'name',
-                'family',
-                'gender'
-            ];
+        if ($request->has('password')) {
+            if ($request->password != null) {
+                $userData['password'] = Hash::make($request->password);
+            }
+        }
 
-            $userData = [];
-            foreach ($inputs as $name) {
-                if ($request->has($name)) {
-                    $userData[$name] = $request->$name;
+        if ($request->has('birthYear') && $request->has('birthMonth') && $request->has('birthDay')) {
+            $userData['birthday'] = jalali_to_gregorian($request->birthYear, $request->birthMonth, $request->birthDay, '-');
+        } else {
+            if ($request->has('birthday')) {
+                if (!empty($request->birthday)) {
+                    $birthdayParts = explode('/', $request->birthday);
+                    $day = intval($birthdayParts[2]);
+                    $month = intval($birthdayParts[1]);
+                    $year = intval($birthdayParts[0]);
+                    if ($day > 0 && $month > 0 && $year > 0) {
+                        $userData['birthday'] = jalali_to_gregorian($year, $month, $day, '-');
+                    }
                 }
             }
+        }
 
-            if ($request->has('password')) {
-                if ($request->password != null) {
-                    $userData['password'] = Hash::make($request->password);
-                }
+        RoleMeta::where(['key' => 'user', 'value' => $user->id])->delete();
+        if ($request->has('roles')) {
+            foreach ($request->roles as $role) {
+                RoleMeta::create([
+                    'role_id' => $role,
+                    'key'     => 'user',
+                    'value'   => $user->id,
+                ]);
             }
+        }
 
-            if ($request->has('birthYear') && $request->has('birthMonth') && $request->has('birthDay')) {
-                $userData['birthday'] = jalali_to_gregorian($request->birthYear, $request->birthMonth, $request->birthDay, '-');
-            }
+        $user->update($userData);
 
-            RoleMeta::where(['key' => 'user', 'value' => $user->id])->delete();
-            if ($request->has('roles')) {
-                foreach ($request->roles as $role) {
-                    RoleMeta::create([
-                        'role_id' => $role,
-                        'key'     => 'user',
-                        'value'   => $user->id,
-                    ]);
-                }
-            }
+        if ($request->has('metas')) {
+            if (!empty($request->metas)) {
+                foreach ($request->metas as $key => $value) {
+                    if ($key != config('optionsConfig.dev')) {
+                        $more = null;
+                        if (isset($request->moreMetas[$key]))
+                            $more = $request->moreMetas[$key];
 
-            $user->update($userData);
-
-            if ($request->has('metas')) {
-                if (!empty($request->metas)) {
-                    formValidator($request);
-                    foreach ($request->metas as $key => $value) {
-                        if ($key != config('optionsConfig.dev')) {
-                            $more = null;
-                            if (isset($request->moreMetas[$key]))
-                                $more = $request->moreMetas[$key];
-
-                            if ($user->hasMeta($key)) {
-                                $user->updateMeta(['value' => $value, 'more' => $more], ['key'=> $key]);
-                            } else {
-                                $user->addMeta($key, $value, $more);
-                            }
+                        if ($user->hasMeta($key)) {
+                            $user->updateMeta(['value' => $value, 'more' => $more], ['key'=> $key]);
+                        } else {
+                            $user->addMeta($key, $value, $more);
                         }
                     }
-
                 }
+
             }
-            session()->flash('success', 'با موفقیت بروزرسانی شد');
-            $output['status']  = 'success';
-            $output['message']  = 'با موفقیت بروزرسانی شد';
         }
+        session()->flash('success', 'با موفقیت بروزرسانی شد');
+        $output['status']  = 'success';
+        $output['message']  = 'با موفقیت بروزرسانی شد';
 
         if ($request->ajax()) {
             return $output;
@@ -236,6 +280,7 @@ class UserController extends AuthCore
 
     public function updateValidator($request, $user) {
 
+        $rules = [];
         $messages = [];
 
         $passwordLength = config('authConfig.passwordLength');
@@ -288,8 +333,22 @@ class UserController extends AuthCore
             $messages['birthDay.false'] = 'روز تولد باید یک عدد باشد';
         }
 
-        return validate($request, $rules, $messages);
+        $rules = array_merge($rules, $this->addRule($request, 'metas.phone', 'phone'));
+        $rules = array_merge($rules, $this->addRule($request, 'metas.nationalCode', 'nationalCode'));
+        $rules = array_merge($rules, $this->addRule($request, 'metas.postalCode', 'postalCode'));
 
+        return $this->validate($request, $rules, $messages);
+
+    }
+
+    public function addRule($request, $field, $validation)
+    {
+        if ($request->has($field)) {
+            if (!empty($request->input($field))) {
+                return [$field => $validation];
+            }
+        }
+        return [];
     }
 
     public function destroyConfirm($id) {
@@ -305,7 +364,6 @@ class UserController extends AuthCore
      */
     public function destroy($id, Request $request)
     {
-
         can('deleteUser');
 
         $user = User::find($id);
@@ -327,6 +385,13 @@ class UserController extends AuthCore
             }
         }
 
+        if ($request->ajax()) {
+            return [
+                'status' => 'success',
+                'message' => 'کاربر با موفقیت حذف شد'
+            ];
+        }
+
         if ($request->has('url')) {
             return redirect($request->url);
         }
@@ -334,7 +399,6 @@ class UserController extends AuthCore
         return redirect(route('admin.users.index'));
 
     }
-
 
     public function updateAvatar() {
 
@@ -359,31 +423,6 @@ class UserController extends AuthCore
 
         session()->flash('success', 'با موفقیت تایید شد');
         return redirect()->back();
-    }
-
-
-
-    public function search() {
-
-        $string = null;
-        if (isset($_GET['term']))
-            $string = $_GET['term'];
-
-        $users = User::whereRaw("(users.id LIKE '%{$string}%' OR users.name LIKE '%{$string}%' OR users.family LIKE '%{$string}%' OR users.username LIKE '%{$string}%' OR users.email LIKE '%{$string}%' OR users.mobile LIKE '%{$string}%')")->limit(100)->get();
-
-        $output = [
-            'items' => []
-        ];
-
-        foreach ($users as $user) {
-            $output['items'][] = [
-                'id'  => $user->id,
-                'text' => $user->name(),
-            ];
-        }
-
-        return response()->json($output);
-
     }
 
     public function switch($switchTo) {
@@ -416,6 +455,42 @@ class UserController extends AuthCore
         else {
             return abort(401);
         }
+
+    }
+
+    public function users(Request $request)
+    {
+        $count = usersPaginationCount();
+        if ($request->has('count')) {
+            $count = $request->count;
+        }
+        $this->apiSecurity('users');
+        $users = User::canView()->search()->sort()->paginate($count);
+        return response()->json($users);
+    }
+
+    public function search() {
+
+        $this->apiSecurity('users');
+
+        $string = null;
+        if (isset($_GET['term']))
+            $string = $_GET['term'];
+
+        $users = User::whereRaw("(users.id LIKE '%{$string}%' OR users.name LIKE '%{$string}%' OR users.family LIKE '%{$string}%' OR users.username LIKE '%{$string}%' OR users.email LIKE '%{$string}%' OR users.mobile LIKE '%{$string}%')")->limit(100)->get();
+
+        $output = [
+            'items' => []
+        ];
+
+        foreach ($users as $user) {
+            $output['items'][] = [
+                'id'  => $user->id,
+                'text' => $user->name(),
+            ];
+        }
+
+        return response()->json($output);
 
     }
 

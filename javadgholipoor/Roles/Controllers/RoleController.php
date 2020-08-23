@@ -50,6 +50,12 @@ class RoleController extends CoreController
         $this->storeValidator($request);
         $request->request->add(['operator_id' => auth()->id()]);
         $role = Role::create($request->all());
+        if ($request->ajax()) {
+            return [
+                'status' => 'success',
+                'role' => $role
+            ];
+        }
         return redirect(route('admin.roles.edit', $role));
     }
 
@@ -490,4 +496,21 @@ class RoleController extends CoreController
     {
         //
     }
+
+    public function roles()
+    {
+        $roles = Role::all();
+        $output = [];
+        foreach ($roles as $role) {
+            $output[] = [
+                'id' => $role->id,
+                'value' => $role->id,
+                'name' => $role->name,
+                'text' => $role->label,
+                'title' => $role->label
+            ];
+        }
+        return $output;
+    }
+
 }

@@ -16,10 +16,11 @@ use LaraBase\World\models\City;
 use LaraBase\World\models\Country;
 use LaraBase\World\models\Province;
 use LaraBase\World\models\Town;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
     use \LaraBase\Auth\Actions\User;
     use Authorizable;
 
@@ -28,24 +29,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'username',
-        'email',
-        'mobile',
-        'password',
-        'name',
-        'family',
-        'avatar',
-        'gender',
-        'birthday',
-        'remember_token',
-        'email_verified_at',
-        'mobile_verified_at',
-        'logined_at',
-        'deleted_at',
-        'created_at',
-        'updated_at',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -56,6 +40,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $appends = [
+        'fullname'
+    ];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -64,6 +52,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->name();
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->avatar();
+    }
 
     public function posts() {
         return $this->hasMany(Post::class);
@@ -512,6 +510,9 @@ class User extends Authenticatable
         if (empty($string))
             if (isset($_GET['search']))
                 $string = $_GET['search'];
+        if (empty($string))
+            if (isset($_GET['q']))
+                $string = $_GET['q'];
 
         if (!empty($string)) {
             $query->whereRaw("(users.id LIKE '%{$string}%' OR users.name LIKE '%{$string}%' OR users.family LIKE '%{$string}%' OR users.username LIKE '%{$string}%' OR users.email LIKE '%{$string}%' OR users.mobile LIKE '%{$string}%')");

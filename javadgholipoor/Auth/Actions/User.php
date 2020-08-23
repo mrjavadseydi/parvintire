@@ -5,6 +5,7 @@ namespace LaraBase\Auth\Actions;
 use Auth;
 use Carbon\Carbon;
 use LaraBase\Auth\Models\UserMeta;
+use Laravel\Passport\Passport;
 
 trait User {
 
