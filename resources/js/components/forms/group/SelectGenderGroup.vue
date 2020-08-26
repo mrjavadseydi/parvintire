@@ -9,7 +9,6 @@
             v-model="inputValue"
             @input="$emit('input', inputValue)"
         ></select-gender>
-        <small class="text-danger" v-if="error">{{ error }}</small>
     </div>
 </template>
 <script>

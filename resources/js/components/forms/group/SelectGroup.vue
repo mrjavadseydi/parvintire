@@ -1,36 +1,35 @@
 <template>
     <div class="form-group">
         <label class="col-form-label">{{ title }}</label>
-        <input
-            :id="name"
-            type="text"
+        <simple-select
+            :id="id"
+            :val="val"
             :name="name"
-            :class=" ['form-control' , { 'is-invalid' : error }, classes]"
-            @keyup="changeData"
-            :value="value"
-        >
-        <small class="text-danger" v-if="error">{{ error }}</small>
+            :error="error"
+            :classes="classes"
+            :options="options"
+            v-model="inputValue"
+            @input="$emit('input', inputValue)"
+        ></simple-select>
     </div>
 </template>
 <script>
+    import SimpleSelect from "../inputs/SimpleSelect";
     export default {
+        components: {SimpleSelect},
         props: [
-            'type',
+            'id',
+            'val',
+            'name',
             'title',
             'error',
-            'name',
             'model',
-            'value',
-            'classes'
+            'classes',
+            'options'
         ],
-        methods: {
-            changeData(e) {
-                this.$parent.data[this.name] = e.target.value;
-                this.$parent.errors.clear(this.name);
-                this.error = this.$parent.errors.get(this.name);
-                if (!this.$parent.errors.any()) {
-                    this.$parent.disabled = false;
-                }
+        data() {
+            return {
+                inputValue: null
             }
         }
     }

@@ -1,13 +1,4 @@
 {
-    "/assets/admin/default/admin.js": "/assets/admin/default/admin.js?id=54b8a6d52dd9c1639418",
-    "/assets/admin/default/admin.css": "/assets/admin/default/admin.css?id=abfa875cf82ac947ed98",
-    "/assets/admin/default/icons.css": "/assets/admin/default/icons.css?id=271a2ef31ee64a87a950",
-    "/assets/auth/default/auth.css": "/assets/auth/default/auth.css?id=abe1f176e632c3102baf",
-    "/assets/errors/default/errors.css": "/assets/errors/default/errors.css?id=99ed63eb002f4e22c267",
-    "/assets/uploader/default/uploader.css": "/assets/uploader/default/uploader.css?id=60a18ea179471b5ed0fd",
-    "/assets/admin/default/boxes.js": "/assets/admin/default/boxes.js?id=6459eb8ba8b990d8ed66",
-    "/assets/admin/default/icons.js": "/assets/admin/default/icons.js?id=14fe44202980bceae87b",
-    "/assets/admin/default/store.js": "/assets/admin/default/store.js?id=902565d95efb8216b8ba",
-    "/assets/uploader/default/uploader.js": "/assets/uploader/default/uploader.js?id=ee55db0727f5b35c6dbd",
-    "/assets/uploader/default/uploader2.js": "/assets/uploader/default/uploader2.js?id=7e284571ab69058bbb2f"
+    "/assets/admin/javadgholipoor/admin.js": "/assets/admin/javadgholipoor/admin.js",
+    "/assets/admin/javadgholipoor/admin.css": "/assets/admin/javadgholipoor/admin.css"
 }

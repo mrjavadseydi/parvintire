@@ -92,23 +92,23 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 pl-3 pl-md-0">
+            <div class="col-md-6 pl-3 pl-md-0 my-3 my-md-0">
                 <form id="user-form" class="card" @submit.prevent="onSubmitUser" @change="keydown" @keydown="keydown">
                     <div class="card-header">
                         <span>ویرایش اطلاعات</span>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-6">
                                 <text-input-group v-model="data.name" :val="data.name" :error="errors.get('name')" title="نام"></text-input-group>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-6">
                                 <text-input-group v-model="data.family" :val="data.family" title="نام خانوادگی" :error="errors.get('family')"></text-input-group>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-6">
                                 <text-input-group v-model="data.username" :val="data.username" :error="errors.get('username')" title="نام کاربری" classes="ltr text-left"></text-input-group>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-6">
                                 <text-input-group name="mobile" v-model="data.mobile" :val="data.mobile" :error="errors.get('mobile')"  classes="ltr text-left" title="موبایل"></text-input-group>
                             </div>
                             <div class="col-md-4">
@@ -117,10 +117,10 @@
                             <div class="col-md-4">
                                 <text-input-group v-model="data.password" classes="ltr text-left" title="رمز عبور" :error="errors.get('password')"></text-input-group>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-6">
                                 <text-input-group v-model="data.metas.phone" :val="data.metas.phone" name="metas.phone" classes="ltr text-left" title="تلفن ثابت" :error="errors.get('metas.phone')"></text-input-group>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-6">
                                 <text-input-group v-model="data.metas.nationalCode" name="metas.nationalCode" :val="data.metas.nationalCode" classes="ltr text-left" title="کدملی" :error="errors.get('metas.nationalCode')"></text-input-group>
                             </div>
                             <div class="col-md-4">
@@ -129,10 +129,10 @@
                             <div class="col-md-7">
                                 <multi-select-group v-model="data.roles" :val="data.roles" title="نقش ها" name="roles" :options="roles" :error="errors.get('roles')"></multi-select-group>
                             </div>
-                            <div class="col-md-2 px-3 px-md-0">
+                            <div class="col-md-2 col-6 px-3 px-md-0">
                                 <select-gender-group v-model="data.gender" :val="data.gender" :error="errors.get('gender')"></select-gender-group>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-6">
                                 <date-group title="تاریخ تولد" classes="ltr text-left" v-model="data.birthday" :val="data.birthday" :error="errors.get('gender')" id="birthday"></date-group>
                             </div>
                             <div class="col-md-12">
@@ -159,8 +159,8 @@
                 </form>
             </div>
             <div class="col-md-3">
-                <form class="card" id="wallet-form" @submit.prevent="onSubmitWallet" @keydown="keydown">
-                    <div class="card-header">
+                <form class="card border-warning" id="wallet-form" @submit.prevent="onSubmitWallet" @keydown="keydown">
+                    <div class="card-header bg-warning">
                         <span>شارژ کیف پول</span>
                     </div>
                     <div class="card-body">
@@ -170,10 +170,10 @@
                                 <span v-html="walletNewCredit"></span>
                             </div>
                             <div class="col-md-12">
-                                <price-input-group v-model="wallet.price" classes="ltr text-left" :title="`مبلغ به ${currency}`" :error="walletErrors.get('price')"></price-input-group>
+                                <price-input-group v-model="wallet.price" classes="ltr text-left border-warning" :title="`مبلغ به ${currency}`" :error="walletErrors.get('price')"></price-input-group>
                             </div>
                             <div class="col-md-12">
-                                <text-input-group v-model="wallet.description" :val="wallet.description" title="توضیحات" :error="walletErrors.get('description')"></text-input-group>
+                                <text-input-group v-model="wallet.description" classes="border-warning" :val="wallet.description" title="توضیحات" :error="walletErrors.get('description')"></text-input-group>
                             </div>
                         </div>
                         <div>
@@ -277,12 +277,7 @@
                 walletButtonTitle: 'افزودن تراکنش کیف پول',
                 walletButtonDisable: false,
                 walletErrors: new Errors(),
-                world: {},
-                comps: [
-                    '../../../../js/components/forms/inputs/InputPrice',
-                    '../../../../js/components/forms/inputs/SelectProvince'
-                ],
-                p: '../../../../js/components/forms/inputs/InputPrice'
+                world: {}
             }
         },
         mounted() {
@@ -293,7 +288,6 @@
                     this.$parent.headContent({
                         title: 'ویرایش ' + this.data.fullname
                     });
-                    this.components = response.data.components;
                 })
                 .catch(error => {
 

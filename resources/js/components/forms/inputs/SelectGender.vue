@@ -10,6 +10,7 @@
             <option :selected="val == 1" value="1">مرد</option>
             <option :selected="val == 2" value="2">زن</option>
         </select>
+        <small class="text-danger" v-if="error">{{ error }}</small>
     </div>
 </template>
 

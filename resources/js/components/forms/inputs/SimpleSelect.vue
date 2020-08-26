@@ -3,28 +3,25 @@
         <select
             :id="name"
             :name="name"
-            @change="changeData"
+            @input="$emit('input', $event.target.value)"
             :class=" ['form-control' , { 'is-invalid' : error }, classes]"
         >
             <option value="">انتخاب کنید</option>
-            <option :selected="option.value == value" v-for="option in options" :value="option.value">{{ option.title }}</option>
+            <option :selected="option.value == val" v-for="option in options" :value="option.value">{{ option.title }}</option>
         </select>
+        <small class="text-danger" v-if="error">{{ error }}</small>
     </div>
 </template>
 
 <script>
 export default {
     props: [
+        'id',
+        'val',
         'name',
-        'value',
         'error',
         'classes',
         'options'
-    ],
-    methods: {
-        changeData(event) {
-            this.$parent.changeData(event.target.value);
-        }
-    }
+    ]
 }
 </script>

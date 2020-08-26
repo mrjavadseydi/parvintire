@@ -17,6 +17,8 @@ mix.options({
     processCssUrls: false
 });
 
+/*
+
 mix // default
 
     // admin
@@ -48,10 +50,12 @@ mix // default
 
 ;
 
+ */
+
 // vue admin
-// mix.js('resources/js/admin.js', 'assets/admin/javadgholipoor');
-// mix.sass('resources/sass/admin.scss', 'assets/admin/javadgholipoor');
-// mix.copyDirectory('resources/images/admin', 'public_html/assets/admin/javadgholipoor/images');
+mix.js('resources/js/admin.js', 'assets/admin/javadgholipoor');
+mix.sass('resources/sass/admin.scss', 'assets/admin/javadgholipoor');
+mix.copyDirectory('resources/images/admin', 'public_html/assets/admin/javadgholipoor/images');
 
 if (mix.inProduction()) {
     mix.version();

@@ -10,9 +10,7 @@
                         <tr>
                             <th></th>
                             <th>نام</th>
-                            <th>نام کاربری</th>
-                            <th>موبایل</th>
-                            <th>ایمیل</th>
+                            <th>موبایل / ایمیل</th>
                             <th>نقش‌ها</th>
                             <th>آخرین‌بازدید</th>
                             <th>عملیات</th>
@@ -25,18 +23,19 @@
                                     <small v-text="`#${user.id}`"></small>
                                 </td>
                                 <td v-text="user.name ? user.name + ' ' + user.family : '-'"></td>
-                                <td v-text="user.username ? user.username : '-'"></td>
-                                <td v-text="user.mobile ? user.mobile : '-'"></td>
-                                <td v-text="user.email ? user.email : '-'"></td>
-                                <td></td>
-                                <td></td>
                                 <td>
+                                    <span class="d-block text-center" v-text="user.mobile ? user.mobile : ''"></span>
+                                    <span class="d-block text-center" v-text="user.email ? user.email : ''"></span>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td style="min-width: 170px;">
                                     <router-link :to="`/admin/users/${user.id}/edit`">
-                                        <a class="jgh-tooltip fa fa-edit btn user-card-btn btn-success text-white h5 m-0 mb-1 mb-md-0" title="ویرایش"></a>
+                                        <a class="jgh-tooltip fa fa-edit btn user-card-btn btn-success text-white h5 m-0" title="ویرایش"></a>
                                     </router-link>
-                                    <a :href="`/switch/user/${user.id}`" class="jgh-tooltip fa fa-sign-in btn user-card-btn btn-primary text-white h5 m-0 mb-1 mb-md-0" title="ورود"></a>
-                                    <a v-show="!user.email_verified_at" class="jgh-tooltip fa fa-envelope btn user-card-btn btn-warning text-white h5 m-0 mb-1 mb-md-0" title="ایمیل تایید نشده"></a>
-                                    <a v-show="!user.mobile_verified_at" class="jgh-tooltip fa fa-mobile btn user-card-btn btn-warning text-white h5 m-0 mb-1 mb-md-0" title="موبایل تایید نشده"></a>
+                                    <a :href="`/switch/user/${user.id}`" class="jgh-tooltip fa fa-sign-in btn user-card-btn btn-primary text-white h5 m-0" title="ورود"></a>
+                                    <a v-show="!user.email_verified_at" class="jgh-tooltip fa fa-envelope btn user-card-btn btn-warning text-white h5 m-0" title="ایمیل تایید نشده"></a>
+                                    <a v-show="!user.mobile_verified_at" class="jgh-tooltip fa fa-mobile btn user-card-btn btn-warning text-white h5 m-0" title="موبایل تایید نشده"></a>
                                     <span @click="remove($event, user)" class="jgh-tooltip fa fa-trash btn user-card-btn btn-danger h5 m-0" title="حذف"></span>
                                 </td>
                             </tr>
@@ -124,17 +123,17 @@
             remove(event, item) {
                 var name = item.fullname;
                 var message = "آیا از حذف " + name + " اطمینان دارید؟";
-                this.$toast.error(message, "", {
-                    icon: 'fal fa-trash',
-                    title: 'Hey',
-                    message: 'Welcome!',
+                this.$toast.show(message, "", {
+                    backgroundColor: 'rgb(255 162 162)',
+                    progressBarColor: 'rgb(255 104 104)',
+                    displayMode: 'once',
                     buttons: [
                         ['<button>حذف</button>', function (instance, toast) {
                             axios.delete('/api/v1/users/' + item.id)
                             .then(function (output) {
                                 var response = output.data;
                                 if (response.status == 'success') {
-                                    event.target.parentElement.parentElement.remove()
+                                    event.target.parentElement.parentElement.remove();
                                 } else {
                                     alert('شما اجازه انجام این کار را ندارید');
                                 }

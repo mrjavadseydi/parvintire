@@ -7,6 +7,7 @@ $mainColorLight: #d0f2ff;
 @import "admin/sidebar";
 @import "admin/table";
 @import "admin/user";
+@import "admin/tabbar";
 
 * {
     direction: rtl;
@@ -72,7 +73,7 @@ a {
 }
 
 .content {
-    padding: 70px 90px 10px 10px;
+    padding: 70px 100px 10px 10px;
     transition: 0.2s;
 
     @include media-breakpoint-down('sm') {
@@ -116,8 +117,18 @@ a {
 
         @include media-breakpoint-down('sm') {
             white-space: nowrap;
-            overflow: auto;
-            width: 140px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            width: 200px;
+            padding-right: 0;
+
+            i {
+                display: none;
+            }
+
+            button {
+                padding: 0 3px;
+            }
         }
 
     }
@@ -214,4 +225,41 @@ button {
             }
         }
     }
+}
+
+.iziToast-body {
+    font-family: iransansDN !important;
+}
+
+.btn {
+    box-shadow: none !important;
+}
+
+label {
+    input {
+        transform: scale(1.2);
+        vertical-align: middle;
+        margin-left: 5px;
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 100px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #bbb;
 }

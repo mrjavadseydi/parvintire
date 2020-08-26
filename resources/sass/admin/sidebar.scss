@@ -77,6 +77,15 @@
 
 }
 
+#sidebar-parent {
+    z-index: 2;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+}
+
 .sidebar.open, .sidebar.active {
     width: 200px;
     transition: 0.2s ease;

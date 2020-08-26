@@ -28,16 +28,17 @@ $user = auth()->user();
 </div>
 <script>
     window.Laravel = {};
-    window.Laravel.Auth = '{{ auth()->check() }}' == '' ? false : true;
-    window.Laravel.csrfToken = '{{ csrf_token() }}';
-    window.Laravel.url = '{{ url('/') }}';
-    window.Laravel.logout = '{{ route('logout') }}';
-    window.Laravel.wallet = '{{ number_format(getWalletCredit()) }}'
+    window.Laravel.Auth = <?php echo (auth()->check() ? true : false); ?>;
+    window.Laravel.permissions = '<?php echo json_encode($user->permissions()); ?>';
+    window.Laravel.csrfToken = '<?php echo csrf_token(); ?>';
+    window.Laravel.url = '<?php echo url('/'); ?>';
+    window.Laravel.logout = '<?php echo route('logout'); ?>';
+    window.Laravel.wallet = '<?php echo number_format(getWalletCredit()); ?>';
     window.Laravel.user = {};
-    window.Laravel.user.name = '{{ $user->name() }}';
-    window.Laravel.user.avatar = '{{ $user->avatar() }}';
+    window.Laravel.user.name = '<?php echo $user->name(); ?>';
+    window.Laravel.user.avatar = '<?php echo $user->avatar(); ?>';
     window.siebar = [];
-    window.templateTheme = '{{ $templateTheme }}';
+    window.templateTheme = '<?php echo $templateTheme; ?>';
 </script>
 <script src="{{ asset('assets/admin/javadgholipoor/admin.js') }}?v={{ strtotime('now') }}"></script>
 </body>

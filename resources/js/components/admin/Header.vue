@@ -2,7 +2,7 @@
 
     <header>
 
-        <i class="menu fa fa-bars"></i>
+        <i @click="menu" class="menu fa fa-bars"></i>
 
         <a target="_blank" class="jgh-tooltip" title="بریم به سایت" href="/">
             <i class="fa fa-home"></i>
@@ -60,7 +60,23 @@
     export default {
         data() {
             return {
-                laravel: Laravel
+                laravel: Laravel,
+                openSidebar: false
+            }
+        },
+        methods: {
+            menu() {
+                if(this.openSidebar) {
+                    document.getElementById('content').classList.remove('sidebar-open-content');
+                    document.getElementById('sidebar-parent').classList.add('d-none');
+                    document.getElementsByClassName('sidebar')[0].classList.remove('open');
+                    this.openSidebar = false;
+                } else {
+                    document.getElementById('content').classList.add('sidebar-open-content');
+                    document.getElementsByClassName('sidebar')[0].classList.add('open');
+                    document.getElementById('sidebar-parent').classList.remove('d-none');
+                    this.openSidebar = true;
+                }
             }
         }
     }

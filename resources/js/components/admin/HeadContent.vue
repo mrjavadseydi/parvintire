@@ -4,12 +4,16 @@
             <h1>{{ title }}</h1>
             <div class="line"></div>
             <div class="buttons">
+                <slot></slot>
                 <div v-for="button in buttons" class="d-inline-block">
-                    <router-link :to="button.to">
+                    <router-link v-if="button.to" :to="button.to">
                         <button :class="`btn btn-outline-${button.type} mr-2`">
                             <i :class="`${button.icon} align-middle ml-2`"></i>{{ button.title }}
                         </button>
                     </router-link>
+                    <button v-else @click="click(button.method)" :class="`btn btn-outline-${button.type} mr-2`">
+                        <i :class="`${button.icon} align-middle ml-2`"></i>{{ button.title }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -17,7 +21,12 @@
 </template>
 <script>
     export default {
-        props: ['title', 'buttons']
+        props: ['title', 'buttons'],
+        methods: {
+            click(method) {
+                this.$parent.buttonsMethod(method);
+            }
+        }
     }
 </script>
 '

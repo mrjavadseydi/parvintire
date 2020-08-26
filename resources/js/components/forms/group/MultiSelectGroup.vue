@@ -33,7 +33,11 @@
             if (this.selected.length == 0) {
                 this.selected = this.val;
             }
-            this.$emit('input', this.selected);
+        },
+        watch: {
+            selected(selected){
+                this.$emit('input', selected);
+            }
         }
     }
 </script>

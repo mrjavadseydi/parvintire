@@ -502,7 +502,8 @@ class OrderController extends CoreController
             $order->update(['address_id' => $address->id]);
             $shingles = $address->shingles();
             foreach ($order->shippings() as $shipping) {
-                $postage = 10000;
+                $postage = 100000;
+                // فک کنم اینجا شینگل پیدا نمیشه و قیمت پیشفرض بالا اعمال میشه
                 if ($shingles != null) {
                     $shingle = $shingles->where('shipping_id', $shipping->shipping_id)->first();
                     if ($shingle != null) {
