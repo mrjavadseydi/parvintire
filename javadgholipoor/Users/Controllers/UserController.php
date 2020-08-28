@@ -145,8 +145,14 @@ class UserController extends AuthCore
 
         $output = [
             'status' => 'success',
-            'user' => array_merge($user->toArray(), $more)
+            'user' => array_merge($user->toArray(), $more),
+            'loading' => image('loading.png')
         ];
+
+        uploader()
+            ->relation('profile', $user->id)
+            ->addKey('profile', 1, 'mimes:png,jpg,jpeg,gif,webp,PNG,JPG,JPEG,GIF,WEBP|min:0|max:2048', 'profile', ['user' => $user])
+            ->init();
 
         return response()->json($output);
 
@@ -408,17 +414,31 @@ class UserController extends AuthCore
         dd($type);
     }
 
-    public function verify($type, $id) {
+    public function verify($type, $id, Request $request) {
+
+        if ($type == 'email')
+            $this->apiSecurity('verifyEmailUser');
+        else
+            $this->apiSecurity('verifyMobileUser');
+
         $user = User::where('id', $id)->first();
         $field = "{$type}_verified_at";
 
         if ($user->$field == null) {
             $user->update([$field => Carbon::now()->toDateTimeString()]);
-
             if (UserVerification::where(['user_id' => $user->id, 'type' => $type])->exists()) {
                 UserVerification::where(['user_id' => $user->id, 'type' => $type])->delete();
             }
+        } else {
+            $user->update([$field => null]);
+        }
 
+        if ($request->ajax()) {
+            return [
+                'status' => 'success',
+                'message' => 'با موفقیت انجام شد',
+                'user' => User::find($id)
+            ];
         }
 
         session()->flash('success', 'با موفقیت تایید شد');
@@ -492,6 +512,25 @@ class UserController extends AuthCore
 
         return response()->json($output);
 
+    }
+
+    public function block($id)
+    {
+        $this->apiSecurity('blockUser');
+        $user = User::find($id);
+        $block = false;
+        if ($user != null) {
+            if (empty($user->block)) {
+                $block = true;
+                $user->update(['block' => 1]);
+            } else {
+                $user->update(['block' => null]);
+            }
+        }
+        return [
+            'status' => 'success',
+            'block' => $block
+        ];
     }
 
 }

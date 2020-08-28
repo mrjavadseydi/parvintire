@@ -7,19 +7,21 @@
                 <div class="table-responsive">
                     <table>
                         <thead>
-                        <tr>
-                            <th></th>
-                            <th>نام</th>
-                            <th>موبایل / ایمیل</th>
-                            <th>نقش‌ها</th>
-                            <th>آخرین‌بازدید</th>
-                            <th>عملیات</th>
-                        </tr>
+                            <tr>
+                                <th></th>
+                                <th>نام</th>
+                                <th>موبایل / ایمیل</th>
+                                <th>آخرین‌بازدید</th>
+                                <th>عملیات</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr v-for="user in data.data">
                                 <td>
-                                    <img class="rounded-circle" width="30" height="30" :src="user.avatar">
+                                    <figure class="d-inline-block position-relative m-0">
+                                        <img class="rounded-circle" width="30" height="30" :src="user.avatar">
+                                        <span :class="user.online ? 'online' : 'offline'"></span>
+                                    </figure>
                                     <small v-text="`#${user.id}`"></small>
                                 </td>
                                 <td v-text="user.name ? user.name + ' ' + user.family : '-'"></td>
@@ -27,15 +29,14 @@
                                     <span class="d-block text-center" v-text="user.mobile ? user.mobile : ''"></span>
                                     <span class="d-block text-center" v-text="user.email ? user.email : ''"></span>
                                 </td>
-                                <td></td>
-                                <td></td>
+                                <td v-text="user.lastSeen"></td>
                                 <td style="min-width: 170px;">
                                     <router-link :to="`/admin/users/${user.id}/edit`">
                                         <a class="jgh-tooltip fa fa-edit btn user-card-btn btn-success text-white h5 m-0" title="ویرایش"></a>
+                                        <a v-show="!user.email_verified_at" class="jgh-tooltip fa fa-envelope btn user-card-btn btn-warning text-white h5 m-0" title="ایمیل تایید نشده"></a>
+                                        <a v-show="!user.mobile_verified_at" class="jgh-tooltip fa fa-mobile btn user-card-btn btn-warning text-white h5 m-0" title="موبایل تایید نشده"></a>
                                     </router-link>
                                     <a :href="`/switch/user/${user.id}`" class="jgh-tooltip fa fa-sign-in btn user-card-btn btn-primary text-white h5 m-0" title="ورود"></a>
-                                    <a v-show="!user.email_verified_at" class="jgh-tooltip fa fa-envelope btn user-card-btn btn-warning text-white h5 m-0" title="ایمیل تایید نشده"></a>
-                                    <a v-show="!user.mobile_verified_at" class="jgh-tooltip fa fa-mobile btn user-card-btn btn-warning text-white h5 m-0" title="موبایل تایید نشده"></a>
                                     <span @click="remove($event, user)" class="jgh-tooltip fa fa-trash btn user-card-btn btn-danger h5 m-0" title="حذف"></span>
                                 </td>
                             </tr>
@@ -92,7 +93,7 @@
             this.$parent.headContent({
                 title: this.pageTitle
             });
-            axios.get('/api/v1/users?count=16').then(response => {
+            axios.get('/api/v1/users').then(response => {
                 this.data = response.data;
             }).catch(error => console.log(error));
         },
@@ -100,7 +101,7 @@
             paginate(page) {
                 window.scrollTo({top: 0, behavior: 'smooth'});
                 if (typeof page === 'undefined') page = 1;
-                axios.get('/api/v1/users?count=16&page=' + page)
+                axios.get('/api/v1/users?page=' + page)
                     .then(response => this.data = response.data)
                     .catch(error => console.log(error));
             },

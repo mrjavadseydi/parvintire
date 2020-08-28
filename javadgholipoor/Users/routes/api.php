@@ -1,7 +1,9 @@
 <?php
 Route::group(['prefix' => 'v1'], function () {
     Route::resource('users', 'UserController');
-    Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function () {
+    Route::get('users/{id}/block', 'UserController@block');
+    Route::get('users/verify/{type}/{id}', 'UserController@verify');
+    Route::group(['prefix' => 'users'], function () {
         Route::get('/', 'UserController@users');
         Route::get('search', 'UserController@search');
     });

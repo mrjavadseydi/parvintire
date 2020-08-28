@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UserApiToken extends Migration
+class UserBlock extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class UserApiToken extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('api_token', 64)->nullable()->after('remember_token');
+            $table->string('block', 1)->nullable()->after('password');
         });
     }
 

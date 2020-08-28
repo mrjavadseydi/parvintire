@@ -390,17 +390,17 @@ class SidebarController extends CoreController
     {
         $this->user = auth()->user();
         $this->add($this->panel);
-        $this->add($this->postTypes);
-        $this->add($this->tags);
-        $this->add($this->attributes);
-        $this->add($this->menus);
-        $this->add($this->orders);
-        $this->add($this->transactions);
-        $this->add($this->reports);
-        $this->add($this->tickets);
-        $this->add($this->comments);
+//        $this->add($this->postTypes);
+//        $this->add($this->tags);
+//        $this->add($this->attributes);
+//        $this->add($this->menus);
+//        $this->add($this->orders);
+//        $this->add($this->transactions);
+//        $this->add($this->reports);
+//        $this->add($this->tickets);
+//        $this->add($this->comments);
         $this->add($this->users);
-        $this->add($this->settings);
+//        $this->add($this->settings);
         return $this->sidebar;
     }
 

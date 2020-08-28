@@ -1,35 +1,42 @@
 <template>
     <div>
         <head-content :title="pageTitle" :buttons="buttons"></head-content>
-
         <div class="row">
             <div class="col-md-3 pl-3 pl-md-0">
                 <div class="card">
                     <div class="card-body text-center">
+                        <div v-if="data.block" class="alert alert-danger text-center">
+                            <span>حساب کاربری مسدود شده است</span>
+                            <span @click="block" class="btn btn-success mt-3">آزاد سازی حساب کاربری</span>
+                        </div>
                         <div class="d-flex">
                             <figure class="text-center position-relative d-inline-block">
                                 <img class="rounded-circle shadow" width="100" height="100" :src="data.avatar">
-                                <i class="profile-image fad fa-camera-retro"></i>
+                                <upload @before="profileBefore" @complete="completeProfile" uploadKey="profile" multiple="true">
+                                    <i class="profile-image fad fa-camera-retro"></i>
+                                </upload>
                             </figure>
                             <div class="flex-fill d-flex flex-column justify-content-center pr-3">
                                 <div class="d-flex justify-content-between">
-                                    <small>جواد قلی پور</small>
+                                    <small>{{ data.name }} {{ data.family }} <small :class="data.online ? 'text-success' : 'text-danger'">({{ data.online ? 'آنلاین' : 'آفلاین' }})</small></small>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <small>بازدید</small>
-                                    <small>یک هفته پیش</small>
+                                    <small v-text="data.lastSeen"></small>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <small>ایجاد</small>
-                                    <small>25 آذر 1398 ساعت 16:25</small>
+                                    <small>{{  data.created }}</small>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-center py-3">
-                            <button v-if="!data.mobile_verified_at" class="btn btn-sm btn-warning mx-1">تایید موبایل</button>
-                            <button v-if="!data.email_verified_at" class="btn btn-sm btn-warning mx-1">تایید ایمیل</button>
-                            <button class="btn btn-sm btn-success mx-1 fal fa-sign-in" title="ورود با من"></button>
-                            <button class="btn btn-sm btn-danger mx-1 fal fa-ban" title="مسدودکردن"></button>
+                            <button @click="verify('mobile')" v-if="!data.mobile_verified_at" class="btn btn-sm btn-warning mx-1">تایید موبایل</button>
+                            <button @click="verify('mobile')" v-if="data.mobile_verified_at" class="btn btn-sm btn-success mx-1 fal fa-mobile" title="موبایل تایید شده است"></button>
+                            <button @click="verify('email')" v-if="!data.email_verified_at" class="btn btn-sm btn-warning mx-1">تایید ایمیل</button>
+                            <button @click="verify('email')" v-if="data.email_verified_at" class="btn btn-sm btn-success mx-1 fal fa-envelope" title="ایمیل تایید شده است"></button>
+                            <a :href="`/switch/user/${data.id}`" class="btn btn-sm btn-primary mx-1 fal fa-sign-in" title="ورود با من"></a>
+                            <button @click="block" v-if="!data.block" class="btn btn-sm btn-danger mx-1 fal fa-ban" title="مسدودکردن"></button>
                         </div>
                         <div class="px-3">
                             <ul class="list">
@@ -72,12 +79,6 @@
                                 <li>
                                     <a href="#">
                                         <i class="fal fa-shopping-bag"></i>
-                                        <span>شارژ کیف پول</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fal fa-shopping-bag"></i>
                                         <span>تیکت ها</span>
                                     </a>
                                 </li>
@@ -97,7 +98,7 @@
                     <div class="card-header">
                         <span>ویرایش اطلاعات</span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body scroll">
                         <div class="row">
                             <div class="col-md-4 col-6">
                                 <text-input-group v-model="data.name" :val="data.name" :error="errors.get('name')" title="نام"></text-input-group>
@@ -152,9 +153,9 @@
                                 <text-area-input-group v-model="data.metas.biography" :val="data.metas.biography" title="بیوگرافی" name="metas.biography" :error="errors.get('metas.biography')"></text-area-input-group>
                             </div>
                         </div>
-                        <div>
-                            <button :disabled="disabled" class="btn btn-success py-2 px-3">{{ buttonTitle }}</button>
-                        </div>
+                    </div>
+                    <div class="py-2 px-3">
+                        <button :disabled="disabled" class="btn btn-success py-2 px-3">{{ buttonTitle }}</button>
                     </div>
                 </form>
             </div>
@@ -197,6 +198,7 @@
     import TextAreaInputGroup from "../../../../js/components/forms/group/TextAreaInputGroup";
     import PriceInputGroup from "../../../../js/components/forms/group/PriceInputGroup";
     import LocationGroup from "../../../../js/components/forms/group/LocationGroup";
+    import Upload from "../../vendor/Upload";
     import {Errors} from "../../../../js/errors";
 
     import VueIziToast from 'vue-izitoast';
@@ -214,7 +216,8 @@
             DateGroup,
             TextAreaInputGroup,
             PriceInputGroup,
-            LocationGroup
+            LocationGroup,
+            Upload
         },
         data() {
             return {
@@ -277,7 +280,8 @@
                 walletButtonTitle: 'افزودن تراکنش کیف پول',
                 walletButtonDisable: false,
                 walletErrors: new Errors(),
-                world: {}
+                world: {},
+                loadingGif: null
             }
         },
         mounted() {
@@ -285,6 +289,7 @@
                 .then(response => {
                     this.data = response.data.user;
                     this.wallet.credit = response.data.user.walletCredit;
+                    this.loadingGif = response.data.loading;
                     this.$parent.headContent({
                         title: 'ویرایش ' + this.data.fullname
                     });
@@ -392,6 +397,25 @@
                 this.data.metas.cityId = world.cityId;
                 this.data.metas.townId = world.townId;
                 this.data.metas.regionId = world.regionId;
+            },
+            profileBefore(files) {
+                this.data.avatar = this.loadingGif;
+            },
+            completeProfile(status, response) {
+                this.data.avatar = response.thumbnail;
+            },
+            block() {
+                axios.get(`/api/v1/users/${this.$route.params.id}/block`)
+                    .then(response => {
+                        this.data.block = response.data.block;
+                    });
+            },
+            verify(type) {
+                axios.get(`/api/v1/users/verify/${type}/${this.$route.params.id}`)
+                    .then(response => {
+                        this.data.email_verified_at = response.data.user.email_verified_at;
+                        this.data.mobile_verified_at = response.data.user.mobile_verified_at;
+                    });
             }
         },
         computed: {

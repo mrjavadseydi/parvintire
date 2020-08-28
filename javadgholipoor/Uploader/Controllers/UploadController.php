@@ -5,10 +5,8 @@ namespace LaraBase\Uploader\Controllers;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use LaraBase\Attachments\Models\Attachment;
+use LaraBase\Auth\Models\User;
 use LaraBase\CoreController;
-use LaraBase\Options\Options;
-use LaraBase\Posts\Models\Post;
-use Mockery\Exception;
 
 class UploadController extends CoreController {
 
@@ -108,7 +106,6 @@ class UploadController extends CoreController {
     public function upload(Request $request) {
 
         $output = $this->uploadValidation($request);
-
         if ($output['status'] == 'success') {
 
             if ($request->has('file')) {
@@ -171,6 +168,7 @@ class UploadController extends CoreController {
                 $output['selectIcon'] = $this->getSelectIcon();
                 $output['deleteIcon'] = uploaderDeleteIcon();
                 $output['checkedIcon'] = image('checked.png', 'uploader');
+                $output['data'] = $this->validations[$request->key]['data'] ?? [];
 
                 if (isset($this->validations[$request->key]['method'])) {
                     $method = $this->validations[$request->key]['method'];
@@ -449,7 +447,11 @@ class UploadController extends CoreController {
 
     public function profile($data)
     {
-        $user = auth()->user();
+        if (isset($data['data']['user'])) {
+            $user = User::find($data['data']['user']['id']);
+        } else {
+            $user = auth()->user();
+        }
         $user->update(['avatar' => $data['path']]);
     }
 

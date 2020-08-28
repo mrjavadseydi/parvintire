@@ -263,3 +263,30 @@ label {
 ::-webkit-scrollbar-thumb:hover {
     background: #bbb;
 }
+
+.online {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 100px;
+    background: #0ccc0c;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid white;
+}
+
+.offline {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 100px;
+    background: #b0b0b0;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid white;
+}
+
+.scroll {
+    max-height: 480px;
+    overflow: auto;
+}

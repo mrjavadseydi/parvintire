@@ -53,6 +53,9 @@ return [
             'switchUser' => [
                 'title' => 'گرفتن سطح دسترسی کاربران'
             ],
+            'blockUser' => [
+                'title' => 'مسدود کردن کاربر'
+            ],
             'roles' => [
                 'title' => 'نقش ها'
             ],

@@ -4,6 +4,9 @@
             <h1>{{ title }}</h1>
             <div class="line"></div>
             <div class="buttons">
+                <a href="/change-panel" class="btn btn-danger mr-2">
+                    <i class="fal fa-tachometer align-middle ml-2"></i>نسخه قدیمی
+                </a>
                 <slot></slot>
                 <div v-for="button in buttons" class="d-inline-block">
                     <router-link v-if="button.to" :to="button.to">

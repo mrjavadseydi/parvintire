@@ -41,7 +41,7 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'fullname'
+        'fullname', 'lastSeen', 'created', 'online'
     ];
 
     /**
@@ -58,9 +58,57 @@ class User extends Authenticatable
         return $this->name();
     }
 
-    public function getAvatarAttribute()
+    public function getLastSeenAttribute()
     {
-        return $this->avatar();
+        $output = '-';
+        if (empty($this->logined_at)) {
+            return $output;
+        }
+        $strToTime = strtotime('now') - strtotime($this->logined_at);
+        foreach ([
+            60 => 'یک دقیقه پیش',
+            900 => 'یک ربع پیش',
+            1800 => 'نیم ساعت پیش',
+            3600 => 'یک ساعت پیش',
+            1080 => 'سه ساعت پیش',
+            21600 => 'شش ساعت پیش',
+            32400 => 'نه ساعت پیش',
+            43200 => 'یک روز پیش',
+            302400 => 'یک هفته پیش',
+            1209600 => 'یک ماه پیش',
+            14515200 => 'یک سال پیش'
+        ] as $time => $message) {
+            if ($strToTime < $time) {
+                $output = $message;
+                break;
+            }
+        }
+        return $output;
+    }
+
+    public function getOnlineAttribute()
+    {
+        if (!empty($this->logined_at)) {
+            $strToTime = strtotime('now') - strtotime($this->logined_at);
+            if ($strToTime < 300) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getAvatarAttribute($val)
+    {
+        if (!empty($val)) {
+            return resizeImage($val, 150, 150);
+        }
+
+        return $this->defaultAvatar();
+    }
+
+    public function getCreatedAttribute()
+    {
+        return jDateTime('d F Y س H:i', strtotime($this->created_at));
     }
 
     public function posts() {
