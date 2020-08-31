@@ -5,6 +5,7 @@ namespace LaraBase\Auth\Actions;
 use Auth;
 use Carbon\Carbon;
 use LaraBase\Auth\Models\UserMeta;
+use Laravel\Passport\Passport;
 
 trait User {
 
@@ -68,17 +69,21 @@ trait User {
 
     public function name() {
 
-        if (!empty($this->name))
-            return "{$this->name} {$this->family}";
+        if (property_exists($this, 'name'))
+            if (!empty($this->name))
+                return "{$this->name} {$this->family}";
 
-        if (!empty($this->username))
-            return $this->username;
+        if (property_exists($this, 'username'))
+            if (!empty($this->username))
+                return $this->username;
 
-        if (!empty($this->email))
-            return explode('@', $this->email)[0];
+        if (property_exists($this, 'email'))
+            if (!empty($this->email))
+                return explode('@', $this->email)[0];
 
-        if (!empty($this->mobile))
-            return $this->mobile;
+        if (property_exists($this, 'mobile'))
+            if (!empty($this->mobile))
+                return $this->mobile;
 
         return 'بدون نام';
     }
@@ -105,11 +110,15 @@ trait User {
     }
 
     public function email() {
-        return $this->email ?? '-';
+        if (isset($this->email))
+            return $this->email;
+        return '-';
     }
 
     public function mobile() {
-        return $this->mobile ?? '-';
+        if (isset($this->mobile))
+            return $this->mobile;
+        return '-';
     }
 
     public function metas()

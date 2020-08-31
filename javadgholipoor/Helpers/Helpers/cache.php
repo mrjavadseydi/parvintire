@@ -10,6 +10,7 @@ function setCache($key, $value, $minutes = 'forever') {
     if ($minutes == 'forever') {
         Cache::forever($key, $value);
     } else {
+        deleteCache($key);
         Cache::add($key, $value, ($minutes*60));
     }
 }

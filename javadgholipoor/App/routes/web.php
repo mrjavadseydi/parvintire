@@ -1,5 +1,7 @@
 <?php
 
+//Route::view('panel{all}', includeAdmin('master'))->where('all', '.*');
+
 Route::group(['prefix' => 'profile', 'middleware' => 'auth:web'], function () {
     Route::get('', 'ProfileController@profile')->name('profile');
     Route::post('update', 'ProfileController@update')->name('profile.update');
@@ -23,6 +25,5 @@ foreach (['article', 'product', 'book'] as $type) {
 //        Route::post($type . 's/{id}/{slug}', 'PageController@singlePage')->name("{$type}");
 }
 
-Route::get('sidebar', 'SidebarController@sidebar')->middleware('can:administrator')->name('sidebar');
 Route::get('down', 'CoreController@down')->name('siteDown');
 Route::get('up', 'CoreController@up')->name('siteUp');

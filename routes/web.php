@@ -12,15 +12,17 @@
 */
 
 Route::get('change-panel', function () {
-    if (isDev()) {
+    if (can('administrator')) {
         $get = \LaraBase\Options\Models\Option::where('key', 'adminTheme')->first();
-        if($get->value == 'default') {
-            $get->update(['value' => 'javadgholipoor']);
-            echo 'javadgholipoor is active';
+        if($get->value == 'vue') {
+            $get->update(['value' => getCache('oldPanel')]);
         } else {
-            $get->update(['value' => 'default']);
-            echo 'default is active';
+            if (!hasCache('oldPanel')) {
+                setCache('oldPanel', $get->value);
+            }
+            $get->update(['value' => 'vue']);
         }
+        return redirect(url('admin'));
     }
 });
 

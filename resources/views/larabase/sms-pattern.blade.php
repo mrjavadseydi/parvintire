@@ -8,6 +8,7 @@
     }
 ?>
 <form action="{{ url('larabase/sms/sync') }}" method="post">
+    @csrf
     @foreach($patterns->disablePatterns as $key => $pattern)
         <h1>{{ $key }}</h1>
         <textarea name="patterns[{{ $key }}]" id="" cols="30" rows="10">{{ old('message') ?? renderSmsMessage($pattern->message) }}</textarea>

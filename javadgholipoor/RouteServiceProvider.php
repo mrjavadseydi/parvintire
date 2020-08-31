@@ -64,7 +64,7 @@ class RouteServiceProvider extends ServiceProvider
         }
         if (file_exists($api)) {
             Route::prefix('api')
-                ->middleware('api')
+                ->middleware(['api'])
                 ->namespace($namespace)
                 ->group($api);
         }

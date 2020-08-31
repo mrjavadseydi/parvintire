@@ -23,8 +23,29 @@ class RoleController extends CoreController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $this->apiSecurity('roles');
+
+        // TODO optimize
+
+        if ($request->ajax()) {
+            $roles = Role::all();
+            $output = [];
+            foreach ($roles as $role) {
+                $output[] = [
+                    'id' => $role->id,
+                    'value' => $role->id,
+                    'name' => $role->name,
+                    'text' => $role->label,
+                    'title' => $role->label,
+                    'count' => $role->count
+                ];
+            }
+            return $output;
+        }
+
         $roles = Role::paginate(30);
         return adminView('roles.all', compact('roles'));
     }
@@ -47,9 +68,19 @@ class RoleController extends CoreController
      */
     public function store(Request $request)
     {
+        $this->apiSecurity('roles');
         $this->storeValidator($request);
         $request->request->add(['operator_id' => auth()->id()]);
-        $role = Role::create($request->all());
+        $role = Role::create([
+            'name' => $request->name,
+            'label' => $request->label
+        ]);
+        if ($request->ajax()) {
+            return [
+                'status' => 'success',
+                'role' => $role
+            ];
+        }
         return redirect(route('admin.roles.edit', $role));
     }
 
@@ -68,7 +99,90 @@ class RoleController extends CoreController
      */
     public function show($id)
     {
-        //
+        $this->apiSecurity('roles');
+        $role = Role::find($id);
+        $user = auth()->user();
+
+        $userRoles = $user->roles();
+        $roles = $user->canSetRoles($userRoles);
+        $roleLevels = $role->levels()->pluck('value')->toArray();
+
+        $canSet = [];
+        $canSetMe = [];
+
+        $canSetSelfRole = false;
+        if ($user->can('canSetSelfRole'))
+            $canSetSelfRole = true;
+
+        foreach ($roles as $roleItem) {
+            if (in_array($roleItem->id, $roleLevels)) {
+                $canSet[] = $roleItem->id;
+            }
+            if ($roleItem->isCanSet($role)) {
+                $canSetMe[] = $roleItem->id;
+            }
+        }
+
+        $permissions = $user->canSetPermissions($userRoles);
+        $treeViewPermissions = treeView($permissions, ['title' => 'label']);
+        $rolePermissions = $role->permissions()->pluck('id')->toArray();
+
+        $canSetPostTypes = $user->canSetPostTypes($userRoles);
+        $postTypes = $canSetPostTypes['postTypes'];
+        $postTypesPermissions = $canSetPostTypes['permissions'];
+        $allPostTypesPermissions = config('typesConfig.permissions');
+        $getPostTypes = $role->getPostTypes();
+        $rolePostTypes = $getPostTypes['postTypes'];
+        $rolePostTypesPermissions = $getPostTypes['permissions'];
+
+        $categories = $user->canSetCategories($userRoles);
+        $roleCategories = $role->categories()->pluck('value')->toArray();
+
+        $postBoxes = $user->canSetPostBoxes($userRoles);
+        $rolePostBoxes = $role->postBoxes()->pluck('value')->toArray();
+
+        $countries = $provinces = $cities = $towns = null;
+        $roleCountries = $roleProvinces = $roleCities = $roleTowns = null;
+        $countries = $user->canSetCountries();
+        $roleCountries = $role->countries()->pluck('value')->toArray();
+        $provinces = $user->canSetProvinces();
+        $roleProvinces = $role->provinces()->pluck('value')->toArray();
+        $cities    = $user->canSetCities();
+        $roleCities = $role->cities()->pluck('value')->toArray();
+        $towns     = $user->canSetTowns();
+        $roleTowns = $role->towns()->pluck('value')->toArray();
+
+        $ticketDepartment = RoleMeta::where(['role_id' => $id, 'key' => 'ticketDepartment'])->exists();
+
+        return [
+            'role' => $role,
+            'roles' => $roles,
+            'roleLevels' => $roleLevels,
+            'canSet' => $canSet,
+            'canSetMe' => $canSetMe,
+            'permissions' => $permissions,
+            'treeViewPermissions' => $treeViewPermissions,
+            'rolePermissions' => $rolePermissions,
+            'postTypes' => $postTypes,
+            'postTypesPermissions' => $postTypesPermissions,
+            'allPostTypesPermissions' => $allPostTypesPermissions,
+            'rolePostTypes' => $rolePostTypes,
+            'rolePostTypesPermissions' => $rolePostTypesPermissions,
+            'postBoxes' => $postBoxes,
+            'rolePostBoxes' => $rolePostBoxes,
+            'categories' => $categories,
+            'roleCategories' => $roleCategories,
+            'countries' => $countries,
+            'roleCountries' => $roleCountries,
+            'provinces' => $provinces,
+            'roleProvinces' => $roleProvinces,
+            'cities' => $cities,
+            'roleCities' => $roleCities,
+            'towns' => $towns,
+            'roleTowns' => $roleTowns,
+            'ticketDepartment' => $ticketDepartment,
+        ];
+
     }
 
     /**
@@ -80,6 +194,7 @@ class RoleController extends CoreController
     public function edit($id)
     {
 
+        $this->apiSecurity('roles');
         $role = Role::find($id);
         $user = auth()->user();
 
@@ -164,6 +279,7 @@ class RoleController extends CoreController
     public function update(Request $request, $id)
     {
 
+        $this->apiSecurity('roles');
         $role = Role::find($id);
         $this->updateValidator($request, $role);
 
@@ -287,6 +403,13 @@ class RoleController extends CoreController
                     RoleMeta::create(array_merge($where, ['value' => 'true']));
                 }
             }
+        }
+
+        if ($request->ajax()) {
+            return [
+                'status' => 'success',
+                'message' => 'بروزرسانی با موفقیت انجام شد'
+            ];
         }
 
         session()->flash('success', 'با موفقیت انجام شد');
@@ -488,6 +611,16 @@ class RoleController extends CoreController
      */
     public function destroy($id)
     {
-        //
+        $this->apiSecurity('roles');
+        $role = Role::find($id);
+        if ($role != null) {
+            $role->delete();
+            RoleMeta::where('role_id', $id)->delete();
+        }
+        return [
+            'status' => 'success',
+            'message' => 'با موفقیت حذف شد'
+        ];
     }
+
 }

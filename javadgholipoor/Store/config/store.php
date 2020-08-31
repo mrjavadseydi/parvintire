@@ -37,16 +37,28 @@ return [
 
     'sendStatus' => [
         '1' => [
-            'title' => 'ثبت شده'
+            'title' => 'ثبت شده',
+            'icon' => 'icon-hourglass_empty',
+            'color' => '#6d5eff',
+            'lightColor' => '#ece0ff',
         ],
         '2' => [
-            'title' => 'در حال بررسی'
+            'title' => 'در حال بررسی',
+            'icon' => 'icon-hourglass_empty',
+            'color' => 'deeppink',
+            'lightColor' => '#ffe4fe',
         ],
         '3' => [
-            'title' => 'ارسال شد'
+            'title' => 'ارسال شد',
+            'icon' => 'icon-hourglass_empty',
+            'color' => '#0556ff',
+            'lightColor' => '#c9e6ff',
         ],
         '4' => [
-            'title' => 'تحویل داده شد'
+            'title' => 'تحویل داده شد',
+            'icon' => 'icon-hourglass_empty',
+            'color' => 'green',
+            'lightColor' => '#e5ffe5'
         ]
     ]
 

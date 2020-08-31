@@ -3,6 +3,7 @@
 namespace LaraBase\Store\Controllers;
 
 use App\Events\NewOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use LaraBase\Auth\Models\User;
 use LaraBase\CoreController;
@@ -10,6 +11,7 @@ use LaraBase\Payment\Models\Transaction;
 use LaraBase\Posts\Models\Post;
 use LaraBase\Store\Models\Address;
 use LaraBase\Store\Models\Order;
+use LaraBase\Store\Models\OrderShipping;
 use LaraBase\Store\Models\OrderShippingStatus;
 use LaraBase\Store\Models\Product;
 use LaraBase\Store\Models\ProductAttribute;
@@ -32,10 +34,109 @@ class OrderController extends CoreController
         return adminView('orders.all', compact('records', 'users', 'title'));
     }
 
-    public function edit()
+    public function suspends()
+    {
+        can('orders');
+        $title = 'سفارش ها';
+        $records = Order::status(1)->whereDoesntHave('shippingStatuses', function ($query) {
+            $query->where('status', '4');
+        })->with([
+            'shippingStatus' => function ($query) {
+                $query->orderBy('status', 'desc');
+            },
+            'transactions' => function($query) {
+                $query->where('status', '1')->first();
+            }
+        ])->paginate(50);
+        $users = User::whereIn('id', $records->pluck('user_id')->toArray())->get();
+        return adminView('orders.suspends', compact('records', 'users', 'title'));
+    }
+
+    public function edit($orderId)
     {
         can('updateOrder');
-        return adminView('orders.edit');
+        $order = Order::find($orderId);
+        $transaction = $order->transaction();
+        $orderController = new OrderController();
+        $data = $orderController->cart(null, $order);
+        $address = $data['address'];
+        $shippings = $data['shippings'];
+        $statuses = [];
+        foreach (OrderShippingStatus::where('order_id', $order->id)->get() as $item) {
+            $statuses[$item->order_shipping_id][$item->status] = $item->created_at;
+        }
+        return adminView('orders.edit', compact('order', 'address', 'shippings', 'transaction', 'statuses'));
+    }
+
+    public function setStatus(Request $request)
+    {
+        can('updateOrder');
+
+        $output = validate($request, [
+            'orderId' => 'required',
+            'status' => 'required',
+            'shippingId' => 'required'
+        ]);
+
+        if ($output['status'] == 'success') {
+            $output['status'] = 'error';
+            $output['message'] = 'لطفا پارامترهای استاندارد را تغییر ندهید';
+            $order = Order::find($request->orderId);
+            if ($order != null) {
+                if (in_array($request->status, [1, 2, 3, 4])) {
+                    $where = ['order_id' => $order->id, 'order_shipping_id' => $request->shippingId];
+                    $newStatus = intval($request->status);
+                    $lastStatus = intval(OrderShippingStatus::where($where)->max('status')) ?? 1;
+                    if ($newStatus == 1) {
+                        $output['message'] = 'این وضعیت نمیتواند غیر فعال شود';
+                    } else {
+                        if ($lastStatus == $newStatus) {
+                            $active = false;
+                            $output['message'] = 'وضعیت با موفقیت غیرفعال شد';
+                            $output['status'] = 'success';
+                            OrderShippingStatus::where(array_merge($where, ['status' => $newStatus]))->delete();
+                        } else {
+                            if ($lastStatus > $newStatus) {
+                                $output['message'] = 'ابتدا وضعیت های بعدی را غیرفعال کنید';
+                            } else {
+                                if (($newStatus-$lastStatus) > 1) {
+                                    $output['message'] = 'لطفا وضعیت ها را به ترتیب اعمال کنید';
+                                } else {
+                                    if ($newStatus == 3) {
+                                        $output = validate($request, ['trackingCode' => 'required']);
+                                        if ($output['status'] != 'success') {
+                                            return $output;
+                                        }
+                                        OrderShipping::where('id', $request->orderId)->update(['tracking_code' => $request->trackingCode]);
+                                        $address = $order->address();
+                                        sms()->sendPattern('sendOrder', [
+                                            'id' => $request->orderId . '-' . $request->shippingId,
+                                            'name' => $address->name_family,
+                                            'trackingCode' => $request->trackingCode
+                                        ]);
+                                    }
+                                    $output['status'] = 'success';
+                                    $output['message'] = 'وضعیت با موفقیت فعال شد';
+                                    $adDateTime = Carbon::now()->toDateTimeString();
+                                    $dateTime = jDateTime('H:i:s Y/m/d', strtotime($adDateTime));
+                                    OrderShippingStatus::create(array_merge($where, [
+                                        'status' => $newStatus,
+                                        'created_at' => $adDateTime
+                                    ]));
+                                }
+                            }
+                        }
+                    }
+                    $output['dateTime'] = $dateTime ?? '';
+                    $output['statusCode'] = $newStatus;
+                    $output['shippingId'] = $request->shippingId;
+                    $output['active'] = $active ?? true;
+                }
+            }
+        }
+
+        return $output;
+
     }
 
     public function hash()
@@ -401,7 +502,8 @@ class OrderController extends CoreController
             $order->update(['address_id' => $address->id]);
             $shingles = $address->shingles();
             foreach ($order->shippings() as $shipping) {
-                $postage = 10000;
+                $postage = 100000;
+                // فک کنم اینجا شینگل پیدا نمیشه و قیمت پیشفرض بالا اعمال میشه
                 if ($shingles != null) {
                     $shingle = $shingles->where('shipping_id', $shipping->shipping_id)->first();
                     if ($shingle != null) {

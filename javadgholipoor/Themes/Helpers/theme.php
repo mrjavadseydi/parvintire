@@ -195,6 +195,11 @@ function renderTheme($type, $theme = null) {
 
 }
 
+function renderFileTheme($name, $theme = 'template') {
+    css("assets/{$theme}/".getTheme($theme)."/{$name}.css");
+    js("assets/{$theme}/".getTheme($theme)."/{$name}.js");
+}
+
 function css($path, $version = '') {
     if (file_exists($path))
         echo '<link rel="stylesheet" href="' . asset($path) . ($version != '' ? '?v=' . $version : '') . '">' . "\n\t";

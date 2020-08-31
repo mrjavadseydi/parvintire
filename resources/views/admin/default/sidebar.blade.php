@@ -347,6 +347,12 @@
                                 <span>سفارش ها</span>
                             </a>
                         </li>
+                        <li class="">
+                            <a class="sidebar-item" href="{{ route('admin.orders.suspends') }}">
+                                <i class="icon-hourglass_empty"></i>
+                                <span>سفارش های معلق</span>
+                            </a>
+                        </li>
                         @foreach(config('store.orderStatus') as $status => $item)
                             <li class="">
                                 <a class="sidebar-item" href="{{ route('admin.orders.index') }}?status={{ $status }}">

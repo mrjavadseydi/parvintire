@@ -21,8 +21,17 @@ class PermissionController extends CoreController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        $this->apiSecurity('permissions');
+
+        // TODO optimize
+
+        if ($request->ajax()) {
+            return Permission::all();
+        }
+
         $permissions = Permission::paginate(30);
         return adminView('permissions.all', compact('permissions'));
     }
@@ -93,7 +102,9 @@ class PermissionController extends CoreController
         //
     }
 
-    public function sync() {
+    public function sync(Request $request) {
+
+        $this->apiSecurity('permissions');
 
         $appName = env('APP_NAME');
         $appNameToLower = strtolower($appName);
@@ -122,6 +133,10 @@ class PermissionController extends CoreController
         }
 
         deleteCache('permissions');
+
+        if ($request->ajax()) {
+            return Permission::all();
+        }
 
         return redirect(route('admin.roles.index'));
 

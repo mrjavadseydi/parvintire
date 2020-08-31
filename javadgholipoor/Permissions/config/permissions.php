@@ -5,12 +5,27 @@ return [
     'admin' => [
         'title' => 'مدیریت',
         'permissions' => [
+            'administrator' => [
+                'title' => 'مدیرکل'
+            ],
             "controlPanel" => [
-                'title' => 'پنل مدیریت'
+                'title' => 'مشاهده پنل مدیریت'
             ],
-            "tools" => [
-                'title' => 'ابزار'
+            "configuration" => [
+                'title' => 'پیکربندی'
             ],
+            'updateCore' => [
+                'title' => 'بروز رسانی هسته پروژه'
+            ],
+            'updateDatabase' => [
+                'title' => 'همگام سازی پایگاه'
+            ],
+            'updateThemes' => [
+                'title' => 'بروز رسانی قالب‌ها'
+            ],
+            'initProject' => [
+                'title' => 'پیکربندی پروژه'
+            ]
         ]
     ],
 
@@ -37,19 +52,31 @@ return [
             ],
             'switchUser' => [
                 'title' => 'گرفتن سطح دسترسی کاربران'
+            ],
+            'blockUser' => [
+                'title' => 'مسدود کردن کاربر'
+            ],
+            'roles' => [
+                'title' => 'نقش ها'
+            ],
+            'createRole' => [
+                'title' => 'افزودن نقش'
+            ],
+            'updateRole' => [
+                'title' => 'ویرایش نقش'
+            ],
+            'canSetAllRoles' => [
+                'title' => 'اختصاص تمام نقش ها'
+            ],
+            'canSetSelfRole' => [
+                'title' => 'اختصاص نقش خود'
+            ],
+            'permissions' => [
+                'title' => 'مجوز ها'
+            ],
+            'canSetAllPermissions' => [
+                'title' => 'اختصاص تمام دسترسی ها'
             ]
-        ]
-    ],
-
-    'uploader' => [
-        'title' => 'آپلودر',
-        'permissions' => [
-            'uploaderViewAllFiles' => [
-                'title' => 'مشاهده تمام فایل ها'
-            ],
-            'deleteImage' => [
-                'title' => 'حذف فایل ها'
-            ],
         ]
     ],
 
@@ -83,29 +110,17 @@ return [
             'sortGroups' => [
                 'title' => 'مرتب سازی گروه ها'
             ],
-        ]
-    ],
-
-    'permissions' => [
-        'title' => 'مجوز ها',
-        'permissions' => [
-            'canSetAllPermissions' => [
-                'title' => 'اختصاص تمام دسترسی ها'
-            ]
-        ]
-    ],
-
-    'roles' => [
-        'title' => 'نقش ها',
-        'permissions' => [
-            'canSetAllRoles' => [
-                'title' => 'اختصاص تمام نقش ها'
+            'uploader' => [
+                'title' => 'آپلودر'
             ],
-            'canSetSelfRole' => [
-                'title' => 'اختصاص نقش خود'
+            'uploaderViewAllFiles' => [
+                'title' => 'مشاهده تمام فایل ها'
             ],
-            'administrator' => [
-                'title' => 'مدیرکل'
+            'deleteImage' => [
+                'title' => 'حذف فایل ها'
+            ],
+            'downloadBeforePublic' => [
+                'title' => 'دانلود فایل های قبل از public'
             ]
         ]
     ],
@@ -137,12 +152,9 @@ return [
             'translatePosts' => [
                 'title' => 'ترجمه مطالب'
             ],
-        ]
-    ],
-
-    'categories' => [
-        'title' => 'دسته بندی ها',
-        'permissions' => [
+            'categories' => [
+                'title' => 'دسته بندی ها'
+            ],
             'canSetAllCategories' => [
                 'title' => 'اختصاص تمام دسته ها'
             ],
@@ -161,12 +173,9 @@ return [
             'deleteCategory' => [
                 'title' => 'حذف دسته‌ها'
             ],
-        ]
-    ],
-
-    'tags' => [
-        'title' => 'برچسب ها',
-        'permissions' => [
+            'tags' => [
+                'title' => 'برچسب ها'
+            ],
             'showTag' => [
                 'title' => 'مشاهده برچسب'
             ],
@@ -179,32 +188,20 @@ return [
             'deleteTag' => [
                 'title' => 'حذف برچسب'
             ],
-        ]
-    ],
-
-    'reports' => [
-        'title' => 'گزارشات',
-        'permissions' => [
-            'searchReport' => [
-                'title' => 'گزارش جستجو'
-            ]
-        ]
-    ],
-
-    'world' => [
-        'title' => 'کشور/استان/شهرستان/شهر',
-        'permissions' => [
-            'canSetAllCountries' => [
-                'title' => 'اختصاص تمام کشورها'
+            'comments' => [
+                'title' => 'نظرات'
             ],
-            'canSetAllProvinces' => [
-                'title' => 'اختصاص تمام استان‌ها'
+            'showComment' => [
+                'title' => 'مشاهده نظر'
             ],
-            'canSetAllCities' => [
-                'title' => 'اختصاص تمام شهرستان‌ها'
+            'createComment' => [
+                'title' => 'افزودن نظر'
             ],
-            'canSetAllTowns' => [
-                'title' => 'اختصاص تمام شهرها'
+            'updateComment' => [
+                'title' => 'ویرایش نظر',
+            ],
+            'deleteComment' => [
+                'title' => 'حذف نظر',
             ],
         ]
     ],
@@ -287,18 +284,21 @@ return [
         ]
     ],
 
-    'download' => [
-        'title' => 'دانلود',
+    'reports' => [
+        'title' => 'گزارشات',
         'permissions' => [
-            'downloadBeforePublic' => [
-                'title' => 'دانلود فایل های قبل از public'
+            'searchReport' => [
+                'title' => 'گزارش جستجو'
             ]
         ]
     ],
 
-    'transactions' => [
-        'title' => 'تراکنش ها',
+    'financial' => [
+        'title' => 'مالی',
         'permissions' => [
+            'transactions' => [
+                'title' => 'تراکنش ها'
+            ],
             'showTransaction' => [
                 'title' => 'مشاهده تراکنش'
             ],
@@ -311,12 +311,9 @@ return [
             'deleteTransaction' => [
                 'title' => 'حذف تراکنش',
             ],
-        ]
-    ],
-
-    'orders' => [
-        'title' => 'سفارش ها',
-        'permissions' => [
+            'orders' => [
+                'title' => 'سفارش ها'
+            ],
             'showOrder' => [
                 'title' => 'مشاهده سفارش'
             ],
@@ -332,21 +329,9 @@ return [
         ]
     ],
 
-    'comments' => [
-        'title' => 'نظرات',
+    'support' => [
+        'title' => 'پشتیبانی',
         'permissions' => [
-            'showComment' => [
-                'title' => 'مشاهده نظر'
-            ],
-            'createComment' => [
-                'title' => 'افزودن نظر'
-            ],
-            'updateComment' => [
-                'title' => 'ویرایش نظر',
-            ],
-            'deleteComment' => [
-                'title' => 'حذف نظر',
-            ],
             'tickets' => [
                 'title' => 'تیکت ها'
             ],
@@ -365,21 +350,21 @@ return [
         ]
     ],
 
-    'configuration' => [
-        'title' => 'پیکربندی',
+    'location' => [
+        'title' => 'موقعیت',
         'permissions' => [
-            'updateCore' => [
-                'title' => 'بروز رسانی پروژه'
+            'canSetAllCountries' => [
+                'title' => 'اختصاص تمام کشورها'
             ],
-            'updateDatabase' => [
-                'title' => 'همگام سازی پایگاه'
+            'canSetAllProvinces' => [
+                'title' => 'اختصاص تمام استان‌ها'
             ],
-            'updateThemes' => [
-                'title' => 'بروز رسانی قالب‌ها'
+            'canSetAllCities' => [
+                'title' => 'اختصاص تمام شهرستان‌ها'
             ],
-            'initProject' => [
-                'title' => 'پیکربندی پروژه'
-            ]
+            'canSetAllTowns' => [
+                'title' => 'اختصاص تمام شهرها'
+            ],
         ]
     ],
 

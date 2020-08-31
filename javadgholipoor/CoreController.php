@@ -16,4 +16,10 @@ class CoreController extends Controller {
         }
     }
 
+    public function apiSecurity($permission)
+    {
+        // TODO دریافت توکن و دریافت یوزر و بررسی دسترسی
+        can($permission);
+    }
+
 }

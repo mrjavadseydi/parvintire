@@ -27,6 +27,7 @@
                             <th>کد رهگیری</th>
                             <th>درگاه</th>
                             <th>وضعیت</th>
+                            <th>وضعیت ارسال</th>
                             <th>تاریخ</th>
                             <th>عملیات</th>
                         </tr>
@@ -48,6 +49,7 @@
                                 <td class="color-green">{{ number_format($record->payed_price) }}</td>
                                 <td class="color-orange">{{ $record->reference_id ?? '-' }}</td>
                                 <td title="{{ $record->gateway }}"><img width="50px" src="{{ image("gateway/{$record->gateway}.png") }}" alt="{{ $record->gateway }}"></td>
+                                <td style="color: {{ config("store.orderStatus.{$record->status}.color") }}; background-color: {{ config("store.orderStatus.{$record->status}.lightColor") }};">{{ config("store.orderStatus.{$record->status}.title") }}</td>
                                 <td style="color: {{ config("store.orderStatus.{$record->status}.color") }}; background-color: {{ config("store.orderStatus.{$record->status}.lightColor") }};">{{ config("store.orderStatus.{$record->status}.title") }}</td>
                                 <td class="ltr">{{ jDateTime('Y/m/d H:i:s', strtotime($record->created_at)) }}{!! $record->updated_at == null ? '' : ($record->created_at != $record->updated_at ? '<br>' . jDateTime('Y/m/d H:i:s', strtotime($record->updated_at)) : '') !!}</td>
                                 <td>

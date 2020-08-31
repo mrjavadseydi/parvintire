@@ -2,25 +2,33 @@
 
 namespace LaraBase\Uploader;
 
-use Illuminate\Support\Facades\Hash;
-use LaraBase\Options\Options;
-
 class Manager {
 
     private $options;
     private $theme = null;
 
-    public function load() {
+    public function load($returnView = true) {
 
-        $hash = uploaderHash(url()->full());
+        $url = url()->full();
+        if (\Request::is('api*')) {
+            $url = $_SERVER['HTTP_REFERER'];
+        }
+        $hash = uploaderHash($url);
         $value = json_encode($this->options);
         foreach ($this->options['validations'] as $key => $validation) {
             $cacheKey = "{$key}_{$hash}";
             setCache($cacheKey, $value, 360);
         }
-        $key = $this->options['relationType'] . '_' . $this->options['relationId'];
-        return uploaderView('master', ['uploaderKey' => $key], [], $this->theme);
+        if ($returnView) {
+            $key = $this->options['relationType'] . '_' . $this->options['relationId'];
+            return uploaderView('master', ['uploaderKey' => $key], [], $this->theme);
+        }
 
+    }
+
+    public function init()
+    {
+        $this->load(false);
     }
 
     public function theme($theme)
@@ -97,6 +105,23 @@ class Manager {
         return $this;
     }
 
+    public function addKey($key, $uploadIn, $validations, $method = null, $data = [])
+    {
+        $add = [
+            'key' => $key,
+            'in' => $uploadIn,
+            'validations' => $validations,
+        ];
+        if (!empty($method)) {
+            $add['method'] = $method;
+        }
+        if (!empty($data)) {
+            $add['data'] = $data;
+        }
+        $this->options['validations'][$key] = $add;
+        return $this;
+    }
+
     public function relation($type, $id) {
         $this->options['relationType'] = $type;
         $this->options['relationId'] = $id;
@@ -105,6 +130,12 @@ class Manager {
 
     public function where($where) {
         $this->options['where'] = $where;
+        return $this;
+    }
+
+    public function data($data)
+    {
+        $this->options['data'] = $data;
         return $this;
     }
 
