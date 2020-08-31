@@ -2,13 +2,13 @@
 
 namespace LaraBase\Auth\Models;
 
+use Firebase\JWT\JWT;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use LaraBase\Auth\Actions\Authorizable;
 use LaraBase\Categories\Models\Category;
 use LaraBase\Permissions\Permissions;
 use LaraBase\Posts\Models\PostType;
-use LaraBase\Posts\Posts;
 use LaraBase\Roles\Models\Role;
 use LaraBase\Roles\Models\RoleMeta;
 use LaraBase\Roles\Roles;
@@ -16,11 +16,10 @@ use LaraBase\World\models\City;
 use LaraBase\World\models\Country;
 use LaraBase\World\models\Province;
 use LaraBase\World\models\Town;
-use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable;
     use \LaraBase\Auth\Actions\User;
     use Authorizable;
 
@@ -52,6 +51,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getApiToken()
+    {
+        return JWT::encode([
+            "key" => 'apiAuth',
+            "userId" => $this->id,
+            "createdAt" => strtotime('now'),
+            "expiredAt" => strtotime('now') + 31536000, // یک سال
+            "token" => generateToken(50),
+            "userAgent" => $_SERVER['HTTP_USER_AGENT']
+        ], 'apiAuth');
+    }
 
     public function getFullNameAttribute()
     {

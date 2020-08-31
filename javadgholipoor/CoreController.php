@@ -3,6 +3,8 @@
 namespace LaraBase;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CoreController extends Controller {
 
@@ -16,10 +18,11 @@ class CoreController extends Controller {
         }
     }
 
-    public function apiSecurity($permission)
+    public function apiSecurity($request, $permission)
     {
-        // TODO دریافت توکن و دریافت یوزر و بررسی دسترسی
-        can($permission);
+        if (!$request->user->can($permission)) {
+            abort(401);
+        }
     }
 
 }

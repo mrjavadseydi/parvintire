@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace LaraBase\App\Middleware;
 
 use Closure;
 

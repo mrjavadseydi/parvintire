@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace LaraBase\App\Middleware;
 
 use Closure;
 
-class Api
+class Permission
 {
     /**
      * Handle an incoming request.
@@ -13,9 +13,12 @@ class Api
      * @param  \Closure  $next
      * @return mixed
      */
-
     public function handle($request, Closure $next)
     {
+        if (auth()->check())
+            if (!auth()->user()->hasMeta(config('optionsConfig.dev')))
+                return abort(401);
+
         return $next($request);
     }
 }

@@ -6,16 +6,18 @@ namespace LaraBase\FileStore\Controllers;
 
 use Illuminate\Http\Request;
 use LaraBase\Attachments\Models\Attachment;
+use LaraBase\CoreController;
 use LaraBase\FileStore\Models\File;
 use LaraBase\Options\Models\Option;
 use LaraBase\Posts\Models\Post;
 use Mockery\Exception;
 
-class FileController
+class FileController extends CoreController
 {
 
     public function files(Request $request)
     {
+        $this->apiSecurity($request, 'files');
         $output = validate($request, [
             'postId' => 'required'
         ]);

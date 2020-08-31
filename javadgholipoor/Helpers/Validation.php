@@ -60,9 +60,19 @@ class Validation
         }
         return false;
     }
-    
+
     public static function validate($request, $rules, $messages = []) {
-        
+
+        if( $request->is('api/*')) {
+            $output['status'] = 'success';
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                $output['status'] = 'error';
+                $output['message'] = $validator->getMessageBag()->first();
+            }
+            return $output;
+        }
+
         if ($request->ajax()) {
             $output['status'] = 'success';
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -74,7 +84,7 @@ class Validation
         } else {
             return $request->validate($rules, $messages);
         }
-    
+
     }
 
 }
