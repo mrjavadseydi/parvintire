@@ -1,203 +1,206 @@
 <template>
     <div>
-        <head-content :title="pageTitle" :buttons="buttons"></head-content>
-        <form id="user-form" class="card" @submit.prevent="onSubmit" @change="keydown" @keydown="keydown">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <text-input-group v-model="data.label" :val="data.label" :error="errors.get('label')" title="عنوان"></text-input-group>
+        <loader v-if="loader"></loader>
+        <div v-else>
+            <head-content :title="pageTitle" :buttons="buttons"></head-content>
+            <form id="user-form" class="card" @submit.prevent="onSubmit" @change="keydown" @keydown="keydown">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <text-input-group v-model="data.label" :val="data.label" :error="errors.get('label')" title="عنوان"></text-input-group>
+                                </div>
+                                <div class="col-md-6">
+                                    <text-input-group classes="ltr text-left" v-model="data.name" :val="data.name" :error="errors.get('name')" title="کلید"></text-input-group>
+                                </div>
+                                <div class="col-md-12">
+                                    <select-group :options="[{title:'غیرفعال', value:'0'},{title:'فعال', value:'1'}]" title="پشتیبان تیکت" v-model="data.ticketDepartment" :val="data.ticketDepartment" :error="errors.get('ticketDepartment')"></select-group>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <text-input-group classes="ltr text-left" v-model="data.name" :val="data.name" :error="errors.get('name')" title="کلید"></text-input-group>
-                            </div>
-                            <div class="col-md-12">
-                                <select-group :options="[{title:'غیرفعال', value:'0'},{title:'فعال', value:'1'}]" title="پشتیبان تیکت" v-model="data.ticketDepartment" :val="data.ticketDepartment" :error="errors.get('ticketDepartment')"></select-group>
+                            <multi-select-group v-model="data.canSet" :val="data.canSet" title="نقش هایی که من میتوانم به بقیه اختصاص دهم" name="canSet" :options="roles" :error="errors.get('canSet')"></multi-select-group>
+                            <multi-select-group v-model="data.canSetMe" :val="data.canSetMe" title="نقش هایی که میتوانند من را به بقیه اختصاص دهند" name="canSetMe" :options="roles" :error="errors.get('canSetMe')"></multi-select-group>
+                            <div class="d-none d-md-block">
+                                <button :disabled="disabled" class="btn btn-success py-2 px-3">{{ buttonTitle }}</button>
                             </div>
                         </div>
-                        <multi-select-group v-model="data.canSet" :val="data.canSet" title="نقش هایی که من میتوانم به بقیه اختصاص دهم" name="canSet" :options="roles" :error="errors.get('canSet')"></multi-select-group>
-                        <multi-select-group v-model="data.canSetMe" :val="data.canSetMe" title="نقش هایی که میتوانند من را به بقیه اختصاص دهند" name="canSetMe" :options="roles" :error="errors.get('canSetMe')"></multi-select-group>
-                        <div class="d-none d-md-block">
-                            <button :disabled="disabled" class="btn btn-success py-2 px-3">{{ buttonTitle }}</button>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <label>مجوز ها</label>
-                            <div class="vertical-tabbar">
-                                <ul class="tabbar-items">
-                                    <li @click="setPermissionGroup('all')" :class="permissionGroup == 'all' ? 'active' : ''">
-                                        <span>همه</span>
-                                        <small :class="[ data.permissions.length == permissions.length ? 'text-success' : 'text-danger' ]">({{ data.permissions.length }}/{{ permissions.length }})</small>
-                                    </li>
-                                    <li @click="setPermissionGroup(name)" :class="permissionGroup == name ? 'active' : ''" v-for="(item, name) in permissionsGroup">
-                                        <span v-text="item.title"></span>
-                                        <small :class="[ item.count == item.list.length ? 'text-success' : 'text-danger' ]">({{ item.count }}/{{ item.list.length }})</small>
-                                    </li>
-                                </ul>
-                                <div class="tabbar-contents flex-fill">
-                                    <ul id="permissions-list">
-                                        <label>
-                                            <input @change="allPermissionModel($event)" :checked="allChecked" v-model="allChecked" type="checkbox">
-                                            <span>انتخاب همه</span>
-                                        </label>
-                                        <div v-for="item in permissionsGroup">
-                                            <li v-for="item2 in item.list">
-                                                <label :class="[{'d-none' : permissionsDisplay(item.name)}]">
-                                                    <input @change="permissionModel($event, item2.id)" type="checkbox" :checked="item2.active">
-                                                    <span v-text="item2.title"></span>
-                                                </label>
-                                            </li>
-                                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <label>مجوز ها</label>
+                                <div class="vertical-tabbar">
+                                    <ul class="tabbar-items">
+                                        <li @click="setPermissionGroup('all')" :class="permissionGroup == 'all' ? 'active' : ''">
+                                            <span>همه</span>
+                                            <small :class="[ data.permissions.length == permissions.length ? 'text-success' : 'text-danger' ]">({{ data.permissions.length }}/{{ permissions.length }})</small>
+                                        </li>
+                                        <li @click="setPermissionGroup(name)" :class="permissionGroup == name ? 'active' : ''" v-for="(item, name) in permissionsGroup">
+                                            <span v-text="item.title"></span>
+                                            <small :class="[ item.count == item.list.length ? 'text-success' : 'text-danger' ]">({{ item.count }}/{{ item.list.length }})</small>
+                                        </li>
                                     </ul>
+                                    <div class="tabbar-contents flex-fill">
+                                        <ul id="permissions-list">
+                                            <label>
+                                                <input @change="allPermissionModel($event)" :checked="allChecked" v-model="allChecked" type="checkbox">
+                                                <span>انتخاب همه</span>
+                                            </label>
+                                            <div v-for="item in permissionsGroup">
+                                                <li v-for="item2 in item.list">
+                                                    <label :class="[{'d-none' : permissionsDisplay(item.name)}]">
+                                                        <input :value="item2.id" v-model="data.permissions" type="checkbox" :checked="item2.active">
+                                                        <span v-text="item2.title"></span>
+                                                    </label>
+                                                </li>
+                                            </div>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <label>&nbsp;</label>
-                            <div class="vertical-tabbar">
-                                <ul class="tabbar-items">
-                                    <li @click="otherGroup = 'postBoxes'" :class="otherGroup == 'postBoxes' ? 'active' : ''">
-                                        <span>باکس ها</span>
-                                        <small :class="[ data.postBoxes.length == Object.keys(postBoxes).length ? 'text-success' : 'text-danger' ]">({{ data.postBoxes.length }}/{{ Object.keys(postBoxes).length }})</small>
-                                    </li>
-                                    <li v-for="postType in postTypes" @click="otherGroup = postType.type" :class="otherGroup == postType.type ? 'active' : ''">
-                                        <span v-text="postType.label"></span>
-                                    </li>
-                                    <li @click="otherGroup = 'countries'" :class="otherGroup == 'countries' ? 'active' : ''">
-                                        <span>کشور</span>
-                                        <small :class="[ data.countries.length == countries.length ? 'text-success' : 'text-danger' ]">({{ data.countries.length }}/{{ countries.length }})</small>
-                                    </li>
-                                    <li @click="otherGroup = 'provinces'" :class="otherGroup == 'provinces' ? 'active' : ''">
-                                        <span>استان</span>
-                                        <small :class="[ data.provinces.length == provinces.length ? 'text-success' : 'text-danger' ]">({{ data.provinces.length }}/{{ provinces.length }})</small>
-                                    </li>
-                                    <li @click="otherGroup = 'cities'" :class="otherGroup == 'cities' ? 'active' : ''">
-                                        <span>شهرستان</span>
-                                        <small :class="[ data.cities.length == cities.length ? 'text-success' : 'text-danger' ]">({{ data.cities.length }}/{{ cities.length }})</small>
-                                    </li>
-                                    <li @click="otherGroup = 'towns'" :class="otherGroup == 'towns' ? 'active' : ''">
-                                        <span>شهر</span>
-                                        <small :class="[ data.towns.length == towns.length ? 'text-success' : 'text-danger' ]">({{ data.towns.length }}/{{ towns.length }})</small>
-                                    </li>
-                                </ul>
-                                <div class="tabbar-contents flex-fill">
-                                    <ul>
-                                        <div :class="otherGroup == 'postBoxes' ? '' : 'd-none'">
-                                            <li>
-                                                <label>
-                                                    <input @change="allPostBoxes($event)" type="checkbox">
-                                                    <span>انتخاب همه</span>
-                                                </label>
-                                            </li>
-                                            <li v-for="(item, box) in postBoxes">
-                                                <label>
-                                                    <input @change="postBoxModel($event, box)" type="checkbox" :checked="data.postBoxes.includes(box)">
-                                                    <span v-text="item.title"></span>
-                                                </label>
-                                            </li>
-                                        </div>
-                                        <div v-for="postType in postTypes" :class="otherGroup == postType.type ? '' : 'd-none'">
-                                            <li>
-                                                <label>
-                                                    <input @change="allPostType($event, postType.type)" type="checkbox">
-                                                    <span>انتخاب همه</span>
-                                                </label>
-                                            </li>
-                                            <li v-for="(item, permType) in allPostTypesPermissions">
-                                                <label>
-                                                    <input @change="postTypeModel($event, postType.type, permType)" type="checkbox" :checked="postTypeChecked.includes(postType.type + '_' + permType)">
-                                                    <span v-text="item.title"></span>
-                                                </label>
-                                            </li>
-                                            <h3>دسته ها</h3>
-                                            <li v-for="category in categories" v-if="category.post_type == postType.type">
-                                                <label>
-                                                    <input @change="categoryModel($event, postType.type, category.id)" type="checkbox" :checked="categoriesChecked.includes(postType.type + '_' + category.id)">
-                                                    <span v-text="category.title"></span>
-                                                </label>
-                                            </li>
-                                        </div>
-                                        <div :class="otherGroup == 'countries' ? '' : 'd-none'">
-                                            <li>
-                                                <label>
-                                                    <input @change="allCountries($event)" type="checkbox">
-                                                    <span>انتخاب همه</span>
-                                                </label>
-                                            </li>
-                                            <li v-for="item in countries">
-                                                <label>
-                                                    <input @change="countryModel($event, item.id)" type="checkbox" :checked="data.countries.includes(item.id)">
-                                                    <span v-text="item.name"></span>
-                                                </label>
-                                            </li>
-                                        </div>
-                                        <div :class="otherGroup == 'provinces' ? '' : 'd-none'">
-                                            <li>
-                                                <label>
-                                                    <input @change="allProvinces($event)" type="checkbox">
-                                                    <span>انتخاب همه</span>
-                                                </label>
-                                            </li>
-                                            <li v-for="item in provinces">
-                                                <label>
-                                                    <input @change="provinceModel($event, item.id)" type="checkbox" :checked="data.provinces.includes(item.id)">
-                                                    <span v-text="item.name"></span>
-                                                </label>
-                                            </li>
-                                        </div>
-                                        <div :class="otherGroup == 'cities' ? '' : 'd-none'">
-                                            <li>
-                                                <label>
-                                                    <input @change="allCities($event)" type="checkbox">
-                                                    <span>انتخاب همه</span>
-                                                </label>
-                                            </li>
-                                            <li v-for="item in cities">
-                                                <label>
-                                                    <input @change="cityModel($event, item.id)" type="checkbox" :checked="data.cities.includes(item.id)">
-                                                    <span v-text="item.name"></span>
-                                                </label>
-                                            </li>
-                                        </div>
-                                        <div :class="otherGroup == 'towns' ? '' : 'd-none'">
-                                            <li>
-                                                <label>
-                                                    <input @change="allTowns($event)" type="checkbox">
-                                                    <span>انتخاب همه</span>
-                                                </label>
-                                            </li>
-                                            <li v-for="item in towns">
-                                                <label>
-                                                    <input @change="townModel($event, item.id)" type="checkbox" :checked="data.towns.includes(item.id)">
-                                                    <span v-text="item.name"></span>
-                                                </label>
-                                            </li>
-                                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <label>&nbsp;</label>
+                                <div class="vertical-tabbar">
+                                    <ul class="tabbar-items">
+                                        <li @click="otherGroup = 'postBoxes'" :class="otherGroup == 'postBoxes' ? 'active' : ''">
+                                            <span>باکس ها</span>
+                                            <small :class="[ data.postBoxes.length == Object.keys(postBoxes).length ? 'text-success' : 'text-danger' ]">({{ data.postBoxes.length }}/{{ Object.keys(postBoxes).length }})</small>
+                                        </li>
+                                        <li v-for="postType in postTypes" @click="otherGroup = postType.type" :class="otherGroup == postType.type ? 'active' : ''">
+                                            <span v-text="postType.label"></span>
+                                        </li>
+                                        <li @click="otherGroup = 'countries'" :class="otherGroup == 'countries' ? 'active' : ''">
+                                            <span>کشور</span>
+                                            <small :class="[ data.countries.length == countries.length ? 'text-success' : 'text-danger' ]">({{ data.countries.length }}/{{ countries.length }})</small>
+                                        </li>
+                                        <li @click="otherGroup = 'provinces'" :class="otherGroup == 'provinces' ? 'active' : ''">
+                                            <span>استان</span>
+                                            <small :class="[ data.provinces.length == provinces.length ? 'text-success' : 'text-danger' ]">({{ data.provinces.length }}/{{ provinces.length }})</small>
+                                        </li>
+                                        <li @click="otherGroup = 'cities'" :class="otherGroup == 'cities' ? 'active' : ''">
+                                            <span>شهرستان</span>
+                                            <small :class="[ data.cities.length == cities.length ? 'text-success' : 'text-danger' ]">({{ data.cities.length }}/{{ cities.length }})</small>
+                                        </li>
+                                        <li @click="otherGroup = 'towns'" :class="otherGroup == 'towns' ? 'active' : ''">
+                                            <span>شهر</span>
+                                            <small :class="[ data.towns.length == towns.length ? 'text-success' : 'text-danger' ]">({{ data.towns.length }}/{{ towns.length }})</small>
+                                        </li>
                                     </ul>
+                                    <div class="tabbar-contents flex-fill">
+                                        <ul>
+                                            <div :class="otherGroup == 'postBoxes' ? '' : 'd-none'">
+                                                <li>
+                                                    <label>
+                                                        <input @change="allPostBoxes($event)" type="checkbox">
+                                                        <span>انتخاب همه</span>
+                                                    </label>
+                                                </li>
+                                                <li v-for="(item, box) in postBoxes">
+                                                    <label>
+                                                        <input v-model="data.postBoxes" :value="box" type="checkbox" :checked="data.postBoxes.includes(box)">
+                                                        <span v-text="item.title"></span>
+                                                    </label>
+                                                </li>
+                                            </div>
+                                            <div v-for="postType in postTypes" :class="otherGroup == postType.type ? '' : 'd-none'">
+                                                <li>
+                                                    <label>
+                                                        <input @change="allPostType($event, postType.type)" type="checkbox">
+                                                        <span>انتخاب همه</span>
+                                                    </label>
+                                                </li>
+                                                <li v-for="(item, permType) in allPostTypesPermissions">
+                                                    <label>
+                                                        <input @change="postTypeModel($event, postType.type, permType)" type="checkbox" :checked="postTypeChecked.includes(postType.type + '_' + permType)">
+                                                        <span v-text="item.title"></span>
+                                                    </label>
+                                                </li>
+                                                <h3>دسته ها</h3>
+                                                <li v-for="category in categories" v-if="category.post_type == postType.type">
+                                                    <label>
+                                                        <input @change="categoryModel($event, postType.type, category.id)" type="checkbox" :checked="categoriesChecked.includes(postType.type + '_' + category.id)">
+                                                        <span v-text="category.title"></span>
+                                                    </label>
+                                                </li>
+                                            </div>
+                                            <div :class="otherGroup == 'countries' ? '' : 'd-none'">
+                                                <li>
+                                                    <label>
+                                                        <input @change="allCountries($event)" type="checkbox">
+                                                        <span>انتخاب همه</span>
+                                                    </label>
+                                                </li>
+                                                <li v-for="item in countries">
+                                                    <label>
+                                                        <input v-model="data.countries" :value="item.id" type="checkbox" :checked="data.countries.includes(item.id)">
+                                                        <span v-text="item.name"></span>
+                                                    </label>
+                                                </li>
+                                            </div>
+                                            <div :class="otherGroup == 'provinces' ? '' : 'd-none'">
+                                                <li>
+                                                    <label>
+                                                        <input @change="allProvinces($event)" type="checkbox">
+                                                        <span>انتخاب همه</span>
+                                                    </label>
+                                                </li>
+                                                <li v-for="item in provinces">
+                                                    <label>
+                                                        <input v-model="data.provinces" :value="item.id" type="checkbox" :checked="data.provinces.includes(item.id)">
+                                                        <span v-text="item.name"></span>
+                                                    </label>
+                                                </li>
+                                            </div>
+                                            <div :class="otherGroup == 'cities' ? '' : 'd-none'">
+                                                <li>
+                                                    <label>
+                                                        <input @change="allCities($event)" type="checkbox">
+                                                        <span>انتخاب همه</span>
+                                                    </label>
+                                                </li>
+                                                <li v-for="item in cities">
+                                                    <label>
+                                                        <input v-model="data.cities" :value="item.id" type="checkbox" :checked="data.cities.includes(item.id)">
+                                                        <span v-text="item.name"></span>
+                                                    </label>
+                                                </li>
+                                            </div>
+                                            <div :class="otherGroup == 'towns' ? '' : 'd-none'">
+                                                <li>
+                                                    <label>
+                                                        <input @change="allTowns($event)" type="checkbox">
+                                                        <span>انتخاب همه</span>
+                                                    </label>
+                                                </li>
+                                                <li v-for="item in towns">
+                                                    <label>
+                                                        <input v-model="data.towns" :value="item.id" type="checkbox" :checked="data.towns.includes(item.id)">
+                                                        <span v-text="item.name"></span>
+                                                    </label>
+                                                </li>
+                                            </div>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 mt-3 d-block d-md-none">
-                        <button :disabled="disabled" class="btn btn-success w-100 py-2 px-3">{{ buttonTitle }}</button>
+                        <div class="col-12 mt-3 d-block d-md-none">
+                            <button :disabled="disabled" class="btn btn-success w-100 py-2 px-3">{{ buttonTitle }}</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </template>
 
 <script>
 
 import HeadContent from '../HeadContent.vue';
-import TextInputGroup from "../../../../js/components/forms/group/TextInputGroup";
-import MultiSelectGroup from "../../../../js/components/forms/group/MultiSelectGroup";
+import TextInputGroup from "../../forms/group/TextInputGroup";
+import MultiSelectGroup from "../../forms/group/MultiSelectGroup";
 import SelectGroup from "../../forms/group/SelectGroup";
-import {Errors} from "../../../../js/errors";
+import {Errors} from "../../../errors";
 
 import VueIziToast from 'vue-izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
@@ -212,6 +215,7 @@ export default {
     },
     data() {
         return {
+            loader: true,
             pageTitle: 'ویرایش نقش',
             buttonTitle: 'ذخیره',
             disabled: false,
@@ -251,7 +255,7 @@ export default {
             allChecked: false,
             permissionGroup: 'all',
             defaultPermissionsGroup: [],
-            permissionsGroup: [],
+            permissionsGroup: {},
             permissionGroupCount: {},
             roles: [],
             permissions: [],
@@ -354,6 +358,7 @@ export default {
             this.$parent.headContent({
                 title: 'ویرایش ' + role.label
             });
+            this.loader = false;
         })
         .catch(error => {
 
@@ -397,22 +402,6 @@ export default {
 
             return true;
         },
-        permissionModel(event, id) {
-            var all = [];
-            var index = 0;
-            if (event.target.checked) {
-                all[index] = id;
-                index++;
-            }
-            this.data.permissions.forEach(function (itemId) {
-                if (itemId != id) {
-                    all[index] = itemId;
-                    index++;
-                }
-            });
-            this.data.permissions = all;
-            this.setPermissionsGroup();
-        },
         setPermissionGroup(name) {
             this.allChecked = false;
             this.permissionGroup = name;
@@ -444,25 +433,27 @@ export default {
                 if (active) {
                     counter++;
                 }
-                item.list.forEach(function (item2, i2) {
-                    var index = i2 + 1;
-                    var active = permissions.includes(item2.id);
-                    group['list'][index] = {
-                        id: item2.id,
-                        title: item2.title,
-                        active: active
-                    };
-                    if (active) {
-                        counter++;
-                    }
-                });
+                if (item.list !== undefined) {
+                    item.list.forEach(function (item2, i2) {
+                        var index = i2 + 1;
+                        var active = permissions.includes(item2.id);
+                        group['list'][index] = {
+                            id: item2.id,
+                            title: item2.title,
+                            active: active
+                        };
+                        if (active) {
+                            counter++;
+                        }
+                    });
+                }
                 group['name'] = name;
                 group['title'] = item.title;
                 group['count'] = counter;
                 groups[name] = group;
             });
             this.permissionsGroup = groups;
-            this.allCount = this.data.permissions.length;
+            this.allCount = this.data.permissio
         },
         allPermissionModel(event) {
             var check = this.allChecked;
@@ -513,21 +504,6 @@ export default {
             } else {
                 this.data.postBoxes = [];
             }
-        },
-        postBoxModel(event, box) {
-            var i = 0;
-            var all = [];
-            if (event.target.checked) {
-                all[i] = box;
-                i++;
-            }
-            this.data.postBoxes.forEach(function (boxKey) {
-               if (boxKey != box) {
-                   all[i] = boxKey;
-                   i++;
-               }
-            });
-            this.data.postBoxes = all;
         },
         allPostType(event, postType) {
             if (event.target.checked) {
@@ -626,19 +602,6 @@ export default {
                 this.data.countries = [];
             }
         },
-        countryModel(event, countryId) {
-            if (event.target.checked) {
-                this.data.countries.push(countryId);
-            } else {
-                var all = [];
-                this.data.countries.forEach(function (id){
-                    if (countryId != id) {
-                        all.push(id);
-                    }
-                });
-                this.data.countries = all;
-            }
-        },
         allProvinces(event) {
             if (event.target.checked) {
                 var all = [];
@@ -648,19 +611,6 @@ export default {
                 this.data.provinces = all;
             } else {
                 this.data.provinces = [];
-            }
-        },
-        provinceModel(event, itemId) {
-            if (event.target.checked) {
-                this.data.provinces.push(itemId);
-            } else {
-                var all = [];
-                this.data.provinces.forEach(function (id){
-                    if (itemId != id) {
-                        all.push(id);
-                    }
-                });
-                this.data.provinces = all;
             }
         },
         allCities(event) {
@@ -674,19 +624,6 @@ export default {
                 this.data.cities = [];
             }
         },
-        cityModel(event, itemId) {
-            if (event.target.checked) {
-                this.data.cities.push(itemId);
-            } else {
-                var all = [];
-                this.data.cities.forEach(function (id){
-                    if (itemId != id) {
-                        all.push(id);
-                    }
-                });
-                this.data.cities = all;
-            }
-        },
         allTowns(event) {
             if (event.target.checked) {
                 var all = [];
@@ -698,25 +635,17 @@ export default {
                 this.data.towns = [];
             }
         },
-        townModel(event, itemId) {
-            if (event.target.checked) {
-                this.data.towns.push(itemId);
-            } else {
-                var all = [];
-                this.data.towns.forEach(function (id){
-                    if (itemId != id) {
-                        all.push(id);
-                    }
-                });
-                this.data.towns = all;
-            }
-        },
         convertArrayToInteger(arr) {
             var output = [];
             arr.forEach(function (val) {
                 output.push(parseInt(val));
             });
             return output;
+        }
+    },
+    watch: {
+        'data.permissions'() {
+            this.setPermissionsGroup();
         }
     }
 }

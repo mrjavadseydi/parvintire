@@ -1,4 +1,6 @@
 <?php
-Route::group(['prefix' => 'v1'], function () {
-    Route::resource('roles', 'RoleController');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['prefix' => 'v1'], function () {
+        Route::resource('roles', 'RoleController');
+    });
 });

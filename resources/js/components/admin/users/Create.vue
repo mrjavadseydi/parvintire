@@ -18,8 +18,8 @@
 </template>
 <script>
     import HeadContent from '../HeadContent.vue';
-    import TextInputGroup from "../../../../js/components/forms/group/TextInputGroup";
-    import {Errors} from '../../../../js/errors';
+    import TextInputGroup from "../../forms/group/TextInputGroup";
+    import {Errors} from '../../../errors';
     export default {
         components: {
             HeadContent,

@@ -1,12 +1,14 @@
 <template>
     <div>
-        <head-content :title="pageTitle" :buttons="buttons"></head-content>
-        <input @keyup="search" type="text" class="form-control rounded-1 mb-2" placeholder="جستجو بر اساس شناسه،‌ نام، نام خانوادگی،‌ موبایل، ایمیل، نام کاربری">
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table>
-                        <thead>
+        <loader v-if="loader"></loader>
+        <div v-else>
+            <head-content :title="pageTitle" :buttons="buttons"></head-content>
+            <input @keyup="search" type="text" class="form-control rounded-1 mb-2" placeholder="جستجو بر اساس شناسه،‌ نام، نام خانوادگی،‌ موبایل، ایمیل، نام کاربری">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
                             <tr>
                                 <th></th>
                                 <th>نام</th>
@@ -14,8 +16,8 @@
                                 <th>آخرین‌بازدید</th>
                                 <th>عملیات</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             <tr v-for="user in data.data">
                                 <td>
                                     <figure class="d-inline-block position-relative m-0">
@@ -40,18 +42,19 @@
                                     <span @click="remove($event, user)" class="jgh-tooltip fa fa-trash btn user-card-btn btn-danger h5 m-0" title="حذف"></span>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            <pagination :data="data" :result="paginate"></pagination>
         </div>
-        <pagination :data="data" :result="paginate"></pagination>
     </div>
 </template>
 
 <script>
     import HeadContent from "../HeadContent";
-    import Pagination from "../../../../js/components/vendor/Pagination";
+    import Pagination from "../../vendor/Pagination";
 
     var cancel;
     var CancelToken = axios.CancelToken;
@@ -59,6 +62,7 @@
     export default {
         data() {
             return {
+                loader: true,
                 data: {},
                 pageTitle: 'کاربران',
                 buttons: [
@@ -95,6 +99,7 @@
             });
             axios.get('/api/v1/users').then(response => {
                 this.data = response.data;
+                this.loader = false;
             }).catch(error => console.log(error));
         },
         methods: {

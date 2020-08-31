@@ -3,6 +3,7 @@
 $mainColor: #03A9F4;
 $mainColorLight: #d0f2ff;
 
+@import "admin/loader";
 @import "admin/header";
 @import "admin/sidebar";
 @import "admin/table";
@@ -290,3 +291,16 @@ label {
     max-height: 480px;
     overflow: auto;
 }
+
+.no-scroll {
+    max-height: none;
+    overflow: visible;
+}
+
+@include media-breakpoint-up('md') {
+    .md-scroll {
+        max-height: 480px;
+        overflow: auto;
+    }
+}
+

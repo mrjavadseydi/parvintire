@@ -27,12 +27,12 @@ export default new VueRouter({
         {
             path : '/admin/roles/create',
             component : require('./components/admin/roles/Create.vue').default,
-            name: 'roles'
+            name: 'createRole'
         },
         {
             path : '/admin/roles/:id/edit',
             component : require('./components/admin/roles/Edit.vue').default,
-            name: 'roles'
+            name: 'updateRole'
         },
         {
             path : '/admin/users',

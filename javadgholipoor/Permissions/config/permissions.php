@@ -59,6 +59,12 @@ return [
             'roles' => [
                 'title' => 'نقش ها'
             ],
+            'createRole' => [
+                'title' => 'افزودن نقش'
+            ],
+            'updateRole' => [
+                'title' => 'ویرایش نقش'
+            ],
             'canSetAllRoles' => [
                 'title' => 'اختصاص تمام نقش ها'
             ],

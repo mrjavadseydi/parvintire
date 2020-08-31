@@ -11,7 +11,7 @@
     <title></title>
     <link rel="stylesheet" href="{{ asset('fonts/iransansDN/1/font.min.css') }}">
     <link rel="stylesheet" href="{{ asset('fonts/fontawesome/5.11.12/font.min.css') }}">
-    <link rel="stylesheet" href="{{ url('assets/admin/vue/admin.css?v=2.0.0') }}">
+    <link rel="stylesheet" href="{{ mix('assets/admin/vue/admin.css') }}">
     @yield('head-content')
     {{ googleAnalytics() }}
 </head>
@@ -41,6 +41,6 @@ $user = auth()->user();
     window.siebar = [];
     window.templateTheme = '<?php echo $templateTheme; ?>';
 </script>
-<script src="{{ asset('assets/admin/vue/admin.js') }}?v={{ strtotime('now') }}"></script>
+<script src="{{ mix('assets/admin/vue/admin.js') }}"></script>
 </body>
 </html>

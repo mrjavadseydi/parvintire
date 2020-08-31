@@ -1,35 +1,38 @@
 <template>
     <div>
-        <head-content :title="`${pageTitle} (${count})`" :buttons="buttons">
-            <button @click="sync" :class="`btn ${syncType} mr-2`">
-                <i :class="['far fa-sync align-middle ml-2', isSync ? 'fa-spin' : '' ]"></i>{{ syncTitle }}
-            </button>
-        </head-content>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>شناسه</th>
-                            <th>عنوان</th>
-                            <th>مجوز</th>
-                            <th>عملیات</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="item in items">
-                            <td></td>
-                            <td v-text="`#${item.id}`"></td>
-                            <td v-text="item.label ? item.label + ' ('+item.count+')' : '-'"></td>
-                            <td v-text="item.name ? item.name : '-'"></td>
-                            <td>
-                                <span @click="remove($event, item)" class="jgh-tooltip fa fa-trash btn user-card-btn btn-danger h5 m-0" title="حذف"></span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+        <loader v-if="loader"></loader>
+        <div v-else>
+            <head-content :title="`${pageTitle} (${count})`" :buttons="buttons">
+                <button @click="sync" :class="`btn ${syncType} mr-2`">
+                    <i :class="['far fa-sync align-middle ml-2', isSync ? 'fa-spin' : '' ]"></i>{{ syncTitle }}
+                </button>
+            </head-content>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>شناسه</th>
+                                <th>عنوان</th>
+                                <th>مجوز</th>
+                                <th>عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="item in items">
+                                <td></td>
+                                <td v-text="`#${item.id}`"></td>
+                                <td v-text="item.label ? item.label + ' ('+item.count+')' : '-'"></td>
+                                <td v-text="item.name ? item.name : '-'"></td>
+                                <td>
+                                    <span @click="remove($event, item)" class="jgh-tooltip fa fa-trash btn user-card-btn btn-danger h5 m-0" title="حذف"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,6 +49,7 @@
     export default {
         data() {
             return {
+                loader: true,
                 items: {},
                 pageTitle: 'مجوز ها',
                 buttons: [
@@ -87,6 +91,7 @@
             axios.get('/api/v1/permissions').then(response => {
                 this.items = response.data;
                 this.count = this.items.length;
+                this.loader = false;
             }).catch(error => console.log(error));
         },
         components: {

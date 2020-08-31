@@ -1,9 +1,5 @@
 import './bootstrap';
 
-import Header from './components/admin/Header';
-import Sidebar from './components/admin/Sidebar';
-import router from './router';
-
 router.beforeEach((to, from, next) => {
     if (to.name) {
         var permissions = JSON.parse(window.Laravel.permissions);
@@ -25,6 +21,12 @@ router.beforeEach((to, from, next) => {
     }
 });
 
+import Loader from './components/vendor/Loader';
+import Header from './components/admin/Header';
+import Sidebar from './components/admin/Sidebar';
+import router from './router';
+
+Vue.component('Loader', Loader);
 Vue.component('myHeader', Header);
 Vue.component('mySidebar' , Sidebar);
 

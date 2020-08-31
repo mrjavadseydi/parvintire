@@ -46,7 +46,7 @@
             </div>
 
             <div class="name">
-                <span>{{ laravel.user.name }}</span>
+                <span>{{ laravel.user.a }}</span>
                 <small>{{ laravel.wallet }} تومان<a title="شارژ کیف پول" class="jgh-tooltip fa fa-plus-circle"></a></small>
             </div>
 
