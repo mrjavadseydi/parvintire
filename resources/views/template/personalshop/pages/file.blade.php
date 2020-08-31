@@ -35,7 +35,7 @@
         @endif
         @if($transaction != null)
             <div class="alert alert-success">
-                این پادکست با موفقیت برای شما فعال شده است
+                این محصول با موفقیت برای شما فعال شده است
             </div>
         @endif
         <div class="bg-white border rounded p-3 d-flex flex-wrap flex-md-nowrap">
@@ -85,7 +85,7 @@
         @if($product->price > 0)
             @if($transaction == null)
                 <div class="bg-white border rounded p-3 mt-3 text-center">
-                    <h5 class="text-center">این پادکست نقدی می باشد. برای فعال سازی تمام پادکست ها لطفا مبلغ آن را پرداخت کنید.</h5>
+                    <h5 class="text-center">این محصول نقدی می باشد. برای فعال سازی تمام فایل ها لطفا مبلغ آن را پرداخت کنید.</h5>
                     <h4 class="text-center iransansFa py-3">مبلغ قابل پرداخت:
                         @if($product->discount() > 0)
                             <del class="text-danger">{{ number_format($product->discount() + $product->price()) }}</del>
@@ -98,11 +98,11 @@
         @endif
         <div class="row">
             <div class="col-md-12">
-                @include(includeTemplate('sections.downloadBox'), ['title' => 'پادکست ها'])
+                @include(includeTemplate('sections.downloadBox'), ['title' => 'فایل ها'])
             </div>
             <div class="col-md-12">
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                    <h6>امتیاز شما به این پادکست</h6>
+                    <h6>امتیاز شما به این محصول</h6>
                     <div class="likes d-flex align-items-center">
                         <form onSuccess="onLike" method="post" action="{{ route('posts.like') }}" class="ajaxForm" action="{{ route('posts.like') }}">
                             @csrf

@@ -46,7 +46,7 @@
             @endif
         @endforeach
     </form>
-    <form id="single-add-to-cart-form" method="post" action="{{ route('addToCart') }}" class="cart-view-2 addToCart pricing d-flex justify-content-between align-items-end py-3">
+    <form id="single-add-to-cart-form" method="post" action="{{ route('addToCart') }}" class="flex-wrap flex-md-nowrap cart-view-2 addToCart pricing d-flex justify-content-center justify-content-md-between align-items-end py-3">
         @csrf
         @include(includeTemplate('pages.product.add-to-cart'))
     </form>

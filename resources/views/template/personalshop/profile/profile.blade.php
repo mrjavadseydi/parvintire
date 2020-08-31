@@ -5,7 +5,8 @@
 @endsection
 @section('main')
     <form action="{{ route('profile.update') }}" method="post" class="ajaxForm ajaxForm-iziToast">
-            <div class="form-row">
+        @csrf
+        <div class="form-row">
                 <div class="col-12 col-md-4">
                     <div class="form-group">
                         <label class="pb-2" for="name">نام</label>

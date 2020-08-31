@@ -3,7 +3,7 @@
     @if($articleCategories->count() > 0)
         <div class="card mt-2">
             <div class="card-body">
-                @include(includeTemplate('divider.2'), ['title' => "<small>دسته بندی وبلاگ</small>" ?? ''])
+                @include(includeTemplate('divider.2'), ['title' => "<small>دسته بندی مقالات</small>" ?? ''])
                 <br>
                 @foreach($articleCategories as $item)
                     <div class="dropdown-filter">

@@ -69,48 +69,52 @@
     </div>
 @endif
 
-<form onSuccess="coursePayment" method="post" action="{{ url('api/payment/course') }}" id="payment-course-modal" class="modal fade ajaxForm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <input type="hidden" name="postId" value="{{ $post->id }}">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ $post->title }}</h5>
-            </div>
-            <div class="modal-body iransansFa">
-                <span>مبلغ قابل پرداخت</span>
-                <div class="text-center">
-                    @if($product->discount() > 0)
-                        <del class="text-danger">{{ number_format($product->discount() + $product->price()) }}</del>
-                    @endif
-                    <h4 class="text-success text-center">{{ number_format($product->price()) }} تومان</h4>
+@if(isset($product))
+    @if($product != null)
+        <form onSuccess="coursePayment" method="post" action="{{ url('api/payment/course') }}" id="payment-course-modal" class="modal fade ajaxForm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <input type="hidden" name="postId" value="{{ $post->id }}">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{ $post->title }}</h5>
+                    </div>
+                    <div class="modal-body iransansFa">
+                        <span>مبلغ قابل پرداخت</span>
+                        <div class="text-center">
+                            @if($product->discount() > 0)
+                                <del class="text-danger">{{ number_format($product->discount() + $product->price()) }}</del>
+                            @endif
+                            <h4 class="text-success text-center">{{ number_format($product->price()) }} تومان</h4>
+                        </div>
+                        <div class="payment-error text-center mt-3"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="btn btn-danger" data-dismiss="modal">بستن</span>
+                        <span id="payment-course-form-submit" class="btn btn-success mr-2">پرداخت آنلاین</span>
+                    </div>
                 </div>
-                <div class="payment-error text-center mt-3"></div>
             </div>
-            <div class="modal-footer">
-                <span class="btn btn-danger" data-dismiss="modal">بستن</span>
-                <span id="payment-course-form-submit" class="btn btn-success mr-2">پرداخت آنلاین</span>
-            </div>
-        </div>
-    </div>
-</form>
+        </form>
+        <script>
+        $('.payment-course-button').click(function () {
+            $('#payment-course-modal').modal();
+        });
+        $('#payment-course-form-submit').click(function () {
+            $('.payment-error').html('');
+            if($(this).text() != 'درحال انتقال به درگاه پرداخت...') {
+                $(this).text('درحال انتقال به درگاه پرداخت...');
+                $('#payment-course-modal').submit();
+            }
+        });
+        function coursePayment(response) {
+            if (response.status == 'success') {
+                window.location = response.url;
+            } else {
+                $('.payment-error').html(response.message);
+                $('#payment-course-form-submit').text('پرداخت آنلاین');
+            }
+        }
+    </script>
+    @endif
+@endif
 
-<script>
-    $('.payment-course-button').click(function () {
-        $('#payment-course-modal').modal();
-    });
-    $('#payment-course-form-submit').click(function () {
-        $('.payment-error').html('');
-        if($(this).text() != 'درحال انتقال به درگاه پرداخت...') {
-            $(this).text('درحال انتقال به درگاه پرداخت...');
-            $('#payment-course-modal').submit();
-        }
-    });
-    function coursePayment(response) {
-        if (response.status == 'success') {
-            window.location = response.url;
-        } else {
-            $('.payment-error').html(response.message);
-            $('#payment-course-form-submit').text('پرداخت آنلاین');
-        }
-    }
-</script>

@@ -243,7 +243,7 @@
 
                     if ($(this).val() != '') {
                         $.ajax({
-                            url: '{{ url('api/world/city') }}/' + $(this).val() + '?active_postage=1',
+                            url: '{{ url('api/v1/world/city') }}/' + $(this).val() + '?active_postage=1',
                             type: 'GET',
                             success: function (response, status) {
 
@@ -284,7 +284,7 @@
 
                         if (worldAjax) {
                             $.ajax({
-                                url: '{{ url('api/world/town') }}/' + $(this).val() + '?active_postage=1',
+                                url: '{{ url('api/v1/world/town') }}/' + $(this).val() + '?active_postage=1',
                                 type: 'GET',
                                 success: function (response, status) {
 
@@ -321,7 +321,7 @@
                     if ($(this).val() != '') {
                         if (worldAjax) {
                             $.ajax({
-                                url: '{{ url('api/world/region') }}/' + $(this).val() + '?active_postage=1',
+                                url: '{{ url('api/v1/world/region') }}/' + $(this).val() + '?active_postage=1',
                                 type: 'GET',
                                 success: function (response, status) {
 

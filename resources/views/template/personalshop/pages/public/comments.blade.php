@@ -7,6 +7,7 @@
 ?>
 <div class="comments">
     <form clear="#c1" class="form ajaxForm ajaxForm-iziToast" method="post" action="{{ route('addComment') }}">
+        @csrf
         <input type="hidden" name="type" value="1">
         <input type="hidden" name="post_id" value="{{ $post->id }}">
         <div class="row">
@@ -35,6 +36,7 @@
                 <span>|</span>
                 <span>{{ jDateTime('H:i Y/m/d', strtotime($comment->created_at)) }}</span>
                 <form action="{{ route('addComment') }}" method="post" clear=".clear-textarea" class="ajaxForm ajaxForm-iziToast reply-box p-2">
+                    @csrf
                     <input type="hidden" name="type" value="1">
                     <input type="hidden" name="post_id" value="{{ $post->id }}">
                     <input type="hidden" name="parent" value="{{ $comment->id }}">
@@ -56,7 +58,7 @@
                         </div>
                     </div>
                     <p class="pt-3">
-                        {{ $comment->comment }}
+                        {{ $c->comment }}
                     </p>
                 </div>
             @endforeach

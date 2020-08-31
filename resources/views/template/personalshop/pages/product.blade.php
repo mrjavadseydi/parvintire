@@ -42,7 +42,7 @@
                 </ol>
             </nav>
             <div class="d-flex flex-wrap bg-white rounded p-3 mb-3 border">
-                <div class="d-flex flex-column justify-content-between thumbs">
+                <div class="{{ $gallery->count() > 0 ? 'd-flex' : 'd-none' }} flex-column justify-content-between thumbs">
                     @foreach($gallery as $i => $image)
                         @if($i <= 3)
                             @if($i <= 2)
@@ -57,10 +57,9 @@
                         @endif
                     @endforeach
                 </div>
-                <div class="pr-3 pl-0 pl-md-3 image">
+                <div class="{{ $gallery->count() > 0 ? 'pr-3' : '' }} pl-0 pl-md-3 image">
                     <div class="d-flex justify-content-between mb-2">
-                        <i onclick="$('[data-fancybox=images]:first').click()" class="show-gallery fal fa-expand"></i>
-                        <span id="product-percent" class="percent {{ $percent == 100 ? 'd-none' : '' }}">{{ $percent }}% تخفیف</span>
+                        <span id="product-percent" class="percent {{ ($percent == 100 || $percent == 0) ? 'd-none' : '' }}">{{ $percent }}% تخفیف</span>
                     </div>
                     <figure onclick="$('[data-fancybox=images]:first').click()">
                         <img class="rounded" src="{{ $post->thumbnail(450, 450) }}" alt="{{ $post->title }}">

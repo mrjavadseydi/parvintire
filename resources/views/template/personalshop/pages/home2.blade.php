@@ -33,7 +33,7 @@
             <img style="position: absolute; right: 0; top: -200px;" width="25%" src="{{ image('multi-circle.png', 'template') }}" alt="multi circle">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-7">
+                    <div class="col-md-7 order-2 order-md-1">
                         <div class="site-description home-2 pt-5">
                             <h2 class="h3 mb-3 consulting-title">{{ $m->title }}</h2>
                             <div class="consulting-content">{!! $m->content !!}</div>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5 order-1 order-md-2">
                         <div class="consulting d-flex justify-content-between">
                             <div class="d-flex flex-column ml-3 ml-md-0 mt-5">
                                 <a class="active" link="{{ $m->link }}">
@@ -117,12 +117,14 @@
 @include(includeTemplate('sections.parallax'), ['key' => 'digishopHomeParallax'])
 <div class="container py-5">
     @include(includeTemplate('divider.1'), ['title' => 'محصولات دانلودی'])
-    <div class="row">
+    <div class="row py-1">
         @include(includeTemplate('sections.tabs-files-latest'), ['cats' => getOption('digishopHomeLatestFiles')])
     </div>
 </div>
 @include(includeTemplate('sections.resume'), ['menuId' => getOption('digishopResumeMenuId')])
-@include(includeTemplate('divider.1'), ['title' => 'پادکست ها'])
+<div class="py-2">
+    @include(includeTemplate('divider.1'), ['title' => 'پادکست ها'])
+</div>
 <div class="container">
     @include(includeTemplate('sections.swiper-podcast'))
 </div>
@@ -131,12 +133,14 @@ $img = getOptionImage('digishopHomeImageLink');
 ?>
 <div class="my-3">
     <a target="{{ $img['target'] }}" class="{{ $img['href'] }} my-3">
-        <img src="{{ $img['src'] }}" alt="{{ $img['alt'] }}">
+        <img width="100%" src="{{ $img['src'] }}" alt="{{ $img['alt'] }}">
     </a>
 </div>
-@include(includeTemplate('divider.1'), ['title' => 'مقالات سایت'])
+<div class="py-2">
+    @include(includeTemplate('divider.1'), ['title' => 'مقالات سایت'])
+</div>
 <?php
-$articles = \LaraBase\Posts\Models\Post::postType('articles')->published()->latest()->limit(4)->get();
+$articles = \LaraBase\Posts\Models\Post::postType('articles')->published()->orderBy('updated_at', 'desc')->limit(4)->get();
 ?>
 @if($articles->count() > 0)
     <div class="container">
@@ -176,8 +180,8 @@ $articles = \LaraBase\Posts\Models\Post::postType('articles')->published()->late
                     <div class=" d-flex flex-column">
                         @foreach($articles as $i => $article)
                             @if($i > 0)
-                                <a href="{{ $article->href() }}" class="d-flex rounded-lg overflow-hidden mb-3">
-                                    <img src="{{ $article->thumbnail(200, 150) }}" alt="{{ $article->title }}">
+                                <a href="{{ $article->href() }}" class="d-flex rounded-lg overflow-hidden mb-3 align-items-center">
+                                    <img width="25%" src="{{ $article->thumbnail(200, 150) }}" alt="{{ $article->title }}">
                                     <div class="d-flex flex-column flex-fill pr-3 justify-content-center">
                                         <h4 class="text-black">{{ $article->title }}</h4>
                                         <p class="text-muted my-3">{{ $article->excerpt }}</p>

@@ -6,28 +6,30 @@
 @endsection
 @section('main')
     <div class="iransansFa">
-        <div class="row table-bordered rounded mx-4 mb-3 mt-0 p-2">
-            <div class="col-md-3">
-                <h5 class="text-muted">تحویل گیرنده</h5>
-                <span>{{ $address->name_family }}</span>
+        @if($address != null)
+            <div class="row table-bordered rounded mx-4 mb-3 mt-0 p-2">
+                <div class="col-md-3">
+                    <h5 class="text-muted">تحویل گیرنده</h5>
+                    <span>{{ $address->name_family }}</span>
+                </div>
+                <div class="col-md-3">
+                    <h5 class=" text-muted">شماره تماس</h5>
+                    <span>{{ $address->mobile }}</span>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-muted">کد پستی</h5>
+                    <span>{{ $address->postal_code }}</span>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="text-muted">مبلغ سفارش</h5>
+                    <span class="text-success">{{ number_format(convertPrice($order->payed_price)) }} تومان</span>
+                </div>
+                <div class="col-md-12 border-top mt-2 pt-2">
+                    <h5 class="text-muted">آدرس</h5>
+                    <span>{{ $address->address() }}</span>
+                </div>
             </div>
-            <div class="col-md-3">
-                <h5 class=" text-muted">شماره تماس</h5>
-                <span>{{ $address->mobile }}</span>
-            </div>
-            <div class="col-md-3">
-                <h5 class="text-muted">کد پستی</h5>
-                <span>{{ $address->postal_code }}</span>
-            </div>
-            <div class="col-md-3">
-                <h5 class="text-muted">مبلغ سفارش</h5>
-                <span class="text-success">{{ number_format(convertPrice($order->payed_price)) }} تومان</span>
-            </div>
-            <div class="col-md-12 border-top mt-2 pt-2">
-                <h5 class="text-muted">آدرس</h5>
-                <span>{{ $address->address() }}</span>
-            </div>
-        </div>
+        @endif
         @foreach($shippings as $orderShippingId => $shipping)
 
             <div class="mt-5">

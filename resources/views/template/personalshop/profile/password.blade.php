@@ -5,6 +5,7 @@
 @endsection
 @section('main')
     <form clear="#c1, #c2" action="{{ route('profile.password.update') }}" method="post" class="ajaxForm ajaxForm-iziToast">
+        @csrf
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">

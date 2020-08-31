@@ -132,6 +132,32 @@ class PageController extends CoreController
         ));
     }
 
+    public function file($id, $slug)
+    {
+        $post = Post::find($id);
+        $user = User::find($post->user_id);
+        initPost($post);
+        $product = Product::where('post_id', $id)->first();
+        $categories = $post->categories;
+        $tags = $post->tags;
+        $gallery = $post->gallery();
+        $comments = $post->comments();
+        $attributes = $post->attributes();
+        $transaction = Transaction::where(['relation' => 'course', 'relation_id' => $post->id, 'status' => '1'])->first();
+
+        return templateView('pages.file', compact(
+            'product',
+            'post',
+            'categories',
+            'gallery',
+            'tags',
+            'product',
+            'comments',
+            'user',
+            'transaction'
+        ));
+    }
+
     public function article($id, $slug)
     {
         $post = Post::find($id);
@@ -142,6 +168,25 @@ class PageController extends CoreController
         $gallery = $post->gallery();
         $comments = $post->comments();
         return templateView('pages.article', compact(
+            'post',
+            'categories',
+            'gallery',
+            'tags',
+            'user',
+            'comments'
+        ));
+    }
+
+    public function page($id, $slug)
+    {
+        $post = Post::find($id);
+        $user = User::find($post->user_id);
+        initPost($post);
+        $categories = $post->categories;
+        $tags = $post->tags;
+        $gallery = $post->gallery();
+        $comments = $post->comments();
+        return templateView('pages.page', compact(
             'post',
             'categories',
             'gallery',
