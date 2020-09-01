@@ -1,11 +1,8 @@
 <?php
 
-
 namespace LaraBase\Auth\Controllers;
 
-
 use Carbon\Carbon;
-use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;

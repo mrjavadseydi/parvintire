@@ -228,6 +228,26 @@ function includeAdmin($file) {
     return 'admin.' . getTheme('admin') . '.' . $file;
 }
 
+function includeEmail($file) {
+    return 'email.' . getTheme('email') . '.' . $file;
+}
+
+function includeAuth($file) {
+    return 'auth.' . getTheme('auth') . '.' . $file;
+}
+
+function includeBoxes($file) {
+    return 'boxes.' . getTheme('boxes') . '.' . $file;
+}
+
+function includeErrors($file) {
+    return 'errors.' . getTheme('errors') . '.' . $file;
+}
+
+function includeUploader($file) {
+    return 'uploader.' . getTheme('uploader') . '.' . $file;
+}
+
 function compressCss($path, $files)
 {
     $minifier = new \MatthiasMullie\Minify\CSS();
