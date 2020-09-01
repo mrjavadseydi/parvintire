@@ -1,6 +1,6 @@
 <?php
-Route::group(['middleware' => 'apiAuth'], function () {
-    Route::group(['prefix' => 'v1'], function () {
+Route::group(['prefix' => 'v1'], function () {
+    Route::group(['middleware' => 'api:auth'], function () {
         Route::group(['prefix' => 'world'], function () {
 
             Route::resource('provinces', 'ProvinceController');
@@ -71,4 +71,3 @@ Route::group(['middleware' => 'apiAuth'], function () {
         });
     });
 });
-
