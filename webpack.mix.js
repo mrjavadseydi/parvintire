@@ -63,9 +63,9 @@ mix // personalshop
 ;
 
 // vue admin
-mix.js('resources/js/admin.js', 'assets/admin/vue');
-mix.sass('resources/sass/admin.scss', 'assets/admin/vue');
-mix.copyDirectory('resources/images/admin', 'public_html/assets/admin/vue/images');
+// mix.js('resources/js/admin.js', 'assets/admin/vue');
+// mix.sass('resources/sass/admin.scss', 'assets/admin/vue');
+// mix.copyDirectory('resources/images/admin', 'public_html/assets/admin/vue/images');
 
 if (mix.inProduction()) {
     mix.version();
