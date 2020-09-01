@@ -1,6 +1,6 @@
 <?php
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::group(['prefix' => 'v1'], function () {
+Route::group(['prefix' => 'v1'], function () {
+    Route::group(['middleware' => 'api:auth'], function () {
         Route::resource('users', 'UserController');
         Route::get('users/{id}/block', 'UserController@block');
         Route::get('users/verify/{type}/{id}', 'UserController@verify');

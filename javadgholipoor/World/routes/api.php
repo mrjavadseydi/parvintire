@@ -1,5 +1,5 @@
 <?php
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => 'apiAuth'], function () {
     Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'world'], function () {
 

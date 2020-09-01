@@ -11,7 +11,7 @@ class Manager {
 
         $url = url()->full();
         if (\Request::is('api*')) {
-            $url = $_SERVER['HTTP_REFERER'];
+            $url = $_SERVER['HTTP_REFERER'] ?? url()->full();
         }
         $hash = uploaderHash($url);
         $value = json_encode($this->options);

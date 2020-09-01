@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace LaraBase\App\Middleware;
 
 use Closure;
 
@@ -15,11 +15,11 @@ class Role
      */
     public function handle($request, Closure $next)
     {
-        
+
         if (auth()->check()) {
             $abort = true;
             $user  = auth()->user();
-    
+
             if ($user->can('roles')) {
                 $abort = false;
             } else {
@@ -27,12 +27,12 @@ class Role
                     $abort = false;
                 }
             }
-    
+
             if ($abort) {
                 return abort(401);
             }
         }
-        
+
         return $next($request);
     }
 }

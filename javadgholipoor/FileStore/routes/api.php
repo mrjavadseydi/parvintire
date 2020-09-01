@@ -1,5 +1,5 @@
 <?php
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group([], function () {
     Route::group(['prefix' => 'v1'], function () {
 
         Route::group(['prefix' => 'files'], function () {
