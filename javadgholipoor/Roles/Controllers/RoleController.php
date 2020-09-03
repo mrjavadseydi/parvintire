@@ -26,7 +26,7 @@ class RoleController extends CoreController
     public function index(Request $request)
     {
 
-        $this->apiSecurity('roles');
+        $this->apiSecurity($request, 'roles');
 
         // TODO optimize
 
@@ -68,7 +68,7 @@ class RoleController extends CoreController
      */
     public function store(Request $request)
     {
-        $this->apiSecurity('roles');
+        $this->apiSecurity($request, 'roles');
         $this->storeValidator($request);
         $request->request->add(['operator_id' => auth()->id()]);
         $role = Role::create([
@@ -97,9 +97,9 @@ class RoleController extends CoreController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $this->apiSecurity('roles');
+        $this->apiSecurity($request, 'roles');
         $role = Role::find($id);
         $user = auth()->user();
 
@@ -191,12 +191,16 @@ class RoleController extends CoreController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
 
-        $this->apiSecurity('roles');
+        $this->apiSecurity($request, 'roles');
         $role = Role::find($id);
-        $user = auth()->user();
+
+        if ($request->has('user'))
+            $user = $request->user;
+        else
+            $user = auth()->user();
 
         $userRoles = $user->roles();
 
@@ -279,7 +283,7 @@ class RoleController extends CoreController
     public function update(Request $request, $id)
     {
 
-        $this->apiSecurity('roles');
+        $this->apiSecurity($request, 'roles');
         $role = Role::find($id);
         $this->updateValidator($request, $role);
 
@@ -609,9 +613,9 @@ class RoleController extends CoreController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $this->apiSecurity('roles');
+        $this->apiSecurity($request, 'roles');
         $role = Role::find($id);
         if ($role != null) {
             $role->delete();

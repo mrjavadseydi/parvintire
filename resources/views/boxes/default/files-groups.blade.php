@@ -1,5 +1,4 @@
 <div id="files-groups">
-
     <div class="table-responsive mb10">
         <table class="mb10">
             <thead>
@@ -37,7 +36,6 @@
             </thead>
         </table>
     </div>
-
     <div id="group-sortable">
         @if(isset($filesGroups))
             @foreach($filesGroups as $item)
@@ -77,7 +75,7 @@
                                             files[i] = $(item).attr('fileId');
                                         });
                                         $.ajax({
-                                            url: "/api/files/sort-files",
+                                            url: "/api/v1/files/sort-files",
                                             method: 'post',
                                             data: {
                                                 files: files,
@@ -118,11 +116,8 @@
             </script>
         @endif
     </div>
-
 </div>
-
 <script>
-
     $( function() {
         $( "#group-sortable" ).sortable({
             placeholder: "ui-state-highlight",
@@ -132,7 +127,7 @@
                     groups[i] = $(item).attr('groupId');
                 });
                 $.ajax({
-                    url: "/api/files/sort-groups",
+                    url: "/api/v1/files/sort-groups",
                     method: 'post',
                     data: {
                         postId: '{{ $post->id }}',
@@ -165,7 +160,7 @@
     $('.add-group').click(function () {
         $(this).text('...').attr('disabled', 'disabled');
         $.ajax({
-            url: "/api/files/add-group",
+            url: "/api/v1/files/add-group",
             method: 'post',
             data: {
                 postId: '{{ $post->id }}',
@@ -199,7 +194,7 @@
         var el = $(this);
         $(this).text('...').attr('disabled', 'disabled');
         $.ajax({
-            url: "/api/files/delete-group",
+            url: "/api/v1/files/delete-group",
             method: 'post',
             data: {
                 groupId: $(this).attr('groupId'),
@@ -226,7 +221,7 @@
         $(this).text('...').attr('disabled', 'disabled');
         $('#add-update-file').remove();
         $.ajax({
-            url: "/api/files/get-file",
+            url: "/api/v1/files/get-file",
             method: 'post',
             data: {
                 _token: '{{ csrf_token() }}',
@@ -253,7 +248,7 @@
         $(this).text('...').attr('disabled', 'disabled');
         $('#update-group').remove();
         $.ajax({
-            url: "/api/files/get-group",
+            url: "/api/v1/files/get-group",
             method: 'post',
             data: {
                 _token: '{{ csrf_token() }}',
@@ -274,7 +269,7 @@
         var el = $(this);
         $(this).text('...').attr('disabled', 'disabled');
         $.ajax({
-            url: "/api/files/delete-file",
+            url: "/api/v1/files/delete-file",
             method: 'post',
             data: {
                 _token: '{{ csrf_token() }}',
@@ -298,7 +293,7 @@
 
     function loadFiles() {
         $.ajax({
-            url: "/api/files",
+            url: "/api/v1/files",
             method: 'post',
             data: {
                 postId: '{{ $post->id }}',

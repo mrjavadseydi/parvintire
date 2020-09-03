@@ -54,10 +54,6 @@ function addVisit($relation = null, $relationId = null) {
 
 }
 
-function getVisit() {
-
-}
-
 function getPostVisit($postId) {
     $cacheKey = "postVisit{$postId}";
     if (!Cache::has($cacheKey)) {

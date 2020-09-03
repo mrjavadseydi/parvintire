@@ -49,9 +49,4 @@
     <button href="" class="btn btn-success uploader-init">آپلود پراگرس ۲</button>
     <div class="progress-2">0</div>
 
-
-    <script>
-
-    </script>
-
 @endsection

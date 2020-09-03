@@ -72,7 +72,7 @@
             onSubmit() {
                 this.disabled = true;
                 this.buttonTitle = 'لطفا صبر کنید...';
-                axios.post('/admin/users'  , this.data)
+                axios.post('/api/v1/users'  , this.data)
                     .then(result => {
                         var response = result.data;
                         if (response.status == 'success') {

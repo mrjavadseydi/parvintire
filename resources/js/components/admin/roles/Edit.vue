@@ -369,7 +369,7 @@ export default {
             this.disabled = true;
             this.buttonTitle = 'لطفا صبر کنید...';
             const formData = new FormData(document.getElementById('user-form'));
-            axios.put(`/admin/roles/${this.$route.params.id}` , this.data )
+            axios.put(`/api/v1/roles/${this.$route.params.id}` , this.data )
                 .then(result => {
                     var response = result.data;
                     if (response.status == 'success') {

@@ -88,10 +88,6 @@ trait User {
         return 'بدون نام';
     }
 
-    public function defaultAvatar($returnPath = false) {
-        return image('default-avatar.png', 'admin', $returnPath);
-    }
-
     public function avatar($returnPath = false) {
 
         if (!empty($this->avatar)) {
@@ -103,6 +99,10 @@ trait User {
 
         return $this->defaultAvatar($returnPath);
 
+    }
+
+    public function defaultAvatar($returnPath = false) {
+        return image('default-avatar.png', 'admin', $returnPath);
     }
 
     public function roleName() {
