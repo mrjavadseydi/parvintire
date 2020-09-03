@@ -13,6 +13,7 @@ class GroupController extends CoreController
 
     public function get(Request $request)
     {
+        $this->apiSecurity($request, 'getFileGroup');
         $output = validate($request, [
             'groupId' => 'required',
             'postId' => 'required'
@@ -34,6 +35,7 @@ class GroupController extends CoreController
 
     public function add(Request $request)
     {
+        $this->apiSecurity($request, 'addFileGroup');
         $output = validate($request, [
             'title' => 'required',
             'postId' => 'required',
@@ -57,6 +59,7 @@ class GroupController extends CoreController
 
     public function update(Request $request)
     {
+        $this->apiSecurity($request, 'updateFileGroup');
         $output = validate($request, [
             'title' => 'required',
             'postId' => 'required',
@@ -78,6 +81,7 @@ class GroupController extends CoreController
 
     public function delete(Request $request)
     {
+        $this->apiSecurity($request, 'deleteFileGroup');
         $output = validate($request, [
             'groupId' => 'required'
         ]);
@@ -103,6 +107,7 @@ class GroupController extends CoreController
 
     public function sort(Request $request)
     {
+        $this->apiSecurity($request, 'sortGroups');
         $output = validate($request, [
             'groups' => 'required'
         ]);

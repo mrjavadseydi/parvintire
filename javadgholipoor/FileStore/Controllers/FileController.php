@@ -36,6 +36,7 @@ class FileController extends CoreController
 
     public function get(Request $request)
     {
+        $this->apiSecurity($request, 'getFile');
         $output = validate($request, [
             'fileId' => 'required',
             'groupId' => 'required',
@@ -62,7 +63,7 @@ class FileController extends CoreController
 
     public function add(Request $request)
     {
-
+        $this->apiSecurity($request, 'addFile');
         $output = validate($request, [
             'title' => 'required',
             'postId' => 'required',
@@ -226,6 +227,7 @@ class FileController extends CoreController
     public function delete(Request $request)
     {
 
+        $this->apiSecurity($request, 'deleteFile');
         $output = validate($request, [
             'fileId' => 'required'
         ]);
@@ -243,6 +245,7 @@ class FileController extends CoreController
 
     public function sort(Request $request)
     {
+        $this->apiSecurity($request, 'sortFiles');
         $output = validate($request, [
             'files' => 'required'
         ]);

@@ -20,9 +20,13 @@ class CoreController extends Controller {
 
     public function apiSecurity($request, $permission)
     {
-        if (!$request->user->can($permission)) {
+        if ($request->has('user'))
+            $user = $request->user;
+        else
+            $user = auth()->user();
+
+        if (!$user->can($permission))
             abort(401);
-        }
     }
 
 }

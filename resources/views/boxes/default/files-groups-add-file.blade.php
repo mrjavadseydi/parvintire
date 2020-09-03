@@ -1,5 +1,5 @@
 <div id="add-update-file">
-    <form id="addFileForm" method="post" action="{{ url('/api/files/add-file') }}" class="files-groups-add-file">
+    <form id="addFileForm" method="post" action="{{ url('/api/v1/files/add-file') }}" class="files-groups-add-file">
         <input type="hidden" name="postId" value="{{ $postId }}">
         <input type="hidden" name="groupId" value="{{ $groupId }}">
         <input type="hidden" name="fileId" value="{{ $file->id ?? '' }}">

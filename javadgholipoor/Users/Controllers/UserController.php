@@ -21,9 +21,9 @@ class UserController extends AuthCore
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        can('users');
+        $this->apiSecurity($request, 'users');
         if (isset($_GET['vue'])) {
             return adminView('users.all');
         }
@@ -36,9 +36,9 @@ class UserController extends AuthCore
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        can('createUser');
+        $this->apiSecurity($request, 'createUser');
         $passwordLength = config('authConfig.passwordLength');
         return adminView('users.create', compact('passwordLength'));
     }
@@ -52,7 +52,7 @@ class UserController extends AuthCore
     public function store(Request $request)
     {
 
-        can('createUser');
+        $this->apiSecurity($request, 'createUser');
         $this->storeValidator($request);
         $verifiedAt =  "{$this->getType()}_verified_at";
         $userData = [
@@ -164,9 +164,9 @@ class UserController extends AuthCore
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        can('updateUser');
+        $this->apiSecurity($request, 'updateUser');
         $user = User::find($id);
         $roles = auth()->user()->canSetRoles();
         $userRoles = $user->roles()->pluck('id')->toArray();
@@ -187,14 +187,17 @@ class UserController extends AuthCore
     public function update(Request $request, $id)
     {
 
-        can('updateUser');
+        $this->apiSecurity($request, 'updateUser');
 
         $output = [
             'status' => 'error',
             'message' => 'خطا'
         ];
 
-        $user = User::find($id);
+        if ($request->has('user'))
+            $user = $request->user;
+        else
+            $user = User::find($id);
 
         $this->updateValidator($request, $user);
 
@@ -370,7 +373,7 @@ class UserController extends AuthCore
      */
     public function destroy($id, Request $request)
     {
-        can('deleteUser');
+        $this->apiSecurity($request, 'deleteUser');
 
         $user = User::find($id);
 
@@ -417,9 +420,9 @@ class UserController extends AuthCore
     public function verify($type, $id, Request $request) {
 
         if ($type == 'email')
-            $this->apiSecurity('verifyEmailUser');
+            $this->apiSecurity($request, 'verifyEmailUser');
         else
-            $this->apiSecurity('verifyMobileUser');
+            $this->apiSecurity($request, 'verifyMobileUser');
 
         $user = User::where('id', $id)->first();
         $field = "{$type}_verified_at";
@@ -484,14 +487,14 @@ class UserController extends AuthCore
         if ($request->has('count')) {
             $count = $request->count;
         }
-        $this->apiSecurity('users');
+        $this->apiSecurity($request, 'users');
         $users = User::canView()->search()->sort()->paginate($count);
         return response()->json($users);
     }
 
-    public function search() {
+    public function search(Request $request) {
 
-        $this->apiSecurity('users');
+        $this->apiSecurity($request, 'users');
 
         $string = null;
         if (isset($_GET['term']))
@@ -514,9 +517,9 @@ class UserController extends AuthCore
 
     }
 
-    public function block($id)
+    public function block($id, Request $request)
     {
-        $this->apiSecurity('blockUser');
+        $this->apiSecurity($request, 'blockUser');
         $user = User::find($id);
         $block = false;
         if ($user != null) {

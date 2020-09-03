@@ -4,4 +4,3 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('register', 'AuthController@register');
     Route::post('auth/verify/{token}', 'AuthController@verify');
 });
-

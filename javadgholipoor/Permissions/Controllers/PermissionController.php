@@ -24,7 +24,7 @@ class PermissionController extends CoreController
     public function index(Request $request)
     {
 
-        $this->apiSecurity('permissions');
+        $this->apiSecurity($request, 'permissions');
 
         // TODO optimize
 
@@ -104,7 +104,7 @@ class PermissionController extends CoreController
 
     public function sync(Request $request) {
 
-        $this->apiSecurity('permissions');
+        $this->apiSecurity($request, 'permissions');
 
         $appName = env('APP_NAME');
         $appNameToLower = strtolower($appName);
