@@ -70,13 +70,6 @@
                 </li>
             @endif
 
-            <li>
-                <a href="{{ url('change-panel') }}">
-                    <i class="icon-meter"></i>
-                    <span>پنل مدیریت جدید رو ببین</span>
-                </a>
-            </li>
-
         </ul>
 
         <div class="notifications">
