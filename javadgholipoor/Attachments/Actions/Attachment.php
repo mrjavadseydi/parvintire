@@ -44,7 +44,7 @@ trait Attachment {
             $uploaderThumbnailHeight = config('uploader.thumbnailHeight');
 
             if ($this->in == '1') {
-                $thumbnail = url(uploaderGenerateNameBySize($this->path, $uploaderThumbnailWidth, $uploaderThumbnailHeight));
+                $thumbnail = resizeImage($this->path, $uploaderThumbnailWidth, $uploaderThumbnailHeight);
             } else if ($this->in == '2') {
                 $thumbnail = route('renderImage', ['id' => $this->id, 'width' => $uploaderThumbnailWidth, 'height' => $uploaderThumbnailHeight]);
             } else if ($this->in == '3') {

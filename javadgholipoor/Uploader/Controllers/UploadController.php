@@ -252,7 +252,6 @@ class UploadController extends CoreController {
                 $where['user_id'] = 0;
             }
 
-
             $attachments = Attachment::whereNull('parent')->where($where)->extensions($extensions)->orderBy('updated_at', 'desc')->paginate($request->count ?? 20);
             return uploaderView($request->view, compact('attachments', 'all'))->render();
 

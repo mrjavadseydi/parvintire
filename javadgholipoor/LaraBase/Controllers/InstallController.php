@@ -32,24 +32,24 @@ use LaraBase\World\models\WorldMeta;
 use Project\AniDesign\Models\AttributekeyAniDesign;
 
 class InstallController extends CoreController {
-    
+
     public function installer(Request $request) {
-        
+
         if (!isset($_GET['step'])) {
             return $this->redirectToInstall(1);
         }
-    
+
         $step = $_GET['step'];
         $method = "step_{$step}";
-    
+
         if (method_exists($this, $method)) {
-            
+
             if ($step > 1) {
                 if (!checkDatabaseConnection()) {
                     return $this->redirectToInstall(1);
                 }
             }
-            
+
             if ($step > 2) {
                 if (!checkUsersTable()) {
                     return $this->redirectToInstall(2);
@@ -59,55 +59,55 @@ class InstallController extends CoreController {
                     }
                 }
             }
-            
+
             if ($step > 3) {
                 if (!UserMeta::where('key', config('optionsConfig.dev'))->exists()) {
                     return $this->redirectToInstall(3);
                 }
             }
-            
+
             if ($step > 4) {
                 if (Permission::count() == 0) {
                     return $this->redirectToInstall(4);
                 }
             }
-            
+
             if ($step > 5) {
                 if (Option::count() == 0) {
                     return $this->redirectToInstall(5);
                 }
             }
-            
+
             if ($step > 6) {
                 if (Country::count() == 0) {
                     return $this->redirectToInstall(6);
                 }
             }
-            
+
             if ($step > 7) {
                 if (Province::count() == 0) {
                     return $this->redirectToInstall(7);
                 }
             }
-            
+
             if ($step > 8) {
                 if (City::count() == 0) {
                     return $this->redirectToInstall(8);
                 }
             }
-            
+
             if ($step > 9) {
                 if (Town::count() == 0) {
                     return $this->redirectToInstall(9);
                 }
             }
-            
+
             if ($step > 10) {
 //                if (Shingle::count() == 0) {
 //                    return $this->redirectToInstall(10);
 //                }
             }
-    
+
             if ($step > 11) {
                 if (WorldMeta::count() == 0) {
                     return $this->redirectToInstall(11);
@@ -123,57 +123,57 @@ class InstallController extends CoreController {
                     ]);
                 }
             }
-            
+
             return $this->$method();
-            
+
         }
 
         if (!checkDatabaseConnection()) {
             return $this->redirectToInstall(1);
         }
-        
+
         if (!checkUsersTable()) {
             return $this->redirectToInstall(1);
         }
 
         if (getOption('installer') == 'running') {
-            
+
             $result = checkForUpdates();
-            
+
             if ($result['status'] == 'success') {
                 Options::where(['key' => 'installer'])->update(['value' => 'complete']);
             }
-    
+
             return redirect(route('larabase.update.themes'));
-            
+
         } else {
             return $this->redirectToInstall(1);
         }
-        
+
     }
-    
+
     public function step_1() { // check connection and return db_info view
 
         if (!checkDatabaseConnection()) {
             return view('larabase.connection');
         }
-        
+
         return $this->redirectToInstall(2);
-        
+
     }
-    
+
     public function storeConnection(Request $request) { // save db_info to env file
-        
+
         if (checkDatabaseConnection()) {
             return $this->redirectToAdmin();
         }
-        
+
         $request->validate([
             'databaseName'     => 'required',
             'databaseUser'     => 'required',
             'databasePassword' => 'required',
         ]);
-        
+
         $env = getEnvContent([
             'appKey'                     => "base64:" . base64_encode(generateUniqueToken()),
             'appName'                    => '',
@@ -185,171 +185,212 @@ class InstallController extends CoreController {
             'googleReCaptchaV3SecretKey' => '',
             'googleReCaptchaV3SiteKey'   => '',
         ]);
-        
+
         File::put(base_path('.env'), $env);
-        
+
         return $this->redirectToInstall(2);
-        
+
     }
-    
+
     public function step_2() { // call to migrate
 
         if (!checkUsersTable()) {
             \Artisan::call('migrate');
         }
-    
+
         return $this->redirectToInstall(3);
-        
+
     }
-    
+
     public function step_3() { // check developer and return administrator view
-    
+
         if (!UserMeta::where('key', config('optionsConfig.dev'))->exists()) {
             return view('larabase.administrator');
         }
-        
+
         return $this->redirectToInstall(4);
-        
+
     }
-    
+
     public function storeAdministrator(Request $request) { // check developer and return administrator view
-        
+
         if (checkDatabaseConnection()) {
-            
+
             if (checkUsersTable()) {
                 if (UserMeta::where('key', config('optionsConfig.dev'))->exists()) {
                     return $this->redirectToAdmin();
                 }
-                
+
                 $request->validate([
                     'email'    => 'required',
                     'password' => 'required'
                 ]);
-    
+
                 $user = User::create([
                     'email'             => $request->email,
                     'password'          => \Hash::make($request->password),
                     'email_verified_at' => Carbon::now()->toDateTimeString()
                 ]);
-    
+
                 UserMeta::create([
                     'user_id' => $user->id,
                     'key'     => 'developer'
                 ]);
-                
+
             }
-            
+
         }
-        
+
         return $this->redirectToInstall(4);
-        
+
     }
-    
+
     public function step_4() { // sync role and permissions
-    
+
         if (Permission::count() == 0) {
-    
+
             $user = User::find(1);
             $user->login();
-    
-            $permission = new PermissionController();
-            $permission->sync();
-    
-            $role = Role::create([
-                'name'    => 'admin',
-                'label'   => 'مدیر کل',
-                'user_id' => $user->id
-            ]);
-    
+
+            $appName = env('APP_NAME');
+            $appNameToLower = strtolower($appName);
+
+            $perms = config('permissions');
+            if (file_exists(base_path("projects/{$appName}/config/{$appNameToLower}_permissions.php"))) {
+                $perms = array_merge(config("{$appNameToLower}_permissions"), $perms);
+            }
+
+            foreach ($perms as $name => $value) {
+
+                $permission = $this->permission([
+                    'name'  => $name,
+                    'label' => $value['title']
+                ]);
+
+                foreach ($value['permissions'] as $n => $v) {
+
+                    $this->permission([
+                        'name'   => $n,
+                        'label'  => $v['title'],
+                        'parent' => $permission->id
+                    ]);
+
+                }
+
+            }
+
+            deleteCache('permissions');
+        }
+
+        $role = Role::create([
+            'name'    => 'admin',
+            'label'   => 'مدیر کل',
+            'operator_id' => $user->id
+        ]);
+
+        RoleMeta::create([
+            'role_id' => $role->id,
+            'key'     => 'user',
+            'value'   => $user->id
+        ]);
+
+        foreach (Permission::all() as $permission) {
             RoleMeta::create([
                 'role_id' => $role->id,
-                'key'     => 'user',
-                'value'   => $user->id
+                'key'     => 'permission',
+                'value'   => $permission->id
             ]);
-    
-            foreach (Permission::all() as $permission) {
-                RoleMeta::create([
-                    'role_id' => $role->id,
-                    'key'     => 'permission',
-                    'value'   => $permission->id
-                ]);
-            }
-    
-            foreach (config('boxes') as $box => $values) {
-                RoleMeta::create([
-                    'role_id' => $role->id,
-                    'key'     => 'box',
-                    'value'   => $box
-                ]);
-            }
-            
         }
-        
+
+        foreach (config('boxes') as $box => $values) {
+            RoleMeta::create([
+                'role_id' => $role->id,
+                'key'     => 'box',
+                'value'   => $box
+            ]);
+        }
+
         return $this->redirectToInstall(5);
-        
+
     }
-    
+
+    public function permission($data) {
+
+        $where = $data;
+
+        if (isset($where['label']))
+            unset($where['label']);
+
+        if (Permission::where($where)->exists()) {
+            Permission::where($where)->update($data);
+            return Permission::where($where)->first();
+        } else {
+            return Permission::create($data);
+        }
+
+    }
+
     public function step_5() { // sync options
-    
+
         if (Option::count() == 0) {
-    
+
             Currency::create([
                 'title' => 'ریال',
                 'code'  => 'IRR'
             ]);
-    
+
             Currency::create([
                 'title' => 'تومان',
                 'code'  => 'TOMAN'
             ]);
-    
+
             foreach ([
-                [
-                    'key'   => 'siteCurrency',
-                    'value' => 'IRR',
-                    'more'  => 'autoload'
-                ],
-                [
-                    'key'   => 'appVersion',
-                    'value' => getVersion(),
-                    'more'  => 'autoload'
-                ],
-                [
-                    'key'   => 'adminTheme',
-                    'value' => 'default',
-                    'more'  => 'autoload'
-                ],
-                [
-                    'key'   => 'templateTheme',
-                    'value' => 'default',
-                    'more'  => 'autoload'
-                ],
-                [
-                    'key'   => 'authTheme',
-                    'value' => 'default',
-                    'more'  => 'autoload'
-                ],
-                [
-                    'key'   => 'emailTheme',
-                    'value' => 'default',
-                    'more'  => 'autoload'
-                ],
-                [
-                    'key'   => 'uploaderTheme',
-                    'value' => 'default',
-                    'more'  => 'autoload'
-                ],
-            ] as $option) {
+                         [
+                             'key'   => 'siteCurrency',
+                             'value' => 'IRR',
+                             'more'  => 'autoload'
+                         ],
+                         [
+                             'key'   => 'appVersion',
+                             'value' => getVersion(),
+                             'more'  => 'autoload'
+                         ],
+                         [
+                             'key'   => 'adminTheme',
+                             'value' => 'default',
+                             'more'  => 'autoload'
+                         ],
+                         [
+                             'key'   => 'templateTheme',
+                             'value' => 'default',
+                             'more'  => 'autoload'
+                         ],
+                         [
+                             'key'   => 'authTheme',
+                             'value' => 'default',
+                             'more'  => 'autoload'
+                         ],
+                         [
+                             'key'   => 'emailTheme',
+                             'value' => 'default',
+                             'more'  => 'autoload'
+                         ],
+                         [
+                             'key'   => 'uploaderTheme',
+                             'value' => 'default',
+                             'more'  => 'autoload'
+                         ],
+                     ] as $option) {
                 Option::create($option);
             }
-    
+
             if (\Schema::hasTable('taxes')) {
                 Tax::create([
                     'title'   => 'ارزش افزوده',
                     'percent' => '9'
                 ]);
             }
-    
+
             if (\Schema::hasTable('shippings')) {
                 Shipping::create([
                     'title'       => 'ارسال عادی',
@@ -357,7 +398,7 @@ class InstallController extends CoreController {
                     'currency'    => 'IRR',
                     'free_price'  => 2000000
                 ]);
-        
+
                 Shipping::create([
                     'title'       => 'ارسال سریع',
                     'description' => 'ارسال تا چندساعت آینده',
@@ -365,15 +406,15 @@ class InstallController extends CoreController {
                     'free_price'  => 2000000
                 ]);
             }
-            
+
         }
-        
+
         return $this->redirectToInstall(6);
-        
+
     }
-    
+
     public function step_6() { // sync countries
-    
+
         if (\Schema::hasTable('countries')) {
             if (Country::count() == 0) {
                 DB::insert("
@@ -625,15 +666,15 @@ class InstallController extends CoreController {
         ");
             }
         }
-    
+
         return $this->redirectToInstall(7);
-        
+
     }
-    
+
     public function step_7() { // sync provinces
-    
+
         if (\Schema::hasTable('provinces')) {
-    
+
             if (Province::count() == 0) {
                 DB::insert('
             INSERT INTO `provinces` (`id`, `country_id`, `name`, `description`, `content`, `keywords`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
@@ -670,17 +711,17 @@ class InstallController extends CoreController {
             (31, 244, \'یزد\', \'استان یزد یکی از استان&zwnj;های تاریخی ایران است. شهر یزد با معماری تاریخی و منحصر به فردی که دارد به عنوان یکی از زیباترین شهرهای خشتی جهان نیز شهرت یافته است و دومین شهر تاریخی جهان نیز به شمار می&zwnj;رود. استان یزد به دلیل ویژگی&zwnj;های تاریخی و طبیعی و همچنین معماری آن مورد توجه گردشگران داخلی و خارجی قرار گرفته است. از جمله جازبه&zwnj;های گردشگری این استان می&zwnj;توان موارد زیر را نام برد. آتشکده یزد معروف به آتش ورهرام با معماری هخامنشیان که آتش درون آن، به اهمیت آن افزوده است، آتشی که از 1520 سال پیش تاکنون روشن مانده است. آب انبار شش بادگیری، مجموعه امیر چقماق، باغ تاریخی دولت آباد که قدمت آن به زمان زندیه برمی&zwnj;گردد، مدرسه ضیائیه که به زندان اسکندر شهرت یافته است، خانه لاری&zwnj;ها با قدمت عصر قاجار، نارین قلعه که به نارنج قلعه نیز معروف است و از مهمترین آثار تاریخی پیش از اسلام در این استان بشمار می&zwnj;رود، چاپارخانه میبد یزد با قدمت عصر هخامنشیان، قدیمی&zwnj;ترین مسجد ایران یا شاید جهان به نام مسجد جامع فهرج که بنای آن تاکنون دست نخورده باقی مانده است، زیارتگاه زرتشتیان به نام زیارتگاه چک چک اردکان، دخمه زرتشتیان یزد، تنها بنای مدور ایران را می&zwnj;توان در کاروانسرای زین&zwnj;الدین مهریز مشاهده کرد، یخچال خشتی میبد با قدمت عصر قاجار، در شهرستان تفت می&zwnj;توان جاذبه&zwnj;های طبیعی ییلاقات میان کوه را مشاهده کرد، ییلاقات پشت کوه و پیش کوه، غار مقدس زرتشتیان به نام غار باستانی یزدان.\', \'یزد\', \'[\"یزد\",\"استان یزد\"]\', \'31.920190351171215\', \'54.36046389774026\', NULL, NULL);
         ');
             }
-    
+
         }
-    
+
         return $this->redirectToInstall(8);
-        
+
     }
-    
+
     public function step_8() { // sync cities
-    
+
         if (\Schema::hasTable('cities')) {
-    
+
             if (City::count() == 0) {
                 DB::insert('
             INSERT INTO `cities` (`id`, `province_id`, `name`, `description`, `content`, `keywords`, `postage`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
@@ -1119,17 +1160,17 @@ class InstallController extends CoreController {
             (440, 1, \'جلفا\', \'جلفا\', \'جلفا\', \'\', 0, \'38.930902\', \'45.628504\', NULL, NULL);
         ');
             }
-    
+
         }
-    
+
         return $this->redirectToInstall(9);
-        
+
     }
-    
+
     public function step_9() { // sync cities
-    
+
         if (\Schema::hasTable('towns')) {
-    
+
             if (Town::count() == 0) {
                 DB::insert('
             INSERT INTO `towns` (`id`, `city_id`, `name`, `description`, `content`, `latitude`, `longitude`, `created_at`, `updated_at`, `keywords`) VALUES
@@ -2220,31 +2261,31 @@ class InstallController extends CoreController {
             (1098, 238, \'دوزه\', \'دوزه\', \'دوزه\', \'28.701090\', \'52.960882\', NULL, NULL, NULL);
         ');
             }
-    
+
         }
-    
+
         return $this->redirectToInstall(10);
-        
+
     }
-    
+
     public function step_10() { // sync shingles
 
         if (\Schema::hasTable('shingles')) {
-            
+
             if (Shingle::count() == 0) {
 
             }
-            
+
         }
-    
+
         return $this->redirectToInstall(11);
-        
+
     }
-    
+
     public function step_11() { // sync world_metas
-    
+
         if (\Schema::hasTable('world_metas')) {
-    
+
             if (WorldMeta::count() == 0) {
                 DB::insert('
             INSERT INTO `world_metas` (`id`, `world_id`, `key`, `value`, `more`) VALUES
@@ -2745,20 +2786,20 @@ class InstallController extends CoreController {
             (495, 405, \'city\', \'2019/03/7c42f41d713cea7fbae5cd2a832099e9city.jpg\', \'thumbnail\');
         ');
             }
-    
+
         }
-    
+
         return $this->redirectToInstall(12);
-        
+
     }
-    
+
     public function redirectToInstall($step) {
         \Artisan::call('cache:clear');
         return redirect(route('larabase.installer') . '?step=' . $step);
     }
-    
+
     public function redirectToAdmin() {
         return redirect(route('admin.dashboard'));
     }
-    
+
 }
