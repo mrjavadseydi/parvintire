@@ -1,7 +1,7 @@
 <?php
 $logo = getOptionImage('digishopLogo');
 ?>
-<header>
+<header class="header-1">
     <div class="container-fluid px-3 px-sm-5 d-flex">
         <a target="{{ $logo['target'] }}" href="{{ $logo['href'] }}">
             <figure class="d-flex align-items-center h-100">
@@ -79,7 +79,7 @@ $logo = getOptionImage('digishopLogo');
                                                 </ul>
                                             @endif
                                             <figure>
-                                                <img width="100%" class="rounded" src="{{ url($menu2['image']) }}" alt="{{ $menu2['title'] }}">
+                                                <img width="100%" class="rounded" src="{{ resizeImage($menu2['image'], 300, 200) }}" alt="{{ $menu2['title'] }}">
                                             </figure>
                                         </div>
                                     @endforeach

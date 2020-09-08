@@ -7,7 +7,7 @@ body {
     background-color: white;
 }
 
-header {
+.header-1 {
     background-color: transparent;
     box-shadow: none;
     height: $height;
@@ -41,9 +41,51 @@ header {
     }
 }
 
-body.header header {
-    box-shadow: 0 1px 3px #0000002b !important;
+#menu-close {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9998;
+}
 
+.my-account {
+    .dropdown {
+        width: 200px;
+        left: 0;
+        right: auto;
+        line-height: normal;
+
+        figcaption {
+            line-height: normal;
+            font-size: 0.9em;
+        }
+        ul {
+            border-top: 1px dashed #ddd;
+        }
+    }
+}
+
+.dropdown.simple {
+    left: auto !important;
+    right: auto !important;
+    min-width: 150px !important;
+}
+
+a.light {
+    background: var(--main-color-light);
+    border-radius: 50px;
+    padding: 0 15px;
+
+    &:hover {
+        background: var(--main-color);
+        color: white !important;
+    }
+}
+
+body.header .header-1 {
+    box-shadow: 0 1px 3px #0000002b !important;
 
     .left, .mobile-icon {
         a, span, i {

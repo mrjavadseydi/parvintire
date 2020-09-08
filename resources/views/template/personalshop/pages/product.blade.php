@@ -42,7 +42,7 @@
                 </ol>
             </nav>
             <div class="d-flex flex-wrap bg-white rounded p-3 mb-3 border">
-                <div class="{{ $gallery->count() > 0 ? 'd-flex' : 'd-none' }} flex-column justify-content-between thumbs">
+                <div class="d-flex flex-column justify-content-between thumbs">
                     @foreach($gallery as $i => $image)
                         @if($i <= 3)
                             @if($i <= 2)
@@ -57,8 +57,9 @@
                         @endif
                     @endforeach
                 </div>
-                <div class="{{ $gallery->count() > 0 ? 'pr-3' : '' }} pl-0 pl-md-3 image">
+                <div class="pr-3 pl-0 pl-md-3 image">
                     <div class="d-flex justify-content-between mb-2">
+                        <i onclick="$('[data-fancybox=images]:first').click()" class="show-gallery fal fa-expand"></i>
                         <span id="product-percent" class="percent {{ ($percent == 100 || $percent == 0) ? 'd-none' : '' }}">{{ $percent }}% تخفیف</span>
                     </div>
                     <figure onclick="$('[data-fancybox=images]:first').click()">
@@ -71,7 +72,9 @@
                             <i class="diamond fa fa-diamond"></i>
                             <div>
                                 <h1 class="title">{{ $post->title }}</h1>
-                                {{--                                <h2 class="brand">نام برند : {{ $brand }}</h2>--}}
+                                @if($brand != null)
+                                    <h2 class="brand">نام برند : {{ $brand }}</h2>
+                                @endif
                             </div>
                         </div>
                         <div class="d-flex icons align-items-center position-relative">
@@ -91,7 +94,9 @@
                                     </script>
                                 </form>
                             @endif
-                            <i id="share" data-toggle="dropdown" class="text-muted far fa-share-alt mr-2 position-relative"></i>
+                            <i id="share" data-toggle="dropdown" class="text-muted far fa-share-alt mr-2 position-relative">
+
+                            </i>
                             <div class="dropdown-menu single-share-dropdown iransans" aria-labelledby="share">
                                 <?php
                                 $title = $post->title;

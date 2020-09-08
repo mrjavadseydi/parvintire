@@ -7,7 +7,7 @@
     <figure class="bg text-center pt-5 position-absolute">
         <img src="{{ image('bg-special-offers.png', 'template') }}" alt="پیشنهادات ویژه">
     </figure>
-    <div class="d-flex flex-wrap flex-md-nowrap">
+    <div class="container d-flex flex-wrap flex-md-nowrap">
         <div class="right order-1 order-md-1 px-3 mb-3 mb-md-0">
             <h5 class="pb-3">پیشنهادات ویژه</h5>
             <p class="text-justify">{{ $description ?? '' }}</p>
@@ -76,6 +76,7 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <form class="ml-3 addToCart" method="post" action="{{ route('addToCart') }}">
+                            @csrf
                             <input type="hidden" name="productId" value="{{ $product->product_id }}">
                             <input type="hidden" name="view1" value="order.cart-header">
                             <button><i class="fal fa-cart-plus ml-2 align-middle"></i>افزودن به سبد خرید</button>

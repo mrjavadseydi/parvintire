@@ -1,7 +1,7 @@
 {
     "name": "personalshop",
     "type": "template",
-    "version": "41",
+    "version": "46",
     "support": {
         "name": "javadGholipoor",
         "email": "apkmaker74@gmail.com",
@@ -80,18 +80,6 @@
         "icomoon": "1"
     },
     "menus": {
-        "digishopMainMenu": {
-            "title": "فهرست اصلی",
-            "levels": 1
-        },
-        "digishop4Menu": {
-            "title": "فهرست ۴باکس صفحه‌اصلی",
-            "levels": 1
-        },
-        "digishopHomeCircleMenu": {
-            "title": "فهرست دایره ای صفحه‌اصلی",
-            "levels": 1
-        }
     },
     "options": {
         "images": [
@@ -275,6 +263,66 @@
                 "title": "آیدی فهرست سوابق کاری",
                 "description": "آیدی فهرست را وارد کنید",
                 "key": "digishopResumeMenuId",
+                "more": "autoload"
+            },
+            {
+                "title": "برند محصول",
+                "description": "آیدی کلید را وارد کنید (ویژگی/کلید/مقدار)",
+                "key": "digishopBrandKeyId",
+                "more": "autoload"
+            },
+            {
+                "title": "منوی پایین اسلایدر صفحه اصلی",
+                "description": "آیدی منو را وارد کنید",
+                "key": "digishopBottomSliderMenu",
+                "more": "autoload"
+            },
+            {
+                "title": "دسته های تازه ترین محصولات",
+                "description": "آیدی دسته ها را وارد کنید. با کاما , جدا شود",
+                "key": "digishopHomeNewProductsCats",
+                "more": "autoload"
+            },
+            {
+                "title": "توضیح پیشنهاد ویژه صفحه اصلی",
+                "description": "",
+                "key": "digishopHomeSpecialText",
+                "more": "autoload"
+            },
+            {
+                "title": "آیدی محصولات پیشنهاد ویژه صفحه اصلی",
+                "description": "آیدی محصولات وارد شود product_id با کاما , جدا شود",
+                "key": "digishopHomeSpecialIds",
+                "more": "autoload"
+            },
+            {
+                "title": "دسته های پرفروش ترین محصولات",
+                "description": "آیدی دسته ها را وارد کنید. با کاما , جدا شود",
+                "key": "digishopHomeMostSalesProductsCats",
+                "more": "autoload"
+            },
+            {
+                "title": "فهرست ۴باکس صفحه‌اصلی",
+                "description": "آیدی فهرست را وارد کنید",
+                "key": "digishop4Menu",
+                "more": "autoload"
+            },
+            {
+                "title": "فهرست دایره ای صفحه‌اصلی",
+                "description": "آیدی فهرست را وارد کنید",
+                "key": "digishopHomeCircleMenu",
+                "more": "autoload"
+            },
+            {
+                "title": "سوالات متداول صفحه اصلی",
+                "description": "آیدی سوالات متداول را وارد کنید. با کاما , جدا شود",
+                "key": "digishopHomeFaqIds",
+                "more": "autoload"
+            },
+            {
+                "title": "فهرست برندها صفحه‌اصلی",
+                "description": "آیدی فهرست را وارد کنید",
+                "key": "digishopHomeBrandMenu",
                 "more": "autoload"
             }
         ]

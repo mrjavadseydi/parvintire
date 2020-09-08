@@ -71,7 +71,7 @@
 
 @if(isset($product))
     @if($product != null)
-        <form onSuccess="coursePayment" method="post" action="{{ url('api/payment/course') }}" id="payment-course-modal" class="modal fade ajaxForm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form onSuccess="coursePayment" method="post" action="{{ url('api/v1/payment/course') }}" id="payment-course-modal" class="modal fade ajaxForm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <input type="hidden" name="postId" value="{{ $post->id }}">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

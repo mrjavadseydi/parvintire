@@ -36,7 +36,7 @@
             </ul>
         </div>
 
-        <div class="container-fluid px-6">
+        <div class="container">
             <div class="products py-3">
                 <?php
                 ?>
@@ -51,7 +51,7 @@
                 </div>
                 <script>
                     var swiper = new Swiper('.key-{{ $key }} .swiper-container', {
-                        slidesPerView: 4,
+                        slidesPerView: 3,
                         spaceBetween: 1,
                         loop: false,
                         breakpoints: {
@@ -68,7 +68,7 @@
                                 spaceBetween: 40,
                             },
                             1024: {
-                                slidesPerView: 4,
+                                slidesPerView: 3,
                                 spaceBetween: 50,
                             },
                         }

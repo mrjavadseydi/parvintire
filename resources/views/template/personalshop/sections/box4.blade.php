@@ -2,7 +2,7 @@
     $menu = getMenu(false, $menuId);
 ?>
 @if($menu != null)
-    <div class="position-relative overflow-hidden container-fluid px-6 py-5">
+    <div class="position-relative overflow-hidden container py-5">
         <div class="row">
             @foreach($menu as $item)
                 <div class="col-md-3 col-6 px-2 px-md-3 mb-3 mb-md-0">
