@@ -1,6 +1,6 @@
 <?php
 
-namespace JavadGholipoor\Core\Scopes;
+namespace LaraBase\App\Scopes;
 
 trait PublicScopes
 {

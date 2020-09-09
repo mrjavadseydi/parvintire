@@ -248,6 +248,10 @@ class PasswordController extends AuthCore {
 
         auth()->loginUsingId($user->id);
 
+        if (hasAuthReferer()) {
+            return redirect(url(getAuthReferer()));
+        }
+
         return redirect(url(''));
 
     }

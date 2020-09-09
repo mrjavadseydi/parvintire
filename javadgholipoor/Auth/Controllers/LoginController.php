@@ -52,6 +52,9 @@ class LoginController extends AuthCore {
                 if (Hash::check($password, $user->password)) {
                     $user->login();
                     $user->log();
+                    if (hasAuthReferer()) {
+                        return redirect(url(getAuthReferer()));
+                    }
                     return $this->redirect($user);
                 }
             }

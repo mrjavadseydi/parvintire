@@ -134,6 +134,9 @@ class VerifyController extends AuthCore {
     }
 
     public function redirect() {
+        if (hasAuthReferer()) {
+            return redirect(url(getAuthReferer()));
+        }
         return redirect('/');
     }
 
