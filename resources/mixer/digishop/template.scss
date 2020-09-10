@@ -202,6 +202,10 @@ img {
 .category-flex {
     flex: 0 0 24%;
     max-width: 24%;
+
+    @include media-breakpoint-down('md') {
+        max-width: 100%;
+    }
 }
 
 .flex-40 {

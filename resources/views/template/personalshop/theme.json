@@ -1,7 +1,7 @@
 {
     "name": "personalshop",
     "type": "template",
-    "version": "46",
+    "version": "53",
     "support": {
         "name": "javadGholipoor",
         "email": "apkmaker74@gmail.com",
@@ -111,6 +111,18 @@
                 "title": "تصویر بالای مقالات صفحه اصلی",
                 "description": "",
                 "key": "digishopHomeImageLink",
+                "more": "autoload"
+            },
+            {
+                "title": "گیف تبلیغات شماره ۱",
+                "description": "",
+                "key": "homeAds1",
+                "more": "autoload"
+            },
+            {
+                "title": "گیف تبلیغات شماره ۲",
+                "description": "",
+                "key": "homeAds2",
                 "more": "autoload"
             }
         ],

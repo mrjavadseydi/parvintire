@@ -311,7 +311,7 @@ header {
                         right: -22px;
                         box-shadow: inset 0px 0px 3px 0px #00000047;
                         background: #f1f1f1;
-                        display: block !important;
+                        display: none !important;
 
                         .list {
                             margin-bottom: 10px;
@@ -330,6 +330,7 @@ header {
                     }
                     .dropdown {
                         opacity: 1;
+                        display: block !important;
                     }
                     .dropdown-icon {
                         color: var(--main-color);

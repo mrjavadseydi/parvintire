@@ -4,6 +4,32 @@
 </section>
 @include(includeTemplate('divider.1'), ['title' => 'تازه ترین محصولات'])
 @include(includeTemplate('sections.tabs-products-latest'), ['cats' => getOption('digishopHomeNewProductsCats')])
+<div class="container py-5">
+    <div class="row">
+        <?php
+        $ads1 = getOptionImage('homeAds1');
+        $ads2 = getOptionImage('homeAds2');
+        ?>
+        @if($ads1['href'] != '#')
+            <div class="col-md-6">
+                <a target="{{ $ads1['target'] }}" href="{{ $ads1['href'] }}">
+                    <figure>
+                        <img width="100%" class="logo" src="{{ $ads1['src'] }}" alt="{{ $ads1['alt'] }}">
+                    </figure>
+                </a>
+            </div>
+        @endif
+        @if($ads2['href'] != '#')
+            <div class="col-md-6 mt-3 mt-md-0">
+                <a target="{{ $ads2['target'] }}" href="{{ $ads2['href'] }}">
+                    <figure>
+                        <img width="100%" class="logo" src="{{ $ads2['src'] }}" alt="{{ $ads2['alt'] }}">
+                    </figure>
+                </a>
+            </div>
+        @endif
+    </div>
+</div>
 @include(includeTemplate('sections.special-offers'), ['description' => getOption('digishopHomeSpecialText'), 'ids' => getOption('digishopHomeSpecialIds')])
 <br>
 @include(includeTemplate('divider.1'), ['title' => 'پرفروش ترین محصولات'])

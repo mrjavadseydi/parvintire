@@ -57,7 +57,7 @@
                 </div>
                 <div class="w-left w-50">
                     <div class="text-left">
-                        <span class="percent">{{ intval(($price * 100) / ($price+$discount)) }}% تخفیف</span>
+                        <span class="percent">{{ intval(100 - ($price * 100) / ($price+$discount)) }}% تخفیف</span>
                     </div>
                     <a href="{{ $post->href() }}?product={{ $product->product_id }}">
                         <h2>{{ $product->title }}</h2>

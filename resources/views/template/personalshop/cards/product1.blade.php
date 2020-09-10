@@ -37,9 +37,14 @@
             @endif
         </div>
         @if($discount > 0)
-            <div class="percent">
-                <span>{{ intval(($price * 100) / ($price + $discount)) }} % تخفیف</span>
-            </div>
+            <?php
+                $percent = intval(100 - ($price * 100) / ($price + $discount));
+            ?>
+            @if($percent > 0)
+                <div class="percent">
+                    <span>{{ intval(100 - ($price * 100) / ($price + $discount)) }} % تخفیف</span>
+                </div>
+            @endif
         @endif
     </div>
     @if($discount > 0)

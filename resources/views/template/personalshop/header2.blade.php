@@ -78,7 +78,7 @@ $logo = getOptionImage('digishopLogo');
                                                     @endforeach
                                                 </ul>
                                             @endif
-                                            <figure>
+                                            <figure class="d-none d-md-block">
                                                 <img width="100%" class="rounded" src="{{ resizeImage($menu2['image'], 300, 200) }}" alt="{{ $menu2['title'] }}">
                                             </figure>
                                         </div>

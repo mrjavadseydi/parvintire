@@ -10,7 +10,7 @@
                             @foreach($menu as $item)
                                 <a {{ echoAttributes($item['attributes']) }} href="{{ $item['link'] }}" class="swiper-slide">
                                     <figure class="text-center">
-                                        <img width="100%" src="{{ url($item['image']) }}" alt="{{ $item['title'] }}">
+                                        <img width="70%" src="{{ url($item['image']) }}" alt="{{ $item['title'] }}">
                                     </figure>
                                 </a>
                             @endforeach
