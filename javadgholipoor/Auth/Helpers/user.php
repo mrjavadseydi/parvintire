@@ -19,7 +19,7 @@ function hasAuthReferer() {
 }
 
 function setAuthReferer() {
-    setCache(ip().'Referer', url()->full());
+    setCache(ip().'Referer', url()->full(), 30);
 }
 
 function getAuthReferer() {
@@ -27,4 +27,8 @@ function getAuthReferer() {
     $referer = getCache($key);
     deleteCache($referer);
     return $referer;
+}
+
+function deleteAuthReferer() {
+    deleteCache(ip().'Referer');
 }
