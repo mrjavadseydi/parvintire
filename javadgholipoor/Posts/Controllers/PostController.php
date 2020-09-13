@@ -1130,7 +1130,8 @@ class PostController extends CoreController
             }
         }
 
-        $posts = Post::published()
+        $posts = Post::where('lang', app()->getLocale())
+            ->published()
             ->search()
             ->categories()
             ->tags()

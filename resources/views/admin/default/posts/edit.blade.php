@@ -158,6 +158,7 @@
                         'telegram',
                         'categories',
                         'course',
+                        'menus',
                         'thumbnail',
                         'gallery',
                         'sounds'
