@@ -101,9 +101,13 @@ class Post extends CoreModel {
 
         $output = [];
 
+        $postId = $this->id;
+        if ($lang != 'fa')
+            $postId = $this->parent;
+
         $actives = PostAttribute::where([
             'type' => 'post',
-            'post_id' => $this->id,
+            'post_id' => $postId,
             'active' => '1'
         ])->get();
 
@@ -225,9 +229,13 @@ class Post extends CoreModel {
 
         $output = [];
 
+        $postId = $this->id;
+        if ($lang != 'fa')
+            $postId = $this->parent;
+
         $actives = PostAttribute::where([
             'type' => 'post',
-            'post_id' => $this->id,
+            'post_id' => $postId,
             'active' => '1'
         ])->get();
 

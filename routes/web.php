@@ -83,7 +83,7 @@ Route::get('test', function () {
     if ($count > 0) {
         telegram()->tags(['posts_published'])->message([
             "مطالب با موفقیت منتشر شدند",
-            "تعداد مطالب منتشر شده :‌ " . $count
+            "تعداد مطالب منتشر شده : " . $count
         ])->sendToGroup();
     }
 });

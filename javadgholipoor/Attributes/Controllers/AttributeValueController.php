@@ -283,9 +283,7 @@ class AttributeValueController extends CoreController
             if (!empty($request->data)) {
                 foreach ($request->data as $id => $item) {
                     if (!empty($item['title'])) {
-
                         $attr = $attrs->where('id', $id)->first();
-
                         if (!AttributeValue::where('title', $item['title'])->exists()) {
                             $add = AttributeValue::create([
                                 'title' => $item['title'],
@@ -295,7 +293,6 @@ class AttributeValueController extends CoreController
                                 'parent' => $id
                             ]);
                         }
-
                     }
                 };
             }

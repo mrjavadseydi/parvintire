@@ -1240,9 +1240,13 @@ class PostController extends CoreController
     {
         can('translatePosts');
         $lang = Language::where('lang', $_GET['lang'])->first();
+        $search = $_GET['search'] ?? '';
+        $where = [];
+        if (isset($_GET['postType']))
+            $where['posts.post_type'] = $_GET['postType'];
         $records = Post::leftJoin('posts as a', function ($join) use ($lang) {
             $join->on('posts.id', '=', 'a.parent')->where('a.lang', $lang->lang);
-        })->whereNull('posts.parent')->whereNull('a.id')->selectRaw('posts.*')->paginate(10);
+        })->where('posts.title', 'like', "%{$search}%")->where($where)->whereNull('posts.parent')->whereNull('a.id')->selectRaw('posts.*')->paginate(10);
         return adminView('posts.language', compact('records', 'lang'));
     }
 
@@ -1269,6 +1273,7 @@ class PostController extends CoreController
                         'lang' => $lang,
                         'parent' => $id,
                         'post_type' => $post->post_type,
+                        'updated_at' => Carbon::now()->toDateTimeString()
                     ]);
 
                     return redirect(url("admin/posts/{$translatePost->id}/edit"));

@@ -123,13 +123,20 @@ class UploadController extends CoreController {
                 $extension = $this->getFileExtension();
                 $size = filesize($file);
                 $pathWithName = "{$path}/{$name}";
+                $savePath = $pathWithName;
 
-                if ($this->uploadIn() == '1') {
+                if ($this->uploadIn() == '1') { // public
 
-                } else if ($this->uploadIn() == '2') {
+                } else if ($this->uploadIn() == '2') { // root
                     $path = base_path($path);
-                } else if ($this->uploadIn() == '3') {
+                } else if ($this->uploadIn() == '3') { // ftp public
 
+                } else if ($this->uploadIn() == '4') { // ftp root
+                    $path = base_path($path);
+                } else if ($this->uploadIn() == '5') {
+                    $userToken = getUserDownloadServerToken();
+                    $path = "uploads/users/{$userToken}/" . $path;
+                    $pathWithName = "uploads/users/{$userToken}/" . $pathWithName;
                 }
 
                 $file->move($path, $name);
@@ -143,14 +150,33 @@ class UploadController extends CoreController {
                     'type'          => $type,
                     'extension'     => $extension,
                     'size'          => $size,
-                    'path'          => $pathWithName,
+                    'path'          => $savePath,
                     'in'            => $this->uploadIn()
                 ]);
+
+                // TODO تصویر تامبنیل منتقل شود به ftp
+                // بررسی شود که انتقال به ftp با موفقیت انجام شده است
+                // فیلد انتقال به ftp در جدول اتچمنت اضافه شود
+                // متد تامبنیل اتچمنت تکمیل شود
+                // متد ریسایز از ftp تکمیل شود
+                // متد کراپ از ftp تکمیل شود
+                // فایل دریافت از روت و پابلیک ftp تکمیل شود
+
+                if (in_array($this->uploadIn(), [3, 5])) { // move to ftp public
+                    ftpUpload(public_path($pathWithName), 'public_html/' . $pathWithName);
+                    if (file_exists(public_path($pathWithName))) {
+                        unlink(public_path($pathWithName));
+                    }
+                } else if ($this->uploadIn() == 4) { // move to ftp root
+                    ftpUpload(base_path($pathWithName), $pathWithName);
+                    if (file_exists(base_path($pathWithName))) {
+                        unlink(base_path($pathWithName));
+                    }
+                }
 
                 // create uploader thumbnail file
                 $imageIcon = '';
                 if ($type == 'image') {
-                    $this->resize(config('uploader.thumbnailWidth'), config('uploader.thumbnailHeight'), $path, $name)['url'];
                     $output['thumbnail'] = $attachment->thumbnail();
                 } else {
                     $output['thumbnail'] = $this->getIcon();
@@ -192,8 +218,27 @@ class UploadController extends CoreController {
             $this->loadOptions($key);
             $validations = $this->validations;
             if (isset($validations[$key])) {
-                $rules = ['file' => $validations[$key]['validations']];
-                $this->uploadIn = $validations[$key]['in'];
+                $getRecord = $validations[$key];
+                $rules = ['file' => $getRecord['validations']];
+                $this->uploadIn = $getRecord['in'];
+                if (isset($getRecord['path'])) {
+                    $this->path = $getRecord['path'];
+                }
+                if (isset($getRecord['year'])) {
+                    $this->yearDir = $getRecord['year'];
+                }
+                if (isset($getRecord['month'])) {
+                    $this->monthDir = $getRecord['month'];
+                }
+                if (isset($getRecord['day'])) {
+                    $this->dayDir = $getRecord['day'];
+                }
+                if (isset($getRecord['hour'])) {
+                    $this->hourDir = $getRecord['hour'];
+                }
+                if (isset($getRecord['clearPath'])) {
+                    $this->clearPath = $getRecord['clearPath'];
+                }
             } else {
                 $rules = ['key' => 'false'];
                 $messages = ['key.false' => 'کلید معتبر نمی باشد'];
@@ -354,6 +399,7 @@ class UploadController extends CoreController {
     function renderImage($id, $width, $height, $attachment = false) {
         if ($attachment == false)
             $attachment = Attachment::find($id);
+
         return response()->download(base_path(uploaderGenerateNameBySize($attachment->path, $width, $height)));
     }
 

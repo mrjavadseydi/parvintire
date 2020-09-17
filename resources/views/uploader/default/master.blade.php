@@ -124,6 +124,9 @@
             $.ajax({
                 url: "{{ url('upload/delete') }}/" + el.attr('attachment'),
                 type: 'post',
+                data: {
+                    _token: $('meta[name=csrf-token]').attr('content')
+                },
                 success: function (data) {
                     if (data.status == 'success') {
 
@@ -318,7 +321,8 @@
             data: {
                 key: key,
                 view: 'body.uploaded-files',
-                count: 25
+                count: 25,
+                _token: $('meta[name=csrf-token]').attr('content')
             },
             success: function (data) {
                 uploadedBody.html(data);

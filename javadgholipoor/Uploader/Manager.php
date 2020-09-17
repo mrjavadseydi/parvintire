@@ -105,7 +105,7 @@ class Manager {
         return $this;
     }
 
-    public function addKey($key, $uploadIn, $validations, $method = null, $data = [])
+    public function addKey($key, $uploadIn, $validations, $method = null, $data = [], $path = null, $year = null, $month = null, $day = null, $hour = null)
     {
         $add = [
             'key' => $key,
@@ -117,6 +117,24 @@ class Manager {
         }
         if (!empty($data)) {
             $add['data'] = $data;
+        }
+        if (!empty($path)) {
+            $add['path'] = $path;
+        }
+        if ($year !== null) {
+            $add['year'] = $year;
+        }
+        if ($month !== null) {
+            $add['month'] = $month;
+        }
+        if ($day !== null) {
+            $add['day'] = $day;
+        }
+        if ($hour !== null) {
+            $add['hour'] = $hour;
+        }
+        if ($uploadIn == 5) {
+            getUserDownloadServerToken();
         }
         $this->options['validations'][$key] = $add;
         return $this;

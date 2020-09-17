@@ -20,6 +20,12 @@ if(!function_exists('downloadFile')){
     }
 }
 
+if(!function_exists('downloadFileBuffer')){
+    function downloadFileBuffer( $url, $headers = [] ){
+        return File::downloadFileBuffer($url, $headers);
+    }
+}
+
 if(!function_exists('extractZip')){
     function extractZip( $file, $extractTo ){
         return File::extractZip( $file, $extractTo );

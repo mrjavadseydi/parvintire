@@ -85,6 +85,9 @@ trait User {
             if (!empty($this->mobile))
                 return $this->mobile;
 
+        if (!empty($this->name))
+            return "{$this->name} {$this->family}";
+
         return 'بدون نام';
     }
 

@@ -78,10 +78,12 @@ class CommentController extends CoreController
             'comment' => $request->comment
         ];
 
+        $lang = app()->getLocale();
+
         foreach ([
-                     'name',
-                     'subject',
-                 ] as $input) {
+             'name',
+             'subject',
+         ] as $input) {
             if ($request->has($input)) {
                 if (!empty($request->$input)) {
                     $data[$input] = $request->$input;
@@ -115,7 +117,12 @@ class CommentController extends CoreController
             }
         }
 
-        $message = 'نظر شما با موفقیت ثبت شد و پس از تایید منتشر خواهد شد.';
+        if ($lang == 'fa')
+            $message = 'نظر شما با موفقیت ثبت شد و پس از تایید منتشر خواهد شد.';
+        else
+            $message = 'Your comment has been successfully submitted and will be published after approval.';
+
+        $log = true;
 
         if ($request->type == '1') {
 
@@ -186,11 +193,18 @@ class CommentController extends CoreController
             if ($checkEmailAndMobile) {
                 if (!$request->has('email') && !$request->has('email')) {
                     $rules['false'] = 'required';
-                    $messages['false.required'] = 'لطفا ایمیل یا موبایل خود را وارد کنید.';
+                    if ($lang == 'fa')
+                        $messages['false.required'] = 'لطفا ایمیل یا موبایل خود را وارد کنید.';
+                    else
+                        $messages['false.required'] = 'Please enter your email or mobile.';
+
                 }
             }
 
-            $message = 'درخواست شما با موفقیت ثبت شد و در اولین فرصت پاسخ داده خواهد شد.';
+            if ($lang == 'fa')
+                $message = 'درخواست شما با موفقیت ثبت شد و در اولین فرصت پاسخ داده خواهد شد.';
+            else
+                $message = 'Your request has been successfully submitted and will be answered as soon as possible.';
 
         }
 
@@ -216,6 +230,7 @@ class CommentController extends CoreController
                                 if ($request->has('type')) { // اگر پاسخ دهنده یکی از پشتیبان ها بود
                                     if ($request->type == '2') { // اگر نوع تیکت بود
                                         if ($user->can('updateTicket')) {
+                                            $log = false;
                                             $parent->update(['status' => 2]);
                                             TicketNotification::dispatch($parent, $data['comment']);
                                         }
@@ -234,20 +249,21 @@ class CommentController extends CoreController
         if ($request->ajax()) {
             if ($output['status'] == 'success') {
                 $output['message'] = $message;
-                $this->createComment($data, $request);
+                $this->createComment($data, $request, $log);
             }
             return $output;
         } else {
-            $this->createComment($data, $request);
+            $this->createComment($data, $request, $log);
             return redirect()->back()->with('success', $message);
         }
 
     }
 
-    public function createComment($data, $request)
+    public function createComment($data, $request, $log = true)
     {
         $comment = Comment::create($data);
-        telegram()->tags(['new_ticket', 'new_comment'])->message("📣 یک اعلان جدید در سیستم ثبت شده است")->sendToGroup();
+        if ($log)
+            telegram()->tags(['new_ticket', 'new_comment'])->message("📣 یک اعلان جدید در سیستم ثبت شده است")->sendToGroup();
         // TODO بررسی شود که کلید های سیستمی ذخیره سازی نشود
         if ($request->has('metas')) {
 
