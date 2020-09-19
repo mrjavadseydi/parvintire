@@ -422,16 +422,36 @@ class UploadController extends CoreController {
                 $cropperWidth = round($request->cropperWidth);
                 $cropperHeight = round($request->cropperHeight);
                 $rotate = ($request->rotate > 0 ? -round($request->rotate) : round($request->rotate));
-                $attachment = Attachment::find($attachmentId);
 
-                $img = Image::make(public_path($attachment->path))
-                            ->rotate($rotate)
-                            ->crop($cropperWidth, $cropperHeight, $x, $y)->trim();
+                $attachment = Attachment::find($attachmentId);
 
                 $originalAttachment = $attachment;
                 if (!empty($attachment->parent)) {
                     $originalAttachment = Attachment::find($attachment->parent);
                 }
+
+                $uploadIn = $originalAttachment->in;
+                $originalAttachmentPath = $originalAttachment->path;
+
+                $makePath = public_path($originalAttachmentPath);
+                if($uploadIn == 1) {
+
+                } elseif ($uploadIn == 2) {
+                    $makePath = base_path($originalAttachmentPath);
+                } elseif ($uploadIn == 3) {
+                    $dl = getDownloadServerUrl();
+                    $makePath = $dl . '/' . $originalAttachmentPath;
+                } elseif ($uploadIn == 4) {
+
+                } elseif ($uploadIn == 5) {
+                    $dl = getDownloadServerUrl();
+                    $token = getUserDownloadServerToken();
+                    $makePath = $dl . "/uploads/users/{$token}/" . $originalAttachmentPath;
+                }
+
+                $img = Image::make($makePath)
+                            ->rotate($rotate)
+                            ->crop($cropperWidth, $cropperHeight, $x, $y)->trim();
 
                 $originalPath = $originalAttachment->path;
                 $originalPathParts = explode('/', $originalPath);
@@ -444,16 +464,17 @@ class UploadController extends CoreController {
                 $cropName = "{$width}x{$height}-c-{$attachment->id}_{$x}_{$y}_{$rotate}-{$originalName}";
                 $cropPathName = "{$cropPath}/{$cropName}";
 
-                if ($originalAttachment->in == '1') { // in public
+                if (in_array($uploadIn, [1, 3, 5])) { // in public
                     $cropPathName = public_path($cropPathName);
                 } else { // in before public
                     $cropPathName = base_path($cropPathName);
                 }
 
                 $img->save($cropPathName);
-                $resize = $this->resize(config('uploader.thumbnailWidth'), config('uploader.thumbnailHeight'), $cropPath, $cropName);
+//                $resize = $this->resize(config('uploader.thumbnailWidth'), config('uploader.thumbnailHeight'), $cropPath, $cropName);
 
                 $path = "{$cropPath}/{$cropName}";
+                dd($path);
                 $cropAttachment = Attachment::where(['parent' => $originalAttachment->id, 'path' => $path])->first();
                 if ($cropAttachment == null) {
                     $cropAttachment = Attachment::create([
@@ -476,9 +497,9 @@ class UploadController extends CoreController {
                 $output['type'] = $cropAttachment->type;
                 $output['status'] = 'success';
                 $output['subType'] = $cropAttachment->extension;
-                $output['imageIcon'] = $resize['url'];
+//                $output['imageIcon'] = $resize['url'];
                 $output['selectIcon'] = $this->getSelectIcon();
-                $output['thumbnail'] = $resize['url'];
+                $output['thumbnail'] = $cropAttachment->thumbnail();
 
             } catch (\Exception $er) {
 

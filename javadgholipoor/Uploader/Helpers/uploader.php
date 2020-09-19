@@ -90,13 +90,13 @@ function ftpUpload($source, $destination, $ftpHost = null, $ftpUser = null, $ftp
     ];
 
     if ($ftpHost == null)
-        $ftpHost = '192.168.1.194';
+        $ftpHost = getOption('ftpHost');
 
     if ($ftpUser == null)
-        $ftpUser = 'javaddev';
+        $ftpUser = getOption('ftpUser');
 
     if ($ftpPass == null)
-        $ftpPass = 'mylove';
+        $ftpPass = getOption('ftpPassword');
 
     $ftpConnect = ftp_connect($ftpHost);
     $ftpResult = ftp_login($ftpConnect, $ftpUser, $ftpPass);

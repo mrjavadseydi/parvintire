@@ -40,7 +40,7 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'fullname', 'lastSeen', 'created', 'online'
+        'fullname', 'lastSeen', 'created', 'online', 'name'
     ];
 
     /**
@@ -51,6 +51,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function name() {
+
+        if (!empty($this->name))
+            return "{$this->name} {$this->family}";
+
+        if (!empty($this->username))
+            return $this->username;
+
+        if (!empty($this->email))
+            return explode('@', $this->email)[0];
+
+        if (!empty($this->mobile))
+            return $this->mobile;
+
+        return 'بدون نام';
+    }
+
+    public function getNameAttribute() {
+
+        if (!empty($this->name))
+            return $this->name;
+
+        return '';
+    }
 
     public function getApiToken()
     {
