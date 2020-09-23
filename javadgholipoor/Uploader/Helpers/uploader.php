@@ -111,9 +111,19 @@ function ftpUpload($source, $destination, $ftpHost = null, $ftpUser = null, $ftp
                 ftp_mkdir($ftpConnect, $implodeDir);
             }
         }
-        if (ftp_put($ftpConnect, $destination, $source, FTP_BINARY)) {
-            $output['status'] = 'success';
-            $output['message'] = 'ftp upload successfully';
+        if (strpos(end($dirs), '.') === false) {
+            $dir[] = end($dirs);
+            if (!ftpIsDir($ftpConnect, implode('/', $dir))) {
+                ftp_mkdir($ftpConnect, implode('/', $dir));
+            }
+        }
+        if (file_exists($source)) {
+            if (ftp_put($ftpConnect, $destination, $source, FTP_BINARY)) {
+                $output['status'] = 'success';
+                $output['message'] = 'ftp upload successfully';
+            } else {
+                $output['message'] = 'ftp upload error';
+            }
         } else {
             $output['message'] = 'ftp upload error';
         }
@@ -141,16 +151,33 @@ function getUserDownloadServerToken($userId = null) {
     $cacheKey = "user{$userId}DownloadServerToken";
     if (!hasCache($cacheKey)) {
         $key  = 'downloadServerToken';
-        $token = $userId . '_' . generateUniqueToken();
         $get = \LaraBase\Auth\Models\UserMeta::where(['key' => $key, 'user_id' => $userId])->first();
         if ($get == null) {
+            $token = $userId . '_' . generateUniqueToken();
             \LaraBase\Auth\Models\UserMeta::create([
                 'key' => 'downloadServerToken',
                 'user_id' => $userId,
-                'value' => $userId . '_' . generateUniqueToken()
+                'value' => $token
             ]);
+        } else {
+            $token = $get->value;
         }
         setCache($cacheKey, $token);
     }
     return getCache($cacheKey);
+}
+
+function makeDir($basePath, $path) {
+    $dirs = explode('/', $path);
+    $directory = explode('/', $basePath);
+    unset($directory[count($directory)-1]);
+    foreach ($dirs as $dir) {
+        if (strpos($dir, '.') === false) {
+            $directory[] = $dir;
+            $implode = implode('/', $directory);
+            if (!is_dir($implode)) {
+                mkdir($implode);
+            }
+        }
+    }
 }

@@ -184,7 +184,7 @@ class UploadController extends CoreController {
                 }
 
                 $output['id'] = $attachment->id;
-                $output['url'] = url($attachment->path);
+                $output['url'] = $attachment->url();
                 $output['path'] = $attachment->path;
                 $output['name'] = $file->getClientOriginalName();
                 $output['type'] = $type;
@@ -405,12 +405,12 @@ class UploadController extends CoreController {
 
     public function imageCropper(Request $request) {
 
-        if ($request->has('attachmentId')) {
+        $output = [
+            'status'  => 'error',
+            'message' => null
+        ];
 
-            $output = [
-                'status'  => 'error',
-                'message' => null
-            ];
+        if ($request->has('attachmentId')) {
 
             try {
 
@@ -421,8 +421,9 @@ class UploadController extends CoreController {
                 $height = round($request->height);
                 $cropperWidth = round($request->cropperWidth);
                 $cropperHeight = round($request->cropperHeight);
+                $imageWidth = round($request->imageWidth);
+                $imageHeight = round($request->imageHeight);
                 $rotate = ($request->rotate > 0 ? -round($request->rotate) : round($request->rotate));
-
                 $attachment = Attachment::find($attachmentId);
 
                 $originalAttachment = $attachment;
@@ -449,9 +450,64 @@ class UploadController extends CoreController {
                     $makePath = $dl . "/uploads/users/{$token}/" . $originalAttachmentPath;
                 }
 
-                $img = Image::make($makePath)
-                            ->rotate($rotate)
-                            ->crop($cropperWidth, $cropperHeight, $x, $y)->trim();
+                $cropWidth = round($imageWidth - abs($x));
+                $cropHeight = round($imageHeight - abs($y));
+
+                if ($x > $imageWidth || $y > $imageHeight) {
+                    $cropWidth = $cropHeight = 0;
+                } else {
+                    if ($x < 0) {
+                        $cropWidth = $cropperWidth - abs($x);
+                    }
+                    if ($y < 0) {
+                        $cropHeight = $cropperHeight - abs($y);
+                    }
+                    if ($cropperWidth > $imageWidth) {
+                        $cropWidth = $imageWidth;
+                    }
+                    if($cropHeight > $imageHeight) {
+                        $cropHeight = $imageHeight;
+                    }
+                }
+
+                if ($cropWidth < 0 || $cropHeight < 0) {
+                    $cropWidth = $cropHeight = 0;
+                }
+
+                $cropX = $x;
+                $cropY = $y;
+
+                if ($x < 0) {
+                    $cropX = 0;
+                }
+
+                if ($y < 0) {
+                    $cropY = 0;
+                }
+
+                //                if ($cropWidth == 0 && $cropHeight == 0) {
+                //                    $cropX = $cropY = 0;
+                //                }
+
+                $crop = Image::make($makePath);
+                $crop->rotate($rotate);
+                $crop->crop($cropWidth, $cropHeight, $cropX, $cropY);
+                $resizeWidth = ($width * $cropWidth) / $cropperWidth;
+                $resizeHeight = ($height * $cropHeight) / $cropperHeight;
+                $crop->resize($resizeWidth, $resizeHeight);
+                $crop->trim();
+
+                $insertX = $insertY = 0;
+
+                if ($x < 0) {
+                    $insertX = round($width - (($width * ($cropperWidth - abs($x))) / $cropperWidth));
+                }
+
+                if ($y < 0) {
+                    $insertY = round($height - (($height * ($cropperHeight - abs($y))) / $cropperHeight));
+                }
+
+                $img = Image::canvas($width, $height)->insert($crop, 'top-left', $insertX, $insertY);
 
                 $originalPath = $originalAttachment->path;
                 $originalPathParts = explode('/', $originalPath);
@@ -464,17 +520,22 @@ class UploadController extends CoreController {
                 $cropName = "{$width}x{$height}-c-{$attachment->id}_{$x}_{$y}_{$rotate}-{$originalName}";
                 $cropPathName = "{$cropPath}/{$cropName}";
 
+                if ($uploadIn == 5) {
+                    $token = getUserDownloadServerToken();
+                    $cropPathName = "uploads/users/{$token}/{$cropPathName}";
+                }
+
                 if (in_array($uploadIn, [1, 3, 5])) { // in public
+                    makeDir(public_path('/'), $cropPathName);
                     $cropPathName = public_path($cropPathName);
                 } else { // in before public
+                    makeDir(base_path('/'), $cropPathName);
                     $cropPathName = base_path($cropPathName);
                 }
 
                 $img->save($cropPathName);
-//                $resize = $this->resize(config('uploader.thumbnailWidth'), config('uploader.thumbnailHeight'), $cropPath, $cropName);
 
                 $path = "{$cropPath}/{$cropName}";
-                dd($path);
                 $cropAttachment = Attachment::where(['parent' => $originalAttachment->id, 'path' => $path])->first();
                 if ($cropAttachment == null) {
                     $cropAttachment = Attachment::create([
@@ -490,8 +551,26 @@ class UploadController extends CoreController {
                     ]);
                 }
 
+                $ftpPath = $path;
+                if (in_array($uploadIn, [3, 5])) {
+                    if ($uploadIn == 5) {
+                        $token = getUserDownloadServerToken();
+                        $ftpPath = "uploads/users/{$token}/{$ftpPath}";
+                    }
+                    ftpUpload($cropPathName, 'public_html/'.$ftpPath);
+                    if (file_exists($cropPathName)) {
+                        unlink($cropPathName);
+                    }
+                }
+                if ($uploadIn == 4) {
+                    ftpUpload($cropPathName, $ftpPath);
+                    if (file_exists($cropPathName)) {
+                        unlink($cropPathName);
+                    }
+                }
+
                 $output['id'] = $cropAttachment->id;
-                $output['url'] = url($cropAttachment->path);
+                $output['url'] = $cropAttachment->url();
                 $output['path'] = $cropAttachment->path;
                 $output['name'] = $cropAttachment->title;
                 $output['type'] = $cropAttachment->type;
@@ -505,9 +584,9 @@ class UploadController extends CoreController {
 
             }
 
-            return $output;
-
         }
+
+        return $output;
 
     }
 

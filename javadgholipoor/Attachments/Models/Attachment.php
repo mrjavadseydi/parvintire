@@ -31,14 +31,19 @@ class Attachment extends CoreModel {
 
     public function url()
     {
-        $path = path;
+        $path = $this->path;
         $uploadIn = $this->in;
         if (in_array($uploadIn, [1, 2])) {
             return url($path);
         } else if ($uploadIn == 5) {
             $url = getDownloadServerUrl();
             $token = getUserDownloadServerToken();
-            return url("users/{$token}/" . $path);
+            return "{$url}/uploads/users/{$token}/{$path}";
+        } elseif ($uploadIn == 3) {
+            $url = getDownloadServerUrl();
+            return "{$url}/{$path}";
+        } elseif ($uploadIn == 4) {
+
         }
 
     }

@@ -88,43 +88,49 @@ function renderImage($path, $width, $height) {
         }
 
         if ($imagePath != null) {
-            $img = \Intervention\Image\Facades\Image::make($imagePath);
-            $saveTo = public_path($filePath);
-            if(in_array($uploadIn, [2, 4])) {
-                $saveTo = base_path($filePath);
-            }
-            $img->fit($width, $height)->save($saveTo);
-            if ($attachment != null) {
-                if (in_array($uploadIn, [1, 3, 5])) {
-                    $fileSize = filesize(public_path($filePath));
+            try {
+                $img = \Intervention\Image\Facades\Image::make($imagePath);
+                $saveTo = public_path($filePath);
+                if(in_array($uploadIn, [2, 4])) {
+                    $saveTo = base_path($filePath);
+                    makeDir(base_path(''), $filePath);
                 } else {
-                    $fileSize = filesize(base_path($filePath));
+                    makeDir(public_path('/'), $filePath);
                 }
-                if (!Attachment::where('path', $filePath)->exists()) {
-                    Attachment::create([
-                        'title'     => $attachment->title,
-                        'user_id'   => $attachment->user_id,
-                        'mime'      => $attachment->mime,
-                        'type'      => $attachment->type,
-                        'extension' => $attachment->extension,
-                        'size'      => $fileSize,
-                        'path'      => $savePath,
-                        'in'        => $attachment->in,
-                        'parent'    => $attachment->id
-                    ]);
-                }
-                if (in_array($uploadIn, [3, 5])) {
-                    ftpUpload(public_path($filePath), 'public_html/'.$filePath);
-                    if (file_exists(public_path($filePath))) {
-                        unlink(public_path($filePath));
+                $img->fit($width, $height)->save($saveTo);
+                if ($attachment != null) {
+                    if (in_array($uploadIn, [1, 3, 5])) {
+                        $fileSize = filesize(public_path($filePath));
+                    } else {
+                        $fileSize = filesize(base_path($filePath));
+                    }
+                    if (!Attachment::where('path', $filePath)->exists()) {
+                        Attachment::create([
+                            'title'     => $attachment->title,
+                            'user_id'   => $attachment->user_id,
+                            'mime'      => $attachment->mime,
+                            'type'      => $attachment->type,
+                            'extension' => $attachment->extension,
+                            'size'      => $fileSize,
+                            'path'      => $savePath,
+                            'in'        => $attachment->in,
+                            'parent'    => $attachment->id
+                        ]);
+                    }
+                    if (in_array($uploadIn, [3, 5])) {
+                        ftpUpload(public_path($filePath), 'public_html/'.$filePath);
+                        if (file_exists(public_path($filePath))) {
+                            unlink(public_path($filePath));
+                        }
+                    }
+                    if ($uploadIn == 4) {
+                        ftpUpload(base_path($filePath), $filePath);
+                        if (file_exists(base_path($filePath))) {
+                            unlink(base_path($filePath));
+                        }
                     }
                 }
-                if ($uploadIn == 4) {
-                    ftpUpload(base_path($filePath), $filePath);
-                    if (file_exists(base_path($filePath))) {
-                        unlink(base_path($filePath));
-                    }
-                }
+            } catch (Exception $err) {
             }
         }
 

@@ -40,7 +40,7 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'fullname', 'lastSeen', 'created', 'online', 'name'
+        'fullname', 'lastSeen', 'created', 'online', 'name', 'mobile', 'email'
     ];
 
     /**
@@ -57,6 +57,9 @@ class User extends Authenticatable
         if (!empty($this->name))
             return "{$this->name} {$this->family}";
 
+        if (!empty($this->family))
+            return $this->family;
+
         if (!empty($this->username))
             return $this->username;
 
@@ -69,12 +72,16 @@ class User extends Authenticatable
         return 'بدون نام';
     }
 
-    public function getNameAttribute() {
+    public function getNameAttribute($value) {
+        return $value;
+    }
 
-        if (!empty($this->name))
-            return $this->name;
+    public function getEmailAttribute($value) {
+        return $value;
+    }
 
-        return '';
+    public function getMobileAttribute($value) {
+        return $value;
     }
 
     public function getApiToken()
