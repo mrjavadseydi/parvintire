@@ -409,6 +409,7 @@ class Post extends CoreModel {
         }
 
         if (!empty($string)) {
+            $string = str_replace(['/', '-'], ['', ' '], $string);
             $query->whereRaw("(posts.id LIKE '%{$string}%' OR posts.title LIKE '%{$string}%' OR posts.excerpt LIKE '%{$string}%' OR posts.post_type LIKE '%{$string}%')");
         }
 

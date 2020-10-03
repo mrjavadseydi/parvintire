@@ -1075,25 +1075,21 @@ class PostController extends CoreController
     }
 
     public function clearCache($request, $postType) {
-
         if ($request->has('status')) {
             if ($request->status == 'publish') {
                 $getPostType = getPostType($postType);
                 $keys[] = "postsPostTypes_{$getPostType->id}";
-
                 if (!empty($this->menusCacheTags)) {
                     foreach (array_unique($this->menusCacheTags) as $tagId) {
                         $keys[] = "postsTags_{$tagId}";
                     }
                 }
-
                 if (!empty($this->menusCacheCategories)) {
                     foreach (array_unique($this->menusCacheCategories) as $categoryId) {
                         $keys[] = "categoriesCategories_{$categoryId}";
                         $keys[] = "postsCategories_{$categoryId}";
                     }
                 }
-
                 $cacheKeys = MenuMeta::where('key', 'cache')->whereIn('value', $keys)->pluck('more')->toArray();
                 foreach (array_unique($cacheKeys) as $cacheKey) {
                     if (Cache::has($cacheKey)) {
@@ -1102,7 +1098,6 @@ class PostController extends CoreController
                 }
             }
         }
-
     }
 
     public function search($params = null) {
@@ -1147,6 +1142,10 @@ class PostController extends CoreController
 
         $postCount = $posts->count();
         addSearch($q, $postCount);
+
+        if ($postCount == 1) {
+            return redirect($posts[0]->href(), 301);
+        }
 
         $postTypes = [];
         $getPostTypes = $posts->pluck('post_type')->toArray();
@@ -1218,12 +1217,25 @@ class PostController extends CoreController
             $output['html1'] = view($_GET['view1'], ['data' => $output])->render();
         }
 
-        $canonicalParams = ['q', 'postType', 'category', 'page'];
+        $canonicalParams = ['q', 'postType'];
         $canonicalData = [];
 
         foreach ($canonicalParams as $canonicalParam) {
-            if (isset($_GET[$canonicalParam]))
-                $canonicalData[$canonicalParam] = $_GET[$canonicalParam];
+            if (isset($_GET[$canonicalParam])) {
+                if ($canonicalParam == 'q') {
+                    $canonicalData[$canonicalParam] = str_replace([
+                        '/',
+                        '+',
+                        ' '
+                    ], [
+                        '',
+                        '-',
+                        '-'
+                    ], $_GET[$canonicalParam]);
+                } else {
+                    $canonicalData[$canonicalParam] = $_GET[$canonicalParam];
+                }
+            }
         }
 
         $output['canonical'] = url("search?" . http_build_query($canonicalData));

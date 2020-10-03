@@ -47,9 +47,40 @@ class Manager {
     }
 
     public function sendPattern($pattern, $params) {
+        $config = config(strtolower(env('APP_NAME')) . '_sms');
+        if(isset($config[$pattern])) {
+            $this->sendPatternByProject($config[$pattern], $params, $config);
+        }
         return $this->httpRequest(getRepository('api/sms/sendPattern'), array_merge([
             'pattern' => $pattern
         ], $params));
+    }
+
+    public function sendPatternByProject($patternCode, $params, $config)
+    {
+        $url = "http://rest.ippanel.com/v1/messages/patterns/send";
+        $userAgent = sprintf("IPPanel/ApiClient/%s PHP/%s",  '1.0.1', phpversion());
+        $headers = [
+            'Accept: application/json',
+            'Content-Type: application/json',
+            sprintf("Authorization: AccessKey %s", $config['smsPanelAccessKey']),
+            sprintf("User-Agent: %s", $userAgent)
+        ];
+        $curl = curl_init($url . "?" . http_build_query($params));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // no need in php 5.1.3+.
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
+            'pattern_code' => $patternCode,
+            'originator' => $config['smsPanelSender'],
+            'recipient' => $this->numbers,
+            'values' => $params
+        ]));
+        $response = json_decode(curl_exec($curl), true);
+        return $response;
     }
 
     private function httpRequest($url, $params) {
