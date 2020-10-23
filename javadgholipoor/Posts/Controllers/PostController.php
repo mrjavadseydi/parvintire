@@ -1128,7 +1128,7 @@ class PostController extends CoreController
         $posts = Post::where('lang', app()->getLocale())
             ->published()
             ->search()
-            ->categories()
+            ->categories(isset($_GET['category']) ? [$_GET['category']] : [])
             ->tags()
             ->postType()
             ->postTypes()
@@ -1143,8 +1143,10 @@ class PostController extends CoreController
         $postCount = $posts->count();
         addSearch($q, $postCount);
 
-        if ($postCount == 1) {
-            return redirect($posts[0]->href(), 301);
+        if ($to == 'view') {
+            if ($postCount == 1) {
+                return redirect($posts[0]->href(), 301);
+            }
         }
 
         $postTypes = [];
@@ -1205,7 +1207,6 @@ class PostController extends CoreController
             }
         }
 
-        $output['title'] = $title;
         $output['posts'] = $posts;
         $output['users'] = User::whereIn('id', $posts->pluck('user_id')->toArray())->get();
         $output['postTypes'] = $postTypes;
@@ -1217,28 +1218,16 @@ class PostController extends CoreController
             $output['html1'] = view($_GET['view1'], ['data' => $output])->render();
         }
 
-        $canonicalParams = ['q', 'postType'];
-        $canonicalData = [];
-
-        foreach ($canonicalParams as $canonicalParam) {
-            if (isset($_GET[$canonicalParam])) {
-                if ($canonicalParam == 'q') {
-                    $canonicalData[$canonicalParam] = str_replace([
-                        '/',
-                        '+',
-                        ' '
-                    ], [
-                        '',
-                        '-',
-                        '-'
-                    ], $_GET[$canonicalParam]);
-                } else {
-                    $canonicalData[$canonicalParam] = $_GET[$canonicalParam];
-                }
+        $output['canonical'] = url("search");
+        if (isset($_GET['category'])) {
+            $category = Category::find($_GET['category']);
+            if ($category != null) {
+                $output['canonical'] = url("categories/{$category->id}/{$category->slug}");
+                $title = "جستجو در " . $category->title;
             }
         }
-
-        $output['canonical'] = url("search?" . http_build_query($canonicalData));
+        $output['robots'] = 'noindex, nofollow';
+        $output['title'] = $title;
 
         if ($to == 'view') {
             return templateView($view, $output);

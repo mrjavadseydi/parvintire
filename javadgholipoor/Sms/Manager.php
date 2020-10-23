@@ -76,7 +76,7 @@ class Manager {
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
             'pattern_code' => $patternCode,
             'originator' => $config['smsPanelSender'],
-            'recipient' => $this->numbers,
+            'recipient' => $this->numbers[0],
             'values' => $params
         ]));
         $response = json_decode(curl_exec($curl), true);

@@ -81,13 +81,18 @@ class HttpProtocol
                     if (substr($requestUri, 0, 4) != '/api') {
                         $urlParts[] = $requestUri;
                         if ($redirect) {
-                            return redirect(implode('', $urlParts));
+                            return redirect(implode('', $urlParts), 301);
                         }
                     }
 
                 }
 
             }
+        }
+
+        $url = url()->full();
+        if (strpos($url, 'index.php')) {
+            return redirect(str_replace(['index.php/', 'index.php'], '', $url), 301);
         }
 
         return $next($request);

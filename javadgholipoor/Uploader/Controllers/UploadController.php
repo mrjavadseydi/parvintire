@@ -489,7 +489,7 @@ class UploadController extends CoreController {
                 //                    $cropX = $cropY = 0;
                 //                }
 
-                $crop = Image::make($makePath);
+                $crop = Image::make($makePath)->encode('png', 65);
                 $crop->rotate($rotate);
                 $crop->crop($cropWidth, $cropHeight, $cropX, $cropY);
                 $resizeWidth = ($width * $cropWidth) / $cropperWidth;
@@ -516,6 +516,12 @@ class UploadController extends CoreController {
                 unset($originalPathParts[$originalPathPartsLastIndex]);
                 $originalPathPartsImplode = implode('/', $originalPathParts);
 
+                $originalNameParts = explode('.', $originalName);
+                $lastIndex = count($originalNameParts) - 1;
+                unset($originalNameParts[$lastIndex]);
+                $originalNameParts[] = 'png';
+                $originalName = implode('.', $originalNameParts);
+
                 $cropPath = $originalPathPartsImplode;
                 $cropName = "{$width}x{$height}-c-{$attachment->id}_{$x}_{$y}_{$rotate}-{$originalName}";
                 $cropPathName = "{$cropPath}/{$cropName}";
@@ -536,6 +542,7 @@ class UploadController extends CoreController {
                 $img->save($cropPathName);
 
                 $path = "{$cropPath}/{$cropName}";
+
                 $cropAttachment = Attachment::where(['parent' => $originalAttachment->id, 'path' => $path])->first();
                 if ($cropAttachment == null) {
                     $cropAttachment = Attachment::create([
