@@ -47,12 +47,20 @@ function getPostTypeId($id) {
     return Cache::get($cacheKey);
 }
 
-function initPost($post) {
+function initPost($post, $id = false, $slug = false) {
     if ($post == null)
-        return  abort(404);
+        return abort(404);
 
     if ($post->status != 'publish')
         return abort(404);
 
     addVisit('post', $post->id);
+
+    if ($slug != false) {
+        if ($post->slug != $slug) {
+            header("HTTP/1.1 301 Moved Permanently");
+            header("Location: " . $post->href());
+            exit;
+        }
+    }
 }

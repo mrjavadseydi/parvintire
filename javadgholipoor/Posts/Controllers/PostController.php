@@ -1226,7 +1226,7 @@ class PostController extends CoreController
                 $title = "جستجو در " . $category->title;
             }
         }
-        $output['robots'] = 'noindex, nofollow';
+        $output['robots'] = 'noindex';
         $output['title'] = $title;
 
         if ($to == 'view') {

@@ -2,6 +2,7 @@
 
 namespace LaraBase\Seo\Controllers;
 
+use LaraBase\Categories\Models\Category;
 use LaraBase\CoreController;
 use LaraBase\Posts\Models\Post;
 use LaraBase\Posts\Models\PostType;
@@ -23,6 +24,16 @@ class SitemapController extends CoreController
     public function index() {
 		$this->sitemap[] =  '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 		$this->sitemap[] =  "\n";
+
+
+        {
+            // categories
+            $loc = url("/sitemap/all/categories.xml");
+            $this->sitemap[] = "\t<sitemap>\n";
+            $this->sitemap[] =  "\t\t<loc>{$loc}</loc>\n";
+//						$this->sitemap[] =  "\t\t<lastmod>2018-09-06</lastmod>\n";
+            $this->sitemap[] =  "\t</sitemap>\n";
+        }
 
 		$startDateTime = $this->dateTimeParts($this->firstPost()); // اولین پست ایجاد شده
 		$endDateTime  = $this->dateTimeParts($this->lastPost());   // آخرین پست ایجاد شده
@@ -69,17 +80,29 @@ class SitemapController extends CoreController
 	}
 
 	public function urls($yearMonth, $offset) {
-		$this->sitemap[] = "<?xml version='1.0' encoding='UTF-8'?>\n<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n";
 
-		// پست های هرماه با محدودیت 500تایی براساس هر ماه
-		$posts = $this->posts($yearMonth, $offset);
-		foreach ($posts as $post) {
-			$lastMod = str_replace(" ", "T", $post->updated_at) . "+03:00";
-			$this->sitemap[] = "\t<url>\n";
-			$this->sitemap[] = "\t\t<loc>{$post->href()}</loc>\n";
-			$this->sitemap[] = "\t\t<lastmod>{$lastMod}</lastmod>\n";
-			$this->sitemap[] = "\t</url>\n";
-		}
+        $this->sitemap[] = "<?xml version='1.0' encoding='UTF-8'?>\n<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>\n";
+
+        if ($offset == 'categories') {
+            $categories = Category::whereIn('post_type', PostType::where('sitemap', 1)->pluck('type')->toArray())->get();
+            foreach ($categories as $category) {
+                $url = url("categories/{$category->id}/{$category->slug}");
+                $this->sitemap[] = "\t<url>\n";
+                $this->sitemap[] = "\t\t<loc>{$url}</loc>\n";
+//                $this->sitemap[] = "\t\t<lastmod>{$lastMod}</lastmod>\n";
+                $this->sitemap[] = "\t</url>\n";
+            }
+        } else {
+            // پست های هرماه با محدودیت 500تایی براساس هر ماه
+            $posts = $this->posts($yearMonth, $offset);
+            foreach ($posts as $post) {
+                $lastMod = str_replace(" ", "T", $post->updated_at) . "+03:00";
+                $this->sitemap[] = "\t<url>\n";
+                $this->sitemap[] = "\t\t<loc>{$post->href()}</loc>\n";
+                $this->sitemap[] = "\t\t<lastmod>{$lastMod}</lastmod>\n";
+                $this->sitemap[] = "\t</url>\n";
+            }
+        }
 
 		$this->sitemap[] = "</urlset>";
 		$build = "";
