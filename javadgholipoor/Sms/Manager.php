@@ -33,7 +33,7 @@ class Manager {
         $key = 'smsCredit';
 
         if (!hasCache($key)) {
-            setCache($key, $this->httpRequest(getRepository('api/sms/getCredit'), []), 5);
+            setCache($key, $this->httpRequest(getRepository('api/v1/sms/getCredit'), []), 5);
         }
 
         return getCache($key);
@@ -41,7 +41,7 @@ class Manager {
     }
 
     public function send() {
-        $this->httpRequest(getRepository('api/sms/send'), [
+        $this->httpRequest(getRepository('api/v1/sms/send'), [
             'text' => $this->text,
         ]);
     }
@@ -51,7 +51,7 @@ class Manager {
         if(isset($config[$pattern])) {
             $this->sendPatternByProject($config[$pattern], $params, $config);
         }
-        return $this->httpRequest(getRepository('api/sms/sendPattern'), array_merge([
+        return $this->httpRequest(getRepository('api/v1/sms/sendPattern'), array_merge([
             'pattern' => $pattern
         ], $params));
     }
@@ -101,7 +101,7 @@ class Manager {
     public function getPatterns()
     {
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, getRepository('api/sms/getPatterns/'. env('APP_KEY')));
+        curl_setopt($curl, CURLOPT_URL, getRepository('api/v1/sms/getPatterns/'. env('APP_KEY')));
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_TIMEOUT, 30);
@@ -110,7 +110,7 @@ class Manager {
 
     public function setPatterns($patterns)
     {
-       return $this->httpRequest(getRepository('api/sms/createPatterns/'. env('APP_KEY')), [
+       return $this->httpRequest(getRepository('api/v1/sms/createPatterns/'. env('APP_KEY')), [
            'patterns' => json_encode($patterns),
            'url' => url('')
        ]);

@@ -78,10 +78,11 @@ class SyncController extends CoreController
 
     public function buildLaraBase()
     {
-        $getVersion = Option::where('key', 'appVersion')->first();
-        $version = intval($getVersion->value) + 1;
-        $fileName = 'LaraBase(' . $version . ').zip';
-        $this->compress('downloads/apps/LaraBase', $fileName, [
+        $getCore = $this->getCoreVersion();
+        $version = intval($getCore->version) + 1;
+        $fileName = 'Core(' . $version . ').zip';
+
+        $this->compress('downloads/apps/Core', $fileName, [
             'app',
             'bootstrap',
             'config',
@@ -150,15 +151,8 @@ class SyncController extends CoreController
             ])
         ]);
 
-        $key = 'appVersion';
-        if (Option::where('key', $key)->exists()) {
-            Option::where('key', $key)->update(['value' => $version]);
-        } else {
-            Option::create(['key' => $key, 'value' => $version, 'more' => 'autoload']);
-        }
-
-        return uploadFiles(getRepository('api/v1/sync/larabase'), [
-            'file' => base_path("downloads/apps/LaraBase/{$fileName}")
+        return uploadFiles(getRepository('api/v1/sync/core'), [
+            'file' => base_path("downloads/apps/Core/{$fileName}")
         ], [
             'token' => $this->masterToken,
             'fileName' => $fileName,
@@ -170,19 +164,13 @@ class SyncController extends CoreController
     public function buildProject($appName)
     {
 
-        $version = intval(getProjectVersion($appName)) + 1;
-        $fileName = 'LaraBase('. $appName .')(' . $version . ').zip';
+        $application = $this->getApplicationVersion();
+        $version = intval($application->version) + 1;
+        $fileName = $appName . '(' . $version . ').zip';
 
         $this->compress("downloads/apps/{$appName}", $fileName, [
             "projects/{$appName}"
         ],[], []);
-
-        $key = "{$appName}AppVersion";
-        if (Option::where('key', $key)->exists()) {
-            Option::where('key', $key)->update(['value' => $version]);
-        } else {
-            Option::create(['key' => $key, 'value' => $version, 'more' => 'autoload']);
-        }
 
         return uploadFiles(getRepository('api/v1/sync/project'), [
             'file' => base_path("downloads/apps/{$appName}/{$fileName}")
@@ -273,6 +261,25 @@ class SyncController extends CoreController
 
         }
 
+    }
+
+    public function getCoreVersion()
+    {
+        $curl = curl_init(getRepository('api/v1/core'));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+        $result = curl_exec($curl);
+        return json_decode($result);
+    }
+
+    public function getApplicationVersion()
+    {
+        $appKey = env('APP_KEY');
+        $curl = curl_init(getRepository('api/v1/project/' . $appKey));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+        $result = curl_exec($curl);
+        return json_decode($result);
     }
 
 }

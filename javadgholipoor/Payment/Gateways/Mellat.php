@@ -10,18 +10,18 @@ class Mellat extends CoreGateway
 
     private $params;
 
-	private $terminalId;
+    private $terminalId;
 
-	private $userName;
+    private $userName;
 
-	private $userPassword;
+    private $userPassword;
 
-	private $namespace;
+    private $namespace;
 
-	private $referenceId;
+    private $referenceId;
 
-	function __construct()
-	{
+    function __construct()
+    {
 
         $this->userName 	= getOption('gateway_mellat_username');
         $this->userPassword = getOption('gateway_mellat_password');
@@ -79,41 +79,41 @@ class Mellat extends CoreGateway
 
     }
 
-	private function connect(){
+    private function connect(){
 
-		$this->client 		= new \nusoap_client('https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl');
-		$this->namespace 	= 'http://interfaces.core.sw.bps.com/';
+        $this->client 		= new \nusoap_client('https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl');
+        $this->namespace 	= 'http://interfaces.core.sw.bps.com/';
 
-	}
+    }
 
     public function price($price) {
         // تبدیل مبلغ به ریال
         return ceil($price);
     }
 
-	public function request( $params ){
+    public function request( $params ){
 
-	    $this->params = $params;
+        $this->params = $params;
 
-		$this->connect();
+        $this->connect();
 
-		$amount			= $this->price($params['amount']);
-		$description	= isset( $params['description'] ) ? $params['description'] : '';
+        $amount			= toIRR($this->price($params['amount']));
+        $description	= isset( $params['description'] ) ? $params['description'] : '';
 
-		$parameters = [
-			'terminalId' 		=> $this->terminalId,
-			'userName' 			=> $this->userName,
-			'userPassword' 		=> $this->userPassword,
-			'orderId' 			=> $this->params['orderId'],
-			'amount' 			=> $amount,
-			'localDate' 		=> date('Ydm'),
-			'localTime' 		=> date('His'),
-			'additionalData' 	=> $description,
-			'callBackUrl' 		=> $this->params['callbackUrl'],
-			'payerId' 			=> 0
-		];
+        $parameters = [
+            'terminalId' 		=> $this->terminalId,
+            'userName' 			=> $this->userName,
+            'userPassword' 		=> $this->userPassword,
+            'orderId' 			=> $this->params['orderId'],
+            'amount' 			=> $amount,
+            'localDate' 		=> date('Ydm'),
+            'localTime' 		=> date('His'),
+            'additionalData' 	=> $description,
+            'callBackUrl' 		=> $this->params['callbackUrl'],
+            'payerId' 			=> 0
+        ];
 
-		$result = $this->client->call('bpPayRequest', $parameters, $this->namespace);
+        $result = $this->client->call('bpPayRequest', $parameters, $this->namespace);
 
         $parseResult = explode(',', $result);
 
@@ -130,42 +130,42 @@ class Mellat extends CoreGateway
         $this->params['message'] = $this->message($code);
         $this->params['authority'] = $authority;
 
-		return $this->params;
+        return $this->params;
 
-	}
+    }
 
-	public function send($hiddenInputs = []){
-		?>
-		<!DOCTYPE html>
-		<html>
-		<head>
-			<meta charset="UTF8"/>
-			<title>در حال اتصال به درگاه پرداخت</title>
-		</head>
-		<body>
-			<form action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat" method="POST" id="gatewayForm">
-				<?php echo $this->hiddenInput('RefId', $this->referenceId);?>
-			</form>
-			<script type="text/javascript">
-				var gateWayForm = document.getElementById( 'gatewayForm' );
-				gatewayForm.submit();
-			</script>
-		</body>
-		</html>
-		<?php
-		exit;
-	}
+    public function send($hiddenInputs = []){
+        ?>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF8"/>
+            <title>در حال اتصال به درگاه پرداخت</title>
+        </head>
+        <body>
+        <form action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat" method="POST" id="gatewayForm">
+            <?php echo $this->hiddenInput('RefId', $this->referenceId);?>
+        </form>
+        <script type="text/javascript">
+            var gateWayForm = document.getElementById( 'gatewayForm' );
+            gatewayForm.submit();
+        </script>
+        </body>
+        </html>
+        <?php
+        exit;
+    }
 
-	private function settle( $parameters ){
+    private function settle( $parameters ){
 
-		$result = $this->client->call( 'bpSettleRequest', $parameters, $this->namespace);
+        $result = $this->client->call( 'bpSettleRequest', $parameters, $this->namespace);
 
-	}
+    }
 
-	public function verifyPayment( $params ){
+    public function verifyPayment( $params ){
 
-	    $post       = $params['post'];
-	    $resultCode = $post['ResCode'];
+        $post       = $params['post'];
+        $resultCode = $post['ResCode'];
         if ($resultCode == 0) {
 
             $orderId 			= $params['orderId'];
@@ -227,7 +227,7 @@ class Mellat extends CoreGateway
             return false;
         }
 
-	}
+    }
 
     public function checkPaymentStatus($params)
     {
@@ -332,7 +332,7 @@ class Mellat extends CoreGateway
     }
 
     public function getVerifyAuthority() {
-	    return $_POST['RefId'];
+        return $_POST['RefId'];
     }
 
 }

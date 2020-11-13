@@ -345,42 +345,42 @@ class InstallController extends CoreController {
             ]);
 
             foreach ([
-                         [
-                             'key'   => 'siteCurrency',
-                             'value' => 'IRR',
-                             'more'  => 'autoload'
-                         ],
-                         [
-                             'key'   => 'appVersion',
-                             'value' => getVersion(),
-                             'more'  => 'autoload'
-                         ],
-                         [
-                             'key'   => 'adminTheme',
-                             'value' => 'default',
-                             'more'  => 'autoload'
-                         ],
-                         [
-                             'key'   => 'templateTheme',
-                             'value' => 'default',
-                             'more'  => 'autoload'
-                         ],
-                         [
-                             'key'   => 'authTheme',
-                             'value' => 'default',
-                             'more'  => 'autoload'
-                         ],
-                         [
-                             'key'   => 'emailTheme',
-                             'value' => 'default',
-                             'more'  => 'autoload'
-                         ],
-                         [
-                             'key'   => 'uploaderTheme',
-                             'value' => 'default',
-                             'more'  => 'autoload'
-                         ],
-                     ] as $option) {
+                 [
+                     'key'   => 'siteCurrency',
+                     'value' => 'IRR',
+                     'more'  => 'autoload'
+                 ],
+                 [
+                     'key'   => 'appVersion',
+                     'value' => getVersion(),
+                     'more'  => 'autoload'
+                 ],
+                 [
+                     'key'   => 'adminTheme',
+                     'value' => 'default',
+                     'more'  => 'autoload'
+                 ],
+                 [
+                     'key'   => 'templateTheme',
+                     'value' => 'default',
+                     'more'  => 'autoload'
+                 ],
+                 [
+                     'key'   => 'authTheme',
+                     'value' => 'default',
+                     'more'  => 'autoload'
+                 ],
+                 [
+                     'key'   => 'emailTheme',
+                     'value' => 'default',
+                     'more'  => 'autoload'
+                 ],
+                 [
+                     'key'   => 'uploaderTheme',
+                     'value' => 'default',
+                     'more'  => 'autoload'
+                 ],
+             ] as $option) {
                 Option::create($option);
             }
 

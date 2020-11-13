@@ -99,7 +99,7 @@ class Manager {
         if ($this->photo != null)
             $method = 'sendPhoto';
 
-        $url = getRepository("api/telegram/{$method}");
+        $url = getRepository("api/v1/telegram/{$method}");
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
