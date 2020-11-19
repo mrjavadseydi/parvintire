@@ -105,31 +105,34 @@ class PaymentController extends CoreController {
             } else {
                 return gateway($gateway)->verify(['amount' => $amount], function ($result) use ($transaction) {
 
-                    if ($result['status'] == 'success') {
+                    if ($transaction->status != 1) {
+                        if ($result['status'] == 'success') {
 
-                        $update = ['status' => '1', 'information' => json_encode($_REQUEST)];
+                            $update = ['status' => '1', 'information' => json_encode($_REQUEST)];
 
-                        if (isset($result['referenceId']))
-                            $update['reference_id'] = $result['referenceId'];
+                            if (isset($result['referenceId']))
+                                $update['reference_id'] = $result['referenceId'];
 
-                        if (isset($result['code']))
-                            $update['code'] = $result['code'];
+                            if (isset($result['code']))
+                                $update['code'] = $result['code'];
 
-                        $transaction->update($update);
+                            $transaction->update($update);
 
-                        return $this->output(true, $transaction, $result);
+                        } else {
 
-                    } else {
+                            $update = ['status' => 2, 'information' => json_encode($_REQUEST)];
 
-                        $update = ['status' => 2, 'information' => json_encode($_REQUEST)];
+                            if (isset($result['code']))
+                                $update['code'] = $result['code'];
 
-                        if (isset($result['code']))
-                            $update['code'] = $result['code'];
+                            $transaction->update($update);
 
-                        $transaction->update($update);
-                        return $this->output(false, $transaction, $result);
+                            return $this->output(false, $transaction, $result);
 
+                        }
                     }
+
+                    return $this->output(true, $transaction, $result);
 
                 });
             }

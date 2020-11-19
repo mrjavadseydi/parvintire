@@ -123,13 +123,20 @@ class UploadController extends CoreController {
                 $extension = $this->getFileExtension();
                 $size = filesize($file);
                 $pathWithName = "{$path}/{$name}";
+                $savePath = $pathWithName;
 
-                if ($this->uploadIn() == '1') {
+                if ($this->uploadIn() == '1') { // public
 
-                } else if ($this->uploadIn() == '2') {
+                } else if ($this->uploadIn() == '2') { // root
                     $path = base_path($path);
-                } else if ($this->uploadIn() == '3') {
+                } else if ($this->uploadIn() == '3') { // ftp public
 
+                } else if ($this->uploadIn() == '4') { // ftp root
+                    $path = base_path($path);
+                } else if ($this->uploadIn() == '5') {
+                    $userToken = getUserDownloadServerToken();
+                    $path = "uploads/users/{$userToken}/" . $path;
+                    $pathWithName = "uploads/users/{$userToken}/" . $pathWithName;
                 }
 
                 $file->move($path, $name);
@@ -143,14 +150,33 @@ class UploadController extends CoreController {
                     'type'          => $type,
                     'extension'     => $extension,
                     'size'          => $size,
-                    'path'          => $pathWithName,
+                    'path'          => $savePath,
                     'in'            => $this->uploadIn()
                 ]);
+
+                // TODO تصویر تامبنیل منتقل شود به ftp
+                // بررسی شود که انتقال به ftp با موفقیت انجام شده است
+                // فیلد انتقال به ftp در جدول اتچمنت اضافه شود
+                // متد تامبنیل اتچمنت تکمیل شود
+                // متد ریسایز از ftp تکمیل شود
+                // متد کراپ از ftp تکمیل شود
+                // فایل دریافت از روت و پابلیک ftp تکمیل شود
+
+                if (in_array($this->uploadIn(), [3, 5])) { // move to ftp public
+                    ftpUpload(public_path($pathWithName), 'public_html/' . $pathWithName);
+                    if (file_exists(public_path($pathWithName))) {
+                        unlink(public_path($pathWithName));
+                    }
+                } else if ($this->uploadIn() == 4) { // move to ftp root
+                    ftpUpload(base_path($pathWithName), $pathWithName);
+                    if (file_exists(base_path($pathWithName))) {
+                        unlink(base_path($pathWithName));
+                    }
+                }
 
                 // create uploader thumbnail file
                 $imageIcon = '';
                 if ($type == 'image') {
-                    $this->resize(config('uploader.thumbnailWidth'), config('uploader.thumbnailHeight'), $path, $name)['url'];
                     $output['thumbnail'] = $attachment->thumbnail();
                 } else {
                     $output['thumbnail'] = $this->getIcon();
@@ -158,7 +184,7 @@ class UploadController extends CoreController {
                 }
 
                 $output['id'] = $attachment->id;
-                $output['url'] = url($attachment->path);
+                $output['url'] = $attachment->url();
                 $output['path'] = $attachment->path;
                 $output['name'] = $file->getClientOriginalName();
                 $output['type'] = $type;
@@ -192,8 +218,27 @@ class UploadController extends CoreController {
             $this->loadOptions($key);
             $validations = $this->validations;
             if (isset($validations[$key])) {
-                $rules = ['file' => $validations[$key]['validations']];
-                $this->uploadIn = $validations[$key]['in'];
+                $getRecord = $validations[$key];
+                $rules = ['file' => $getRecord['validations']];
+                $this->uploadIn = $getRecord['in'];
+                if (isset($getRecord['path'])) {
+                    $this->path = $getRecord['path'];
+                }
+                if (isset($getRecord['year'])) {
+                    $this->yearDir = $getRecord['year'];
+                }
+                if (isset($getRecord['month'])) {
+                    $this->monthDir = $getRecord['month'];
+                }
+                if (isset($getRecord['day'])) {
+                    $this->dayDir = $getRecord['day'];
+                }
+                if (isset($getRecord['hour'])) {
+                    $this->hourDir = $getRecord['hour'];
+                }
+                if (isset($getRecord['clearPath'])) {
+                    $this->clearPath = $getRecord['clearPath'];
+                }
             } else {
                 $rules = ['key' => 'false'];
                 $messages = ['key.false' => 'کلید معتبر نمی باشد'];
@@ -252,8 +297,7 @@ class UploadController extends CoreController {
                 $where['user_id'] = 0;
             }
 
-
-            $attachments = Attachment::where($where)->extensions($extensions)->orderBy('updated_at', 'desc')->paginate($request->count ?? 20);
+            $attachments = Attachment::whereNull('parent')->where($where)->extensions($extensions)->orderBy('updated_at', 'desc')->paginate($request->count ?? 20);
             return uploaderView($request->view, compact('attachments', 'all'))->render();
 
         }
@@ -355,17 +399,18 @@ class UploadController extends CoreController {
     function renderImage($id, $width, $height, $attachment = false) {
         if ($attachment == false)
             $attachment = Attachment::find($id);
+
         return response()->download(base_path(uploaderGenerateNameBySize($attachment->path, $width, $height)));
     }
 
     public function imageCropper(Request $request) {
 
-        if ($request->has('attachmentId')) {
+        $output = [
+            'status'  => 'error',
+            'message' => null
+        ];
 
-            $output = [
-                'status'  => 'error',
-                'message' => null
-            ];
+        if ($request->has('attachmentId')) {
 
             try {
 
@@ -376,17 +421,93 @@ class UploadController extends CoreController {
                 $height = round($request->height);
                 $cropperWidth = round($request->cropperWidth);
                 $cropperHeight = round($request->cropperHeight);
+                $imageWidth = round($request->imageWidth);
+                $imageHeight = round($request->imageHeight);
                 $rotate = ($request->rotate > 0 ? -round($request->rotate) : round($request->rotate));
                 $attachment = Attachment::find($attachmentId);
-
-                $img = Image::make(public_path($attachment->path))
-                            ->rotate($rotate)
-                            ->crop($cropperWidth, $cropperHeight, $x, $y)->trim();
 
                 $originalAttachment = $attachment;
                 if (!empty($attachment->parent)) {
                     $originalAttachment = Attachment::find($attachment->parent);
                 }
+
+                $uploadIn = $originalAttachment->in;
+                $originalAttachmentPath = $originalAttachment->path;
+
+                $makePath = public_path($originalAttachmentPath);
+                if($uploadIn == 1) {
+
+                } elseif ($uploadIn == 2) {
+                    $makePath = base_path($originalAttachmentPath);
+                } elseif ($uploadIn == 3) {
+                    $dl = getDownloadServerUrl();
+                    $makePath = $dl . '/' . $originalAttachmentPath;
+                } elseif ($uploadIn == 4) {
+
+                } elseif ($uploadIn == 5) {
+                    $dl = getDownloadServerUrl();
+                    $token = getUserDownloadServerToken();
+                    $makePath = $dl . "/uploads/users/{$token}/" . $originalAttachmentPath;
+                }
+
+                $cropWidth = round($imageWidth - abs($x));
+                $cropHeight = round($imageHeight - abs($y));
+
+                if ($x > $imageWidth || $y > $imageHeight) {
+                    $cropWidth = $cropHeight = 0;
+                } else {
+                    if ($x < 0) {
+                        $cropWidth = $cropperWidth - abs($x);
+                    }
+                    if ($y < 0) {
+                        $cropHeight = $cropperHeight - abs($y);
+                    }
+                    if ($cropperWidth > $imageWidth) {
+                        $cropWidth = $imageWidth;
+                    }
+                    if($cropHeight > $imageHeight) {
+                        $cropHeight = $imageHeight;
+                    }
+                }
+
+                if ($cropWidth < 0 || $cropHeight < 0) {
+                    $cropWidth = $cropHeight = 0;
+                }
+
+                $cropX = $x;
+                $cropY = $y;
+
+                if ($x < 0) {
+                    $cropX = 0;
+                }
+
+                if ($y < 0) {
+                    $cropY = 0;
+                }
+
+                //                if ($cropWidth == 0 && $cropHeight == 0) {
+                //                    $cropX = $cropY = 0;
+                //                }
+
+                $crop = Image::make($makePath)->encode('png', 65);
+                $crop->rotate($rotate);
+                $crop->crop($cropWidth, $cropHeight, $cropX, $cropY);
+                $resizeWidth = ($width * $cropWidth) / $cropperWidth;
+                $resizeHeight = ($height * $cropHeight) / $cropperHeight;
+                $crop->resize($resizeWidth, $resizeHeight);
+                $crop->trim();
+
+                $insertX = $insertY = 0;
+
+                if ($x < 0) {
+                    $insertX = round($width - (($width * ($cropperWidth - abs($x))) / $cropperWidth));
+                }
+
+                if ($y < 0) {
+                    $insertY = round($height - (($height * ($cropperHeight - abs($y))) / $cropperHeight));
+                }
+
+                $img = Image::canvas($width, $height)->insert($crop, 'top-left', $insertX, $insertY);
 
                 $originalPath = $originalAttachment->path;
                 $originalPathParts = explode('/', $originalPath);
@@ -395,20 +516,33 @@ class UploadController extends CoreController {
                 unset($originalPathParts[$originalPathPartsLastIndex]);
                 $originalPathPartsImplode = implode('/', $originalPathParts);
 
+                $originalNameParts = explode('.', $originalName);
+                $lastIndex = count($originalNameParts) - 1;
+                unset($originalNameParts[$lastIndex]);
+                $originalNameParts[] = 'png';
+                $originalName = implode('.', $originalNameParts);
+
                 $cropPath = $originalPathPartsImplode;
                 $cropName = "{$width}x{$height}-c-{$attachment->id}_{$x}_{$y}_{$rotate}-{$originalName}";
                 $cropPathName = "{$cropPath}/{$cropName}";
 
-                if ($originalAttachment->in == '1') { // in public
+                if ($uploadIn == 5) {
+                    $token = getUserDownloadServerToken();
+                    $cropPathName = "uploads/users/{$token}/{$cropPathName}";
+                }
+
+                if (in_array($uploadIn, [1, 3, 5])) { // in public
+                    makeDir(public_path('/'), $cropPathName);
                     $cropPathName = public_path($cropPathName);
                 } else { // in before public
+                    makeDir(base_path('/'), $cropPathName);
                     $cropPathName = base_path($cropPathName);
                 }
 
                 $img->save($cropPathName);
-                $resize = $this->resize(config('uploader.thumbnailWidth'), config('uploader.thumbnailHeight'), $cropPath, $cropName);
 
                 $path = "{$cropPath}/{$cropName}";
+
                 $cropAttachment = Attachment::where(['parent' => $originalAttachment->id, 'path' => $path])->first();
                 if ($cropAttachment == null) {
                     $cropAttachment = Attachment::create([
@@ -424,24 +558,42 @@ class UploadController extends CoreController {
                     ]);
                 }
 
+                $ftpPath = $path;
+                if (in_array($uploadIn, [3, 5])) {
+                    if ($uploadIn == 5) {
+                        $token = getUserDownloadServerToken();
+                        $ftpPath = "uploads/users/{$token}/{$ftpPath}";
+                    }
+                    ftpUpload($cropPathName, 'public_html/'.$ftpPath);
+                    if (file_exists($cropPathName)) {
+                        unlink($cropPathName);
+                    }
+                }
+                if ($uploadIn == 4) {
+                    ftpUpload($cropPathName, $ftpPath);
+                    if (file_exists($cropPathName)) {
+                        unlink($cropPathName);
+                    }
+                }
+
                 $output['id'] = $cropAttachment->id;
-                $output['url'] = url($cropAttachment->path);
+                $output['url'] = $cropAttachment->url();
                 $output['path'] = $cropAttachment->path;
                 $output['name'] = $cropAttachment->title;
                 $output['type'] = $cropAttachment->type;
                 $output['status'] = 'success';
                 $output['subType'] = $cropAttachment->extension;
-                $output['imageIcon'] = $resize['url'];
+//                $output['imageIcon'] = $resize['url'];
                 $output['selectIcon'] = $this->getSelectIcon();
-                $output['thumbnail'] = $resize['url'];
+                $output['thumbnail'] = $cropAttachment->thumbnail();
 
             } catch (\Exception $er) {
 
             }
 
-            return $output;
-
         }
+
+        return $output;
 
     }
 

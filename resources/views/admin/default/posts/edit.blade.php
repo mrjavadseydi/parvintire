@@ -145,8 +145,9 @@
 
                     <div class="box-footer tal">
                         @if(!empty($post->parent))
-                            <a target="_blank" class="btn-lg btn-info" href="{{ url("admin/posts/{$post->parent}/edit") }}">نسخه اصلی</a>
+                            <a target="_blank" class="btn-lg btn-warning" href="{{ url("admin/posts/{$post->parent}/edit") }}">نسخه اصلی</a>
                         @endif
+                        <a target="_blank" class="btn-lg btn-info" href="{{ $post->href() }}">مشاهده</a>
                         <button type="submit" class="btn-lg btn-success">ذخیره</button>
                     </div>
 
@@ -158,6 +159,7 @@
                         'telegram',
                         'categories',
                         'course',
+                        'menus',
                         'thumbnail',
                         'gallery',
                         'sounds'

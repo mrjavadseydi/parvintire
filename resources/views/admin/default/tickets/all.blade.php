@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="tac pt15">
-                    {!! $records->render() !!}
+                    {!! $records->appends($_GET)->links() !!}
                 </div>
 
             </div>

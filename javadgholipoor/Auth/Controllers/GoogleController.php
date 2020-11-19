@@ -80,6 +80,10 @@ class GoogleController extends AuthCore {
                 $user->login();
                 $user->log($register);
 
+                if (hasAuthReferer()) {
+                    return redirect(url(getAuthReferer()));
+                }
+
                 return redirect('/');
             } else {
                 return redirect('login');

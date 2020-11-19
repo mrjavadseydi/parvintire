@@ -42,7 +42,7 @@ return [
     'tags' => [
         'title'                  => 'برچسب ها',
         'box'                    => 'tags',
-        'url'                    => 'api/tags/search',
+        'url'                    => 'api/v1/tags/search',
         'dir'                    => 'rtl',
         'maximumSelectionLength' => 7,
         'tags'                   => true

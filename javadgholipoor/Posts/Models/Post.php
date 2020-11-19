@@ -101,9 +101,13 @@ class Post extends CoreModel {
 
         $output = [];
 
+        $postId = $this->id;
+        if ($lang != 'fa')
+            $postId = $this->parent;
+
         $actives = PostAttribute::where([
             'type' => 'post',
-            'post_id' => $this->id,
+            'post_id' => $postId,
             'active' => '1'
         ])->get();
 
@@ -225,9 +229,13 @@ class Post extends CoreModel {
 
         $output = [];
 
+        $postId = $this->id;
+        if ($lang != 'fa')
+            $postId = $this->parent;
+
         $actives = PostAttribute::where([
             'type' => 'post',
-            'post_id' => $this->id,
+            'post_id' => $postId,
             'active' => '1'
         ])->get();
 
@@ -401,6 +409,7 @@ class Post extends CoreModel {
         }
 
         if (!empty($string)) {
+            $string = str_replace(['/', '-'], ['', ' '], $string);
             $query->whereRaw("(posts.id LIKE '%{$string}%' OR posts.title LIKE '%{$string}%' OR posts.excerpt LIKE '%{$string}%' OR posts.post_type LIKE '%{$string}%')");
         }
 

@@ -2,14 +2,10 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Mail;
 
 class RegisterNotification
 {
@@ -22,12 +18,12 @@ class RegisterNotification
      */
     public function __construct($userLogin, $password)
     {
-    
+
         $type = 'email';
         if (is_numeric($userLogin)) {
             $type = 'mobile';
         }
-        
+
         if ($type == 'email') {
             try {
                 SendMail::dispatch($userLogin, 'content', [
@@ -39,10 +35,10 @@ class RegisterNotification
                     ]
                 ]);
             } catch (\Exception $error) {
-        
+
             }
         }
-        
+
         if ($type == 'mobile') {
             try {
                 SendSms::dispatch($userLogin, implode("\n", [
@@ -50,13 +46,13 @@ class RegisterNotification
                     "ثبت نام شما با موفقیت انجام شد",
                     "اطلاعات حساب شما",
                     $userLogin,
-                    "رمز‌عبور :‌ " . $password,
+                    "رمز‌عبور : " . $password,
                 ]));
             } catch (\Exception $error) {
-        
+
             }
         }
-    
+
     }
 
     /**

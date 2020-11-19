@@ -37,19 +37,11 @@ trait Attachment {
     }
 
     public function thumbnail() {
-
         if ($this->type == 'image') {
 
             $uploaderThumbnailWidth  = config('uploader.thumbnailWidth');
             $uploaderThumbnailHeight = config('uploader.thumbnailHeight');
-
-            if ($this->in == '1') {
-                $thumbnail = url(uploaderGenerateNameBySize($this->path, $uploaderThumbnailWidth, $uploaderThumbnailHeight));
-            } else if ($this->in == '2') {
-                $thumbnail = route('renderImage', ['id' => $this->id, 'width' => $uploaderThumbnailWidth, 'height' => $uploaderThumbnailHeight]);
-            } else if ($this->in == '3') {
-
-            }
+            $thumbnail = resizeImage($this->path, $uploaderThumbnailWidth, $uploaderThumbnailHeight);
 
         } else {
             if (empty($this->poster)) {

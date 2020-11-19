@@ -67,27 +67,6 @@ trait User {
         $this->update(['logined_at' => Carbon::now()->toDateTimeString()]);
     }
 
-    public function name() {
-
-        if (property_exists($this, 'name'))
-            if (!empty($this->name))
-                return "{$this->name} {$this->family}";
-
-        if (property_exists($this, 'username'))
-            if (!empty($this->username))
-                return $this->username;
-
-        if (property_exists($this, 'email'))
-            if (!empty($this->email))
-                return explode('@', $this->email)[0];
-
-        if (property_exists($this, 'mobile'))
-            if (!empty($this->mobile))
-                return $this->mobile;
-
-        return 'بدون نام';
-    }
-
     public function avatar($returnPath = false) {
 
         if (!empty($this->avatar)) {

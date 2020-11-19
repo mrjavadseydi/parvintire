@@ -23,5 +23,6 @@ Route::group(['prefix' => 'password'], function () {
 
 Route::get('logout', function () {
     auth()->logout();
+    deleteAuthReferer();
     return redirect('login?signout');
 })->name('logout');

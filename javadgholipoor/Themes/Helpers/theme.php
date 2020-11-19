@@ -196,8 +196,10 @@ function renderTheme($type, $theme = null) {
 }
 
 function renderFileTheme($name, $theme = 'template') {
-    css("assets/{$theme}/".getTheme($theme)."/{$name}.css");
-    js("assets/{$theme}/".getTheme($theme)."/{$name}.js");
+    $themeName = getTheme($theme);
+    $json = json_decode(file_get_contents(base_path("resources/views/{$theme}/{$themeName}/theme.json")));
+    css("assets/{$theme}/{$themeName}/{$name}.css", ($json->version ?? 1));
+    js("assets/{$theme}/{$themeName}/{$name}.js", ($json->version ?? 1));
 }
 
 function css($path, $version = '') {

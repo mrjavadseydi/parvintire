@@ -342,20 +342,20 @@
                     @endif
                     @if($user->can('orders'))
                         <li class="">
-                            <a class="sidebar-item" href="{{ route('admin.orders.index') }}">
+                            <a class="sidebar-item" href="{{ url('admin/orders') }}">
                                 <i class="icon-credit-card"></i>
                                 <span>سفارش ها</span>
                             </a>
                         </li>
                         <li class="">
-                            <a class="sidebar-item" href="{{ route('admin.orders.suspends') }}">
+                            <a class="sidebar-item" href="{{ url('admin/orders/suspends') }}">
                                 <i class="icon-hourglass_empty"></i>
                                 <span>سفارش های معلق</span>
                             </a>
                         </li>
                         @foreach(config('store.orderStatus') as $status => $item)
                             <li class="">
-                                <a class="sidebar-item" href="{{ route('admin.orders.index') }}?status={{ $status }}">
+                                <a class="sidebar-item" href="{{ url('admin/orders') }}?status={{ $status }}">
                                     <i class="{{ $item['icon'] }}"></i>
                                     <span>سفارش های {{ $item['title'] }}</span>
                                 </a>

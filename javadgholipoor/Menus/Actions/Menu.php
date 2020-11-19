@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use LaraBase\Categories\Models\Category;
 use LaraBase\Menus\Models\MenuItem;
 use LaraBase\Menus\Models\MenuMeta;
+use LaraBase\Posts\Models\Language;
 use LaraBase\Posts\Models\Post;
 use LaraBase\Posts\Models\PostCategory;
 use LaraBase\Posts\Models\PostTag;
@@ -14,55 +15,65 @@ use LaraBase\Posts\Models\PostType;
 trait Menu {
 
     public function cache() {
-        $menuItems = MenuItem::where('menu_id', $this->id)->whereNotNull('type')->get();
-        $places = MenuMeta::where(['key' => 'place', 'menu_id' => $this->id])->pluck('value')->toArray();
-        foreach ($places as $place) {
-            $cacheKey = "{$place}MenuItems";
-            if (Cache::has($cacheKey))
-                Cache::delete($cacheKey);
-        }
-        MenuMeta::where(['menu_id' => $this->id, 'key' => 'cache'])->delete();
-        if ($menuItems->where('type', 'postTypes')->count() > 0) {
-            foreach ($places as $place) {
-                $cacheKey = "{$place}MenuItems";
-                MenuMeta::create([
-                    'menu_id' => $this->id,
-                    'key'     => 'cache',
-                    'value'   => 'postTypes',
-                    'more'    => $cacheKey
-                ]);
+        $langs = ['fa'];
+        $getLangs = Language::all();
+        if ($getLangs->count() > 0) {
+            $langs = [];
+            foreach ($getLangs as $l) {
+                $langs[] = $l->lang;
             }
         }
-        foreach ($menuItems->whereIn('type', ['categoriesPostTypes', 'categoriesCategories', 'postsPostTypes', 'postsCategories', 'postsTags'])->filter() as $item) {
-            $data = json_decode($item->data, true);
-            if (isset($data['ids'])) {
-                foreach ($data['ids'] as $id) {
-                    $value = "{$item->type}_{$id}";
-                    foreach ($places as $place) {
-                        $cacheKey = "{$place}MenuItems";
-                        MenuMeta::create([
-                            'menu_id' => $this->id,
-                            'key'     => 'cache',
-                            'value'   => $value,
-                            'more'    => $cacheKey
-                        ]);
+        foreach ($langs as $lang) {
+            $menuItems = MenuItem::where('menu_id', $this->id)->whereNotNull('type')->get();
+            $places = MenuMeta::where(['key' => 'place', 'menu_id' => $this->id])->pluck('value')->toArray();
+            foreach ($places as $place) {
+                $cacheKey = "{$place}MenuItems" . $lang;
+                if (Cache::has($cacheKey))
+                    Cache::delete($cacheKey);
+            }
+            MenuMeta::where(['menu_id' => $this->id, 'key' => 'cache'])->delete();
+            if ($menuItems->where('type', 'postTypes')->count() > 0) {
+                foreach ($places as $place) {
+                    $cacheKey = "{$place}MenuItems" . $lang;
+                    MenuMeta::create([
+                        'menu_id' => $this->id,
+                        'key'     => 'cache',
+                        'value'   => 'postTypes',
+                        'more'    => $cacheKey
+                    ]);
+                }
+            }
+            foreach ($menuItems->whereIn('type', ['categoriesPostTypes', 'categoriesCategories', 'postsPostTypes', 'postsCategories', 'postsTags'])->filter() as $item) {
+                $data = json_decode($item->data, true);
+                if (isset($data['ids'])) {
+                    foreach ($data['ids'] as $id) {
+                        $value = "{$item->type}_{$id}";
+                        foreach ($places as $place) {
+                            $cacheKey = "{$place}MenuItems" . $lang;
+                            MenuMeta::create([
+                                'menu_id' => $this->id,
+                                'key'     => 'cache',
+                                'value'   => $value,
+                                'more'    => $cacheKey
+                            ]);
+                        }
                     }
                 }
             }
+
+            $menuItemsKey = "menu" . $this->id . "Items" . $lang;
+            $menuIdKey = "menu" . $this->id . "Id" . $lang;
+            $menuKey = "menu" . $this->id . "ById" . $lang;
+
+            if (hasCache($menuItemsKey))
+                deleteCache($menuItemsKey);
+
+            if (hasCache($menuIdKey))
+                deleteCache($menuIdKey);
+
+            if (hasCache($menuKey))
+                deleteCache($menuKey);
         }
-
-        $menuItemsKey = "menu" . $this->id . "Items";
-        $menuIdKey = "menu" . $this->id . "Id";
-        $menuKey = "menu" . $this->id . "ById";
-
-        if (hasCache($menuItemsKey))
-            deleteCache($menuItemsKey);
-
-        if (hasCache($menuIdKey))
-            deleteCache($menuIdKey);
-
-        if (hasCache($menuKey))
-            deleteCache($menuKey);
 
     }
 

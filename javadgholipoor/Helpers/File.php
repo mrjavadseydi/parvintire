@@ -58,6 +58,18 @@ class File
 
     }
 
+    public static function downloadFileBuffer($url, $headers = []) {
+        set_time_limit(0);
+        $cUrl = curl_init();
+        curl_setopt($cUrl, CURLOPT_URL, $url);
+        curl_setopt($cUrl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($cUrl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($cUrl, CURLOPT_BINARYTRANSFER,true);
+        curl_setopt($cUrl, CURLOPT_TIMEOUT, 600);
+        $base64 = 'data:image/' . self::getStringExtension($url) . ';base64,' . base64_decode(curl_exec($cUrl));
+        return $base64;
+    }
+
     public static function extractZip( $file, $extractTo ){
         $zip = new \ZipArchive();
         if ($zip->open($file)) {

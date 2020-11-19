@@ -1075,25 +1075,21 @@ class PostController extends CoreController
     }
 
     public function clearCache($request, $postType) {
-
         if ($request->has('status')) {
             if ($request->status == 'publish') {
                 $getPostType = getPostType($postType);
                 $keys[] = "postsPostTypes_{$getPostType->id}";
-
                 if (!empty($this->menusCacheTags)) {
                     foreach (array_unique($this->menusCacheTags) as $tagId) {
                         $keys[] = "postsTags_{$tagId}";
                     }
                 }
-
                 if (!empty($this->menusCacheCategories)) {
                     foreach (array_unique($this->menusCacheCategories) as $categoryId) {
                         $keys[] = "categoriesCategories_{$categoryId}";
                         $keys[] = "postsCategories_{$categoryId}";
                     }
                 }
-
                 $cacheKeys = MenuMeta::where('key', 'cache')->whereIn('value', $keys)->pluck('more')->toArray();
                 foreach (array_unique($cacheKeys) as $cacheKey) {
                     if (Cache::has($cacheKey)) {
@@ -1102,7 +1098,6 @@ class PostController extends CoreController
                 }
             }
         }
-
     }
 
     public function search($params = null) {
@@ -1130,9 +1125,10 @@ class PostController extends CoreController
             }
         }
 
-        $posts = Post::published()
+        $posts = Post::where('lang', app()->getLocale())
+            ->published()
             ->search()
-            ->categories()
+            ->categories(isset($_GET['category']) ? [$_GET['category']] : [])
             ->tags()
             ->postType()
             ->postTypes()
@@ -1146,6 +1142,12 @@ class PostController extends CoreController
 
         $postCount = $posts->count();
         addSearch($q, $postCount);
+
+        if ($to == 'view') {
+            if ($postCount == 1) {
+                return redirect($posts[0]->href(), 301);
+            }
+        }
 
         $postTypes = [];
         $getPostTypes = $posts->pluck('post_type')->toArray();
@@ -1205,7 +1207,6 @@ class PostController extends CoreController
             }
         }
 
-        $output['title'] = $title;
         $output['posts'] = $posts;
         $output['users'] = User::whereIn('id', $posts->pluck('user_id')->toArray())->get();
         $output['postTypes'] = $postTypes;
@@ -1217,15 +1218,16 @@ class PostController extends CoreController
             $output['html1'] = view($_GET['view1'], ['data' => $output])->render();
         }
 
-        $canonicalParams = ['q', 'postType', 'category', 'page'];
-        $canonicalData = [];
-
-        foreach ($canonicalParams as $canonicalParam) {
-            if (isset($_GET[$canonicalParam]))
-                $canonicalData[$canonicalParam] = $_GET[$canonicalParam];
+        $output['canonical'] = url("search");
+        if (isset($_GET['category'])) {
+            $category = Category::find($_GET['category']);
+            if ($category != null) {
+                $output['canonical'] = url("categories/{$category->id}/{$category->slug}");
+                $title = "جستجو در " . $category->title;
+            }
         }
-
-        $output['canonical'] = url("search?" . http_build_query($canonicalData));
+        $output['robots'] = 'noindex';
+        $output['title'] = $title;
 
         if ($to == 'view') {
             return templateView($view, $output);
@@ -1239,9 +1241,13 @@ class PostController extends CoreController
     {
         can('translatePosts');
         $lang = Language::where('lang', $_GET['lang'])->first();
+        $search = $_GET['search'] ?? '';
+        $where = [];
+        if (isset($_GET['postType']))
+            $where['posts.post_type'] = $_GET['postType'];
         $records = Post::leftJoin('posts as a', function ($join) use ($lang) {
             $join->on('posts.id', '=', 'a.parent')->where('a.lang', $lang->lang);
-        })->whereNull('posts.parent')->whereNull('a.id')->selectRaw('posts.*')->paginate(10);
+        })->where('posts.title', 'like', "%{$search}%")->where($where)->whereNull('posts.parent')->whereNull('a.id')->selectRaw('posts.*')->paginate(10);
         return adminView('posts.language', compact('records', 'lang'));
     }
 
@@ -1268,6 +1274,7 @@ class PostController extends CoreController
                         'lang' => $lang,
                         'parent' => $id,
                         'post_type' => $post->post_type,
+                        'updated_at' => Carbon::now()->toDateTimeString()
                     ]);
 
                     return redirect(url("admin/posts/{$translatePost->id}/edit"));

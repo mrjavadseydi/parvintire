@@ -31,19 +31,22 @@ function getMenuPlaces()
 
 }
 
-function getMenu($place, $menuById = false)
+function getMenu($place, $menuById = false, $lang = null)
 {
+    if ($lang == null)
+        $lang = app()->getLocale();
+
     if (empty($place) && empty($menuById)) {
         return null;
     }
     if ($menuById) {
-        $menuKey = "menu" . $menuById . "ById";
-        $menuIdKey = "menu" . $menuById . 'Id';
-        $menuItemsKey = "menu" . $menuById . "Items";
+        $menuKey = "menu" . $menuById . "ById" . $lang;
+        $menuIdKey = "menu" . $menuById . 'Id' . $lang;
+        $menuItemsKey = "menu" . $menuById . "Items" . $lang;
     } else {
-        $menuKey = $place . "MenuByPlace";
-        $menuIdKey = $place . 'MenuId';
-        $menuItemsKey = $place . "MenuItems";
+        $menuKey = $place . "MenuByPlace" . $lang;
+        $menuIdKey = $place . 'MenuId' . $lang;
+        $menuItemsKey = $place . "MenuItems" . $lang;
     }
     if (Cache::has($menuItemsKey)) {
         return Cache::get($menuItemsKey);
@@ -55,7 +58,7 @@ function getMenu($place, $menuById = false)
             $menuId = $menuById;
             Cache::forever($menuIdKey, $menuId);
         } else {
-            $menuPlace = MenuMeta::where(['key' => 'place', 'value' => $place])->first();
+            $menuPlace = MenuMeta::where(['key' => 'place', 'value' => $place, 'lang' => $lang])->first();
             if ($menuPlace != null) {
                 $menuId = $menuPlace->menu_id;
                 Cache::forever($menuIdKey, $menuId);

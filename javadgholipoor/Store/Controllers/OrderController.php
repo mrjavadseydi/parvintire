@@ -107,13 +107,16 @@ class OrderController extends CoreController
                                         if ($output['status'] != 'success') {
                                             return $output;
                                         }
-                                        OrderShipping::where('id', $request->orderId)->update(['tracking_code' => $request->trackingCode]);
+                                        OrderShipping::where('id', $request->shippingId)->update(['tracking_code' => $request->trackingCode]);
                                         $address = $order->address();
-                                        sms()->sendPattern('sendOrder', [
-                                            'id' => $request->orderId . '-' . $request->shippingId,
-                                            'name' => $address->name_family,
-                                            'trackingCode' => $request->trackingCode
-                                        ]);
+                                        $user = User::find($order->user_id);
+                                        if(checkMobile($user->mobile)) {
+                                            sms()->numbers([$user->mobile])->sendPattern('sendOrder', [
+                                                'id' => $request->orderId . '-' . $request->shippingId,
+                                                'name' => $address->name_family,
+                                                'trackingCode' => $request->trackingCode
+                                            ]);
+                                        }
                                     }
                                     $output['status'] = 'success';
                                     $output['message'] = 'وضعیت با موفقیت فعال شد';
