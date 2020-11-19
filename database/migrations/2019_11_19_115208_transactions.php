@@ -20,7 +20,7 @@ class Transactions extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null')->onUpdate('cascade');
             $table->string('relation', 25);
-            $table->unsignedBigInteger('relation_id');
+            $table->string('relation_id', 20);
             $table->string('gateway', 25);
             $table->string('currency', 50)->nullable();
             $table->foreign('currency')->references('code')->on('currency')->onDelete('set null')->onUpdate('cascade');
