@@ -97,7 +97,7 @@ class Mellat extends CoreGateway
 
 		$this->connect();
 
-		$amount			= $this->price($params['amount']);
+		$amount			= toIRR($this->price($params['amount']));
 		$description	= isset( $params['description'] ) ? $params['description'] : '';
 
 		$parameters = [

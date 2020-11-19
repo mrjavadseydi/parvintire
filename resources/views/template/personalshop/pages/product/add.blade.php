@@ -35,7 +35,7 @@
                         <h5 class="mb-2">{{ $attribute['title'] }}</h5>
                         @foreach($attribute['keys'] as $key)
                             @if(isset($activeKeys[$key['id']]))
-                                <label class="{{ $key['id'] == $selectedKey ? 'active' : '' }}" for="a-{{ $attribute['id'] }}-k-{{ $key['id'] }}">
+                                <label class="mb-2 {{ $key['id'] == $selectedKey ? 'active' : '' }}" for="a-{{ $attribute['id'] }}-k-{{ $key['id'] }}">
                                     <input {{ checked($key['id'], $selectedKey) }} class="submit-get-product-form d-none" type="radio" id="a-{{ $attribute['id'] }}-k-{{ $key['id'] }}" name="attributes[{{ $attribute['id'] }}]" value="{{ $attribute['id'] .'-' . $key['id'] }}">
                                     <span>{{ $key['title'] }}</span>
                                 </label>

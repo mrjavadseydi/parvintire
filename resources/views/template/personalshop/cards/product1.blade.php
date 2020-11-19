@@ -1,18 +1,22 @@
 <?php
-    $price = $product->price();
-    $discount = $product->discount();
+    if ($product != null) {
+        $price = $product->price();
+        $discount = $product->discount();
+    }
+    $href = $post->href();
 ?>
 <div class="product-card-1 position-relative px-3">
     <figure class="text-center">
-        <a href="{{ $post->href() }}?productId={{ $product->product_id }}">
+        <a href="{{ $href }}">
             <img src="{{ $post->thumbnail(250, 250) }}" alt="{{ $post->title }}">
         </a>
-        <a href="{{ $post->href() }}?productId={{ $product->product_id }}">
+        <a href="{{ $href }}">
             <figcaption class="py-3 iransansMedium">{{ $post->title }}</figcaption>
         </a>
+        @if ($product != null)
         <div class="hover">
             <div class="icons">
-                <a href="{{ $post->href() }}?productId={{ $product->product_id }}" class="fal fa-eye"></a>
+                <a href="{{ $href }}" class="fal fa-eye"></a>
 {{--                <i class="fal fa-share-alt"></i>--}}
 {{--                <i class="fal fa-heart"></i>--}}
             </div>
@@ -26,28 +30,31 @@
                 </button>
             </form>
         </div>
+        @endif
     </figure>
-    <div class="d-flex justify-content-between align-items-center py-3 iransansFa">
-        <div class="d-flex flex-column">
+    @if ($product != null)
+        <div class="d-flex justify-content-between align-items-center py-3 iransansFa">
+            <div class="d-flex flex-column">
+                @if($discount > 0)
+                    <span class="price"><b>{{ number_format($price) }}</b> تومان</span>
+                    <span class="discount-price small">{{ number_format($discount + $price) }}</span>
+                @else
+                    <span class="price"><b>{{ number_format($price) }}</b> تومان</span>
+                @endif
+            </div>
             @if($discount > 0)
-                <span class="price"><b>{{ number_format($price) }}</b> تومان</span>
-                <span class="discount-price small">{{ number_format($discount + $price) }}</span>
-            @else
-                <span class="price"><b>{{ number_format($price) }}</b> تومان</span>
+                <?php
+                    $percent = intval(100 - ($price * 100) / ($price + $discount));
+                ?>
+                @if($percent > 0)
+                    <div class="percent">
+                        <span>{{ intval(100 - ($price * 100) / ($price + $discount)) }} % تخفیف</span>
+                    </div>
+                @endif
             @endif
         </div>
         @if($discount > 0)
-            <?php
-                $percent = intval(100 - ($price * 100) / ($price + $discount));
-            ?>
-            @if($percent > 0)
-                <div class="percent">
-                    <span>{{ intval(100 - ($price * 100) / ($price + $discount)) }} % تخفیف</span>
-                </div>
-            @endif
+            <span class="special">فروش ویژه</span>
         @endif
-    </div>
-    @if($discount > 0)
-        <span class="special">فروش ویژه</span>
     @endif
 </div>

@@ -76,7 +76,7 @@ if ($address != null) {
         @csrf
         <div class="card mt-2">
             <label for="zarinpal" class="gateway card-body d-flex justify-content-between align-items-center">
-                <input checked class="ml-3" id="zarinpal" type="radio" name="gateway" value="ZarinPal">
+                <input checked class="ml-3" id="zarinpal" type="radio" name="gateway" value="{{ getOption('gateway') ?? 'ZarinPal' }}">
                 <div class="d-flex flex-column justify-content-around flex-fill">
                     <h5 class="iransansLightFa">پرداخت آنلاین با تمام کارت های عضو شتاب</h5>
                     <h5 class="iransansLightFa pt-2">درگاه ملت</h5>

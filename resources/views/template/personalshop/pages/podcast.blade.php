@@ -143,7 +143,7 @@
                 <div class="tags mt-1">
                     <h6 class="d-inline-block">برچسب ها:</h6>
                     @foreach($tags as $tag)
-                        <a href="{{ url("search?q={$tag->tag}") }}" class="mr-2">#{{ $tag->tag }}</a>
+                        <a rel="nofollow" href="{{ url("search?q={$tag->tag}") }}" class="mr-2">#{{ $tag->tag }}</a>
                     @endforeach
                 </div>
                 <div class="mt-3 border p-3 rounded">

@@ -29,8 +29,8 @@ class PageController extends CoreController
     public function product($id, $slug)
     {
         $post = Post::find($id);
+        initPost($post, $id, $slug);
         $user = User::find($post->user_id);
-        initPost($post);
         $products = $post->products();
         $product = null;
         if (isset($_GET['productId'])) {
@@ -69,8 +69,8 @@ class PageController extends CoreController
     public function book($id, $slug)
     {
         $post = Post::find($id);
+        initPost($post, $id, $slug);
         $user = User::find($post->user_id);
-        initPost($post);
         $products = $post->products();
         $product = null;
         if (isset($_GET['productId'])) {
@@ -109,8 +109,8 @@ class PageController extends CoreController
     public function podcast($id, $slug)
     {
         $post = Post::find($id);
+        initPost($post, $id, $slug);
         $user = User::find($post->user_id);
-        initPost($post);
         $product = Product::where('post_id', $id)->first();
         $categories = $post->categories;
         $tags = $post->tags;
@@ -135,8 +135,8 @@ class PageController extends CoreController
     public function file($id, $slug)
     {
         $post = Post::find($id);
+        initPost($post, $id, $slug);
         $user = User::find($post->user_id);
-        initPost($post);
         $product = Product::where('post_id', $id)->first();
         $categories = $post->categories;
         $tags = $post->tags;
@@ -161,8 +161,8 @@ class PageController extends CoreController
     public function article($id, $slug)
     {
         $post = Post::find($id);
+        initPost($post, $id, $slug);
         $user = User::find($post->user_id);
-        initPost($post);
         $categories = $post->categories;
         $tags = $post->tags;
         $gallery = $post->gallery();
@@ -180,8 +180,8 @@ class PageController extends CoreController
     public function page($id, $slug)
     {
         $post = Post::find($id);
+        initPost($post, $id, $slug);
         $user = User::find($post->user_id);
-        initPost($post);
         $categories = $post->categories;
         $tags = $post->tags;
         $gallery = $post->gallery();

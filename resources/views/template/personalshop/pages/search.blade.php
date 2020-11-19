@@ -4,6 +4,8 @@
 @section('description', $title)
 @section('ogType', 'product')
 @section('ogDescription', $title)
+@section('canonical', $canonical)
+@section('robots', $robots)
 @section('head-content')
     @if(view()->exists('admin.seo.pages.search'))
         @include('admin.seo.pages.search')
@@ -13,7 +15,9 @@
     <div class="container py-3">
         <?php $postType = $_GET['postType'] ?? 'products';?>
         <div class="row">
-            <form onSuccess="onSuccessSearch" action="{{ url("search") }}" class="col-md-3 ajaxForm">
+            <form id="form-search" onSuccess="onSuccessSearch" action="{{ url("search") }}" class="col-md-3 ajaxForm">
+                <input id="paginator" type="hidden" name="page" value="1">
+                <input type="hidden" name="count" value="21">
                 <input type="hidden" name="output" value="json">
                 <input type="hidden" name="postType" value="{{ $postType }}">
                 <input type="hidden" name="view1" value="{{ includeTemplate('pages.search.includes.' . $postType) }}">
@@ -40,15 +44,31 @@
     </div>
     <script>
         $(document).on('change', '.dropdown-filter input', function () {
-            $('.search-view .items').addClass('d-none');
-            $('.search-loading').removeClass('d-none');
+            loadingSearchForm();
+            $('#paginator').val(1);
             $(this).closest('form').submit();
         });
+        $(document).on('keyup', '#search-form-input', function (e) {
+            if (e.keyCode == 13) {
+                loadingSearchForm();
+            }
+        });
+        $(document).on('click', '.pagination .page-link', function (e) {
+            e.preventDefault();
+            loadingSearchForm();
+            $('#paginator').val($(this).text());
+            $('#form-search').submit();
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+        });
+        function loadingSearchForm() {
+            $('.search-view').addClass('d-none');
+            $('.search-loading').removeClass('d-none');
+        }
         function onSuccessSearch(response) {
             if(response.status = 'success') {
                 $('.search-view').html(response.html1);
             }
-            $('.search-view .items').removeClass('d-none');
+            $('.search-view').removeClass('d-none');
             $('.search-loading').addClass('d-none');
         }
     </script>

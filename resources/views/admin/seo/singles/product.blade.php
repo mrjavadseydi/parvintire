@@ -29,7 +29,7 @@
         "price": {{ toIRR($price) }},
         "itemCondition": "https://schema.org/UsedCondition",
         "availability": "https://schema.org/InStock",
-        "priceValidUntil": "{{ ( $product->discount() > 0 ? explode(' ', $product->end_data)[0] : (date('Y')+1) . date('-m-d') ) }}",
+        "priceValidUntil": "{{ ( $product->discount() > 0 ? explode(' ', $product->end_date)[0] : (date('Y')+1) . date('-m-d') ) }}",
         "url": "{{ $post->href() }}"
     }
 },

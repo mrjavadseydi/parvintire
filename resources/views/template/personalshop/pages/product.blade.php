@@ -6,6 +6,7 @@
 @section('ogTitle', $post->title)
 @section('ogDescription', $post->excerpt)
 @section('ogImage', $post->thumbnail(150, 150))
+@section('canonical', $post->href())
 @section('head-content')
     <meta property="article:published_time" content="{{ str_replace(' ', 'T', $post->published_at) }}+04:30" />
     <meta property="article:author" content="{{ $post->user()->name() }}" />
@@ -135,7 +136,7 @@
                     </div>
                     <div class="contents t4 d-none">
                         @foreach($tags as $tag)
-                            <a href="{{ url('search?q='.$tag->tag) }}" class="d-inline-block text-muted bg-light border rounded p-2 mb-1">
+                            <a rel="nofollow" href="{{ url('search?q='.$tag->tag) }}" class="d-inline-block text-muted bg-light border rounded p-2 mb-1">
                                 <i class="fa fa-tag align-middle"></i>
                                 <span>{{ $tag->tag }}</span>
                             </a>

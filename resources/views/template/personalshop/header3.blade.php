@@ -13,6 +13,7 @@
                 <form action="{{ route('search') }}">
                     <input placeholder="دنبال چی میگردی؟" type="text" name="q">
                     <input type="hidden" name="postType" value="products">
+                    <input type="hidden" name="count" value="21">
                     <button class="far fa-search"></button>
                 </form>
             </div>

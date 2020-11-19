@@ -131,7 +131,7 @@
                     </div>
                     <div class="contents t4 d-none">
                         @foreach($tags as $tag)
-                            <a href="{{ url('search?q='.$tag->tag) }}" class="d-inline-block text-muted bg-light border rounded p-2 mb-1">
+                            <a rel="nofollow" href="{{ url('search?q='.$tag->tag) }}" class="d-inline-block text-muted bg-light border rounded p-2 mb-1">
                                 <i class="fa fa-tag align-middle"></i>
                                 <span>{{ $tag->tag }}</span>
                             </a>

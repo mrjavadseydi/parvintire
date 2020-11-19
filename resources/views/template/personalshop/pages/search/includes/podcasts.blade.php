@@ -19,7 +19,7 @@
    @endforeach
     </div>
     <div class="row py-3">
-        <div class="rtl-pagination">
+        <div class="pagination-rtl d-flex justify-content-center flex-fill">
             {{ $posts->appends(request()->query())->links() }}
         </div>
     </div>

@@ -5,7 +5,10 @@
 @section('ogType', 'website')
 @section('ogTitle', getOption('site-title'))
 @section('ogDescription', siteDescription())
-@section('ogImage', siteLogo())
+<?php
+$logo = getOptionImage('digishopLogo');
+?>
+@section('ogImage', $logo['src'])
 <?php
 $personalShop = 1;
 $getPersonalShop = getOption('personalShop');
@@ -21,5 +24,6 @@ if (!empty($getPersonalShop))
     @endif
 @endsection
 @section('content')
+    <h1 class="d-none">{{ getOption('site-title') }}</h1>
     @include(includeTemplate('pages.home'.$personalShop))
 @endsection
