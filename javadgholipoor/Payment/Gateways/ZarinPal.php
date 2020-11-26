@@ -33,7 +33,7 @@ class ZarinPal extends CoreGateway
             -1  => "اطلاعات ارسال شده ناقص است",
             -2  => "IP یا کد مرچنت پذیرنده صحیح نیست",
             -3  => "با توجه به محدودیت های شاپرک امکان پرداخت با رقم درخواست شده میسر نمی باشد",
-            -4  => "‫است‪.‬‬ ‫اي‬ ‫نقره‬ ‫سطح‬ ‫از‬ ‫تر‬ ‫پايين‬ ‫پذيرنده‬ ‫تاييد‬ ‫سطح‬",
+            -4  => "است. اي نقره سطح از تر پايين پذيرنده تاييد سطح",
             -4  => "سطح تایید پذیرنده پایین تر از سطح نقره ای می باشد",
             -11 => "درخواست مورد نظر یافت نشد",
             -12 => "امکان ویرایش درخواست میسر نمی باشد",
@@ -158,7 +158,7 @@ class ZarinPal extends CoreGateway
 
 	}
 
-	public function ‫‪getUnverifiedTransactions‬‬() {
+	public function getUnverifiedTransactions() {
 
         $params 				= array();
         $params['MerchantID'] 	= $this->merchantId;
@@ -185,7 +185,7 @@ class ZarinPal extends CoreGateway
         $authority = $params['get']['Authority'];
         $price     = $params['price'];
 
-        $transactions = $this->‫‪getUnverifiedTransactions‬‬();
+        $transactions = $this->getUnverifiedTransactions();
 
         if (array_key_exists($authority, $transactions)) {
 

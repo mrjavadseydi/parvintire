@@ -22,6 +22,7 @@ class UploadController extends CoreController {
         $hourDir = false;
 
     private
+        $p = 'uploads',
         $path = 'uploads',
         $uploadIn = 1;
 
@@ -54,7 +55,18 @@ class UploadController extends CoreController {
     }
 
     public function setFileName() {
-        $this->fileName = uniqid() . '.' . $this->getFileExtension();
+        $nameParts = explode('.', $this->file->getClientOriginalName());
+        unset($nameParts[count($nameParts) - 1]);
+        $index = 1;
+        $name = str_replace(' ', '-', preg_replace('~[^\\pL\d]+~u', ' ', implode('.', $nameParts)));
+        $finalName = $name;
+        $checkPath = $this->p . '/' . $finalName . '.' . $this->file->getClientOriginalExtension();
+        while (Attachment::where('path', $checkPath)->exists()) {
+            $finalName = $name . '-' . $index;
+            $checkPath = $this->p . '/' . $finalName . '.' . $this->file->getClientOriginalExtension();
+            $index++;
+        }
+        $this->fileName = $finalName . '.' . $this->file->getClientOriginalExtension();
     }
 
     public function getFileName() {
@@ -88,6 +100,7 @@ class UploadController extends CoreController {
             $path .= "/{$hour}";
         }
 
+        $this->p = $path;
         return $path;
     }
 
@@ -116,9 +129,9 @@ class UploadController extends CoreController {
                     $userId = $user->id;
                 }
                 $file = $this->setFile($request->file);
+                $path = $this->getPath();
                 $this->setFileName();
                 $name = $this->getFileName();
-                $path = $this->getPath();
                 $type = $this->getFileType();
                 $extension = $this->getFileExtension();
                 $size = filesize($file);
