@@ -162,9 +162,9 @@ class Mellat extends CoreGateway
 
     }
 
-    public function verifyPayment( $params ){
+    public function verify( $params ){
 
-        $post       = $params['post'];
+        $post       = $params['request'];
         $resultCode = $post['ResCode'];
         if ($resultCode == 0) {
 
@@ -216,10 +216,20 @@ class Mellat extends CoreGateway
             $this->messageCode = $result;
             if( $result == '0' ) {
                 $this->settle( $parameters );
-                return true;
+                return [
+                    'status'      => 'success',
+                    'code'        => $resultCode,
+                    'message'     => $this->message($resultCode),
+                    'referenceId' => $post['SaleReferenceId']
+                ];
             }else{
                 $this->messageCode = $result;
-                return false;
+                return [
+                    'status'      => 'false',
+                    'code'        => $resultCode,
+                    'message'     => $this->message($resultCode),
+                    'referenceId' => $post['SaleReferenceId']
+                ];
             }
 
         } else {

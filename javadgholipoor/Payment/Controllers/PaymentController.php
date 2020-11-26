@@ -103,7 +103,7 @@ class PaymentController extends CoreController {
                     }
                 }
             } else {
-                return gateway($gateway)->verify(['amount' => $amount], function ($result) use ($transaction) {
+                return gateway($gateway)->verify(['amount' => $amount, 'request' => $_REQUEST, 'orderId' => strtotime($transaction->updated_at)], function ($result) use ($transaction) {
 
                     if ($transaction->status != 1) {
                         if ($result['status'] == 'success') {
