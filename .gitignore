@@ -1,5 +1,6 @@
 /.idea
 /.vscode
+.env
 /node_modules
 /public_html/hot
 /public_html/assets
