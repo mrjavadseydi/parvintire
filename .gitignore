@@ -1,6 +1,5 @@
 /.idea
 /.vscode
-.env
 /node_modules
 /public_html/hot
 /public_html/assets
@@ -20,3 +19,5 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 installer.php
+Dockerfile
+.env

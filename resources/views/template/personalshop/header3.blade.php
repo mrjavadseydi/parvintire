@@ -146,20 +146,20 @@
                         @can('controlPanel')
                             <a href="{{ url('admin') }}">
                                 <span class="align-middle">
-                                    <i class="fal fa-tachometer-alt"></i>
+                                    <i class="fal fa-tachometer-alt" style="font-size: 1.375rem;"></i>
                                 </span>
                             </a>
                         @endcan
                     @else
                         <a href="{{ route('login') }}">
                             <span class="align-middle">
-                                <i class="fal fa-user"></i>
+                                <i class="fal fa-user" style="font-size: 1.375rem;"></i>
                             </span>
                         </a>
                     @endif
                     <a href="{{ url('cart') }}">
                         <span class="cart-box align-middle mr-2">
-                            <i class="fal fa-shopping-bag"></i>
+                            <i class="fal fa-shopping-bag" style="font-size: 1.375rem;"></i>
                             <span class="badge"></span>
                         </span>
                     </a>
