@@ -73,11 +73,13 @@ class Order extends CoreModel
 
     public function transactions()
     {
+        //return Transaction::where(['relation' => 'order','relation_id' => $this->id, 'status' => $status])->first();
         return $this->morphMany(Transaction::class, 'relation', 'relation');
     }
 
     public function transaction($status = 1)
     {
+        return Transaction::where(['relation' => 'order','relation_id' => $this->id, 'status' => $status])->first();
         return Transaction::where('status', $status)->first();
     }
 
@@ -156,7 +158,10 @@ class Order extends CoreModel
                 'message' => 'با موفقیت حذف شد'
             ];
         } else {
-            $cart->update(['count' => $cart->count - 1]);
+            $cart->update([
+                'count' => ($cart->count - 1),
+                'total_price' => ($cart->price * ($cart->count - 1))
+            ]);
             return [
                 'status' => 'success',
                 'message' => 'تعداد محصول بروزرسانی شد'

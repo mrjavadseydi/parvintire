@@ -245,11 +245,12 @@ class PostController extends CoreController
 
         if ($user->can('finalStatus')) {
             $postData['final_status'] = $request->status;
-            if (!in_array($post->status, $publishedStatuses)) {
-                $postData['status'] = $request->status;
-            } else {
-                $postData['status'] = $post->status;
-            }
+            $postData['status'] = $request->status;
+            // if (!in_array($post->status, $publishedStatuses)) {
+            //     $postData['status'] = $request->status;
+            // } else {
+            //     $postData['status'] = $post->status;
+            // }
             if ($postData['final_status'] == 'needChange') {
                 telegram()->message([
                     "🚫 در مطلب شما مواردی دیده شده که نیازمند تغییر می باشد",

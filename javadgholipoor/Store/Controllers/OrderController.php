@@ -61,6 +61,7 @@ class OrderController extends CoreController
         $data = $orderController->cart(null, $order);
         $address = $data['address'];
         $shippings = $data['shippings'];
+        //dd($shippings);
         $statuses = [];
         foreach (OrderShippingStatus::where('order_id', $order->id)->get() as $item) {
             $statuses[$item->order_shipping_id][$item->status] = $item->created_at;
@@ -297,6 +298,7 @@ class OrderController extends CoreController
             $posts = Post::whereIn('id', $products->plucK('post_id')->toArray())->get();
             $postage = 0;
             foreach ($order->shippings() as $shipping) {
+                // dd($shipping, $order, $order->address());
                 $shippingId = $shipping->id;
                 $thisCarts = $carts->where('order_shipping_id', $shippingId)->filter();
                 $shippings[$shippingId] = [
@@ -333,25 +335,29 @@ class OrderController extends CoreController
                     }
                 }
 
-                if ($shipping->free_postage - $cartsPrice <= 0) {
-                    $shippings[$shippingId]['postage'] = 'رایگان';
-                    $usePostage = false;
-                }
-
+                // if ($shipping->free_postage - $cartsPrice <= 0) {
+                //     $shippings[$shippingId]['postage'] = 'رایگان';
+                //     $usePostage = false;
+                // }
+                // dd($postage);
                 if ($usePostage)
                     $postage += $shipping->postage;
 
             }
 
             $productsPrice = $cartDiscount = 0;
+            $tax = 0;
+
             foreach ($carts as $c) {
                 $cCount = $c->count;
                 $cDiscount = $c->discount;
                 $productsPrice += $cCount * ($c->price + $cDiscount);
                 $cartDiscount += $cCount * $cDiscount;
+                if($c->product->tax)
+                    $tax += (int)((($c->total_price) * ($c->product->tax->percent))/100);
             }
 
-            $payablePrice = $productsPrice - $cartDiscount + $postage;
+            $payablePrice = ($productsPrice - $cartDiscount) + $postage + $tax;
 
             $count = $carts->count();
             $sumCount = $carts->sum('count');
@@ -371,6 +377,7 @@ class OrderController extends CoreController
 
         }
 
+        // dd($shippings);
         return [
             'order' => $order,
             'shippings' => $shippings ?? [],
@@ -380,6 +387,7 @@ class OrderController extends CoreController
             'productsPrice' => convertPrice($productsPrice ?? 0),
             'cartDiscount' => convertPrice($cartDiscount ?? 0),
             'payablePrice' => convertPrice($payablePrice ?? 0),
+            'tax' => convertPrice($tax ?? 0),
             'payablePriceRial' => $payablePrice ?? 0,
             'html1' => $html1 ?? '',
             'html2' => $html2 ?? '',
@@ -505,7 +513,15 @@ class OrderController extends CoreController
             $order->update(['address_id' => $address->id]);
             $shingles = $address->shingles();
             foreach ($order->shippings() as $shipping) {
-                $postage = 100000;
+                $shipping_world = null;
+                foreach(['region', 'town', 'city', 'province', 'country'] as $world){
+                    if($shipping_world !== null) break;
+                    $world_id = $world . '_id';
+                    $shipping_world = $shipping->shipping->shipping_worlds()->where(['relation' => $world, 'relation_id' => $address->$world_id])->first();
+                }
+                $count_of_shipping = $order->carts()->where('order_shipping_id', $shipping->id)->sum('count');
+                $postage = $count_of_shipping * (($shipping_world == null) ? 390000 : (int)$shipping_world->world->postage);
+                // dd($postage);
                 // فک کنم اینجا شینگل پیدا نمیشه و قیمت پیشفرض بالا اعمال میشه
                 if ($shingles != null) {
                     $shingle = $shingles->where('shipping_id', $shipping->shipping_id)->first();
@@ -513,6 +529,7 @@ class OrderController extends CoreController
                         $postage = $shingle->postage;
                     }
                 }
+                // dd($postage);
                 $shipping->update(['postage' => $postage]);
             }
 

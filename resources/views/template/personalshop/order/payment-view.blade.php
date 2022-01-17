@@ -24,7 +24,7 @@ if ($address != null) {
     $textAddress .= $address->address;
 }
 ?>
-<div class="container py-3 iransansFa cart">
+<div class="container-fluid px-6 py-3 iransansFa cart">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>
@@ -55,13 +55,24 @@ if ($address != null) {
         @foreach($cart['shippings'] ?? [] as $shipping)
             @if(isset($shipping['carts']))
                 @foreach($shipping['carts'] as $item)
+                    @php
+                    $disc = $item['product']->discount() > 0;
+                    @endphp
                     <div class="card mt-2">
                         <div class="card-body d-flex justify-content-between align-items-center p-2">
                             <figure class="ml-2">
                                 <img src="{{ $item['post']->thumbnail(70, 70) }}" alt="">
                             </figure>
                             <h5 class="flex-fill">{{ $item['product']->title }}</h5>
-                            <h5 class="ltr">{{ $item['cart']->count }} x {{ number_format($item['product']->price()) }} = <span class="text-success">{{ number_format($item['cart']->count*$item['product']->price()) }}</span></h5>
+                            <h5 class="ltr">
+                                {{ $item['cart']->count }} x {{ number_format($item['product']->normal_price()) }} = 
+                                <span class="{{ $disc ? 'text-danger' : 'text-success' }}">{!! $disc ? '<del>' : '' !!} {{ number_format($item['cart']->count*$item['product']->normal_price()) }} {!! $disc ? '</del>' : '' !!}</span>
+                                @if ($disc)
+                                {{-- <span> => {{ $item['product']->discount()}}</span> --}}
+                                <span class="text-success ml-2">{{ number_format($item['cart']->count*$item['product']->special_price()) }}</span>
+                                @endif
+                                {{-- <span><small>()</small></span> --}}
+                            </h5>
                         </div>
                     </div>
                 @endforeach
@@ -101,6 +112,18 @@ if ($address != null) {
             </label>
         </div>
         @endif
+        <div class="card mt-2">
+            <label for="home" class="gateway card-body d-flex justify-content-between align-items-center">
+                <input class="ml-3" id="home" type="radio" name="gateway" value="home">
+                <div class="d-flex flex-column justify-content-around flex-fill">
+                    <h5 class="iransansLightFa">پرداخت در محل</h5>
+                    <h5 class="iransansLightFa pt-2">&nbsp;</h5>
+                </div>
+                <figure>
+                    <img width="60" height="60" src="https://mosifa.ir/wp-content/uploads/2020/12/%D9%BE%D8%B1%D8%AF%D8%A7%D8%AE%D8%AA-%D8%AF%D8%B1%D8%A8-%D9%85%D9%86%D8%B2%D9%84-%D9%85%D9%88%D8%B5%DB%8C%D9%81%D8%A7.jpg" alt="home">
+                </figure>
+            </label>
+        </div>
         <div class="row mt-3">
             <div class="col-6">
                 <a href="{{ url('cart/address') }}" class="btn btn-outline-success px-4 py-2">بازگشت</a>

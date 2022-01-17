@@ -23,6 +23,8 @@ class RegisterController extends AuthCore {
 
     public function register(Request $request) {
 
+        $request->request->add(['userLogin' => toEnglish($request->userLogin)]);
+
         $this->validator($request);
 
         $userLogin = $request->userLogin;

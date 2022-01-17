@@ -21,7 +21,7 @@
     <meta property="og:image:height" content="@yield('ogImageHeight', 150)" />
     <meta name="theme-color" content="@yield('color', getOption('template-theme-color') ?? '#039BE5')">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:description" content="@yield('description')" />
     <meta name="twitter:title" content="@yield('title')" />
     <meta name="twitter:image" content="@yield('ogImage')" />

@@ -26,7 +26,7 @@ class CategoryController extends CoreController {
         $categories = Category::canView()
                                 ->postType()
                                 ->latest()
-                                ->paginate(200)
+                                ->paginate(1000)
                                 ->appends(request()->query());
 
         return adminView('categories.all', compact('categories'));

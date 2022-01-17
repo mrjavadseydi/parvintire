@@ -58,7 +58,8 @@ class TransactionController extends CoreController
     public function show($id)
     {
         can('showTransaction');
-        //
+        $transaction = Transaction::find($id);
+        return adminView('transactions.show', compact('transaction'));
     }
 
     /**

@@ -17,6 +17,18 @@ trait Product {
         return convertPrice($this->price);
     }
 
+    public function normal_price()
+    {
+        return convertPrice($this->price);
+    }
+
+    public function special_price()
+    {
+        if ($this->discount() > 0)
+            return convertPrice($this->special_price);
+        return $this->normal_price();
+    }
+
     public function discount() {
         if ($this->start_date != null && $this->end_date != null) {
             $from = strtotime($this->start_date);

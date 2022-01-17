@@ -48,7 +48,8 @@
                                 <td style="color: {{ config("transaction.status.{$record->status}.color") }}; background-color: {{ config("transaction.status.{$record->status}.lightColor") }};">{{ config("transaction.status.{$record->status}.title") }}</td>
                                 <td class="ltr">{{ jDateTime('Y/m/d H:i:s', strtotime($record->created_at)) }}{!! $record->updated_at == null ? '' : ($record->created_at != $record->updated_at ? '<br>' . jDateTime('Y/m/d H:i:s', strtotime($record->updated_at)) : '') !!}</td>
                                 <td>
-                                    <a class="btn-icon btn-icon-success icon-pencil toolip" title="مشاهده" href="{{ route("admin.transactions.edit", $record) }}"></a>
+                                    <a class="btn-icon btn-icon-success icon-eye toolip" title="مشاهده" href="{{ route("admin.transactions.show", $record) }}"></a>
+                                    {{--<a class="btn-icon btn-icon-success icon-pencil toolip" title="مشاهده" href="{{ route("admin.transactions.edit", $record) }}"></a>--}}
                                 </td>
                             </tr>
                         @endforeach

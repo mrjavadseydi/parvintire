@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="box-body">
-
+                            <script src="{{ url('plugins/ajax/1/ajax.min.js') }}"></script>
                             <div style="margin: auto" class="row col-md-10 mx-auto order-send-status my-3">
                                 @foreach(config('store.sendStatus') as $statusId => $status)
                                     <?php
@@ -84,7 +84,7 @@
                                         ?>
                                         <tr>
                                             <td class="text-muted">
-                                                <a href="{{ $post->href() }}&productId={{ $product->product_id }}">
+                                                <a target="_blank" href="{{ $post->href() }}?productId={{ $product->product_id }}">
                                                     <figure class="m-0">
                                                         <img src="{{ $post->thumbnail(50, 50) }}" alt="{{ $post->title }}">
                                                         <figcaption class="d-inline-block mr-1">{{ $product->title }}</figcaption>
@@ -108,7 +108,7 @@
                                                 <span class="text-danger">تومان</span>
                                             </td>
                                             <td class="text-muted">
-                                                <span class="text-success">{{ number_format(convertPrice($c->total_price)) }}</span>
+                                                <span class="text-success">{{ number_format(convertPrice(($c->price + $c->discount) * $c->count) - convertPrice($c->discount * $c->count)) }}</span>
                                                 <br>
                                                 <span class="text-success">تومان</span>
                                             </td>

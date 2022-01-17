@@ -4,6 +4,12 @@
         $discount = $product->discount();
     }
     $href = $post->href();
+    $attrs = LaraBase\Posts\Models\PostAttribute::where(['type' => 'post', 'post_id' => $post->id, 'active' => '1'])->whereIn('key_id', [6,7])->get();
+    $at = [];
+    foreach($attrs as $attr) {
+        $v = LaraBase\Attributes\Models\AttributeValue::where('id', $attr->value_id)->first();
+        $at[$attr->key_id] = $v == null ? '' : $v->title;
+    }
 ?>
 <div class="product-card-1 position-relative px-3">
     <figure class="text-center">
@@ -13,6 +19,10 @@
         <a href="{{ $href }}">
             <figcaption class="py-3 iransansMedium">{{ $post->title }}</figcaption>
         </a>
+        <div class="d-flex justify-content-between pt-3">
+            <span class="text-muted">{{ $at[6] ?? '' }}</span>
+            <span class="text-muted">{{ $at[7] ?? '' }}</span>
+        </div>
         @if ($product != null)
         <div class="hover">
             <div class="icons">

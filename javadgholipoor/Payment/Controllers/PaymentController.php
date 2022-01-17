@@ -1,10 +1,10 @@
 <?php
 
-
 namespace LaraBase\Payment\Controllers;
 
-
 use App\Events\NewOrder;
+use LaraBase\Auth\Models\User;
+use LaraBase\Auth\Models\UserMeta;
 use LaraBase\CoreController;
 use LaraBase\Payment\Gateway;
 use LaraBase\Payment\Models\Transaction;
@@ -17,7 +17,8 @@ use LaraBase\Wallet\Models\Wallet;
 class PaymentController extends CoreController {
 
     private $noGateway = [
-        'wallet'
+        'wallet',
+        'home'
     ];
 
     public function request($id, $token) {
@@ -220,6 +221,19 @@ class PaymentController extends CoreController {
         return $this->redirectToVerify($transaction);
     }
 
+    public function home($transaction)
+    {
+        if (auth()->check()) {
+            if (auth()->id() == $transaction->user_id) {
+                $transaction->update([
+                    'reference_id' => 'home',
+                    'status' => '1',
+                ]);
+            }
+        }
+        return $this->redirectToVerify($transaction);
+    }
+
     public function walletRelation($transaction)
     {
         $wallet = Wallet::where('id', $transaction->relation_id)->first();
@@ -253,6 +267,30 @@ class PaymentController extends CoreController {
             NewOrder::dispatch($order, $transaction);
             if ($nextOrder != null) {
                 $nextOrder->update(['status' => '0']);
+            }
+            if (!empty($order->partner)) {
+                $partner = User::find($order->partner);
+                if ($partner != null) {
+                    $is = UserMeta::where([
+                        'user_id' => $partner->id,
+                        'key' => 'salesCooperation'
+                    ])->first();
+                    if ($is != null) {
+                        if ($is->value == 'enable') {
+                            $getPercent = UserMeta::where([
+                                'user_id' => $partner->id,
+                                'key' => 'partnerPercent'
+                            ])->first();
+                            $percent = 1;
+                            if ($getPercent != null) {
+                                $percent = intval($getPercent->value);
+                            }
+                            $price = convertPrice($transaction->price);
+                            $profit = ($price * $percent) / 100;
+                            addWallet($profit, $partner->id,'سود حاصل از همکاری در فروش سفارش شماره ' . $order->id);
+                        }
+                    }
+                }
             }
         }
     }

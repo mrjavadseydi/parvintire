@@ -41,10 +41,10 @@ Route::get('log', function () {
 Route::group(['prefix' => 'clear'], function () {
 
     Route::get('cache', function () {
-        if (isDev()) {
+        //if (isDev()) {
             Cache::clear();
             return 'clear cache';
-        }
+        //}
     });
 
 });

@@ -1,7 +1,9 @@
 <?php
     $key = md5(microtime());
-    $products = \LaraBase\Store\Models\Product::whereIn('product_id', explode(',', $ids))->get();
-    $posts = \LaraBase\Posts\Models\Post::whereIn('id', $products->pluck('post_id')->toArray())->get();
+    $posts = \LaraBase\Posts\Models\Post::whereIn('id', explode(',', $ids))->get();
+    $products = \LaraBase\Store\Models\Product::whereIn('post_id', explode(',', $ids))->get();
+    //$products = \LaraBase\Store\Models\Product::whereIn('product_id', explode(',', $ids))->get();
+    //$posts = \LaraBase\Posts\Models\Post::whereIn('id', $products->pluck('post_id')->toArray())->get();
 ?>
 <div class="offer-{{ $key }} container-fluid p-5 px-6 special-offers position-relative">
     <figure class="bg text-center pt-5 position-absolute">
@@ -42,6 +44,7 @@
         </div>
         @foreach($products as $i => $product)
             <?php
+                //dd($product);
                 $post = $posts->where('id', $product->post_id)->first();
                 $price = $product->price();
                 $discount = $product->discount();

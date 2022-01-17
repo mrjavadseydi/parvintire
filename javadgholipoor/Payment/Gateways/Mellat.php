@@ -234,7 +234,12 @@ class Mellat extends CoreGateway
 
         } else {
             $this->messageCode = $resultCode;
-            return false;
+            return [
+                'status'      => 'error',
+                'code'        => $resultCode,
+                'message'     => $this->message($resultCode),
+                'referenceId' => null
+            ];
         }
 
     }

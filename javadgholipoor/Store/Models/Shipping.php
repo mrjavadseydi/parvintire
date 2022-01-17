@@ -17,4 +17,8 @@ class Shipping extends CoreModel {
         'updated_at',
     ];
 
+    public function shipping_worlds()
+    {
+        return $this->hasMany(ShippingWorld::class);
+    }
 }

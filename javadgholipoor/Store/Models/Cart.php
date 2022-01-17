@@ -23,4 +23,9 @@ class Cart extends CoreModel
         'updated_at',
     ];
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'product_id');
+    }
+
 }

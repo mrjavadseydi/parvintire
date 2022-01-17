@@ -24,6 +24,8 @@ class LoginController extends AuthCore {
 
         $this->validateGoogleReCaptchaV3($request);
 
+        $request->request->add(['userLogin' => toEnglish($request->userLogin)]);
+
         $userLogin = $request->userLogin;
         $password  = $request->password;
 

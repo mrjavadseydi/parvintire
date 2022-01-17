@@ -70,4 +70,9 @@ class OrderShipping extends CoreModel
 
     }
 
+    public function shipping()
+    {
+        return $this->belongsTo(Shipping::class);
+    }
+
 }

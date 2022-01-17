@@ -11,14 +11,19 @@
         <h6><i class="fa fa-minus text-danger align-middle ml-2"></i>تخفیف</h6>
         <h6 class="text-danger">{{ number_format($cart['cartDiscount']) }} تومان</h6>
     </div>
+    <div class="d-flex justify-content-between align-items-center py-2">
+        <h6><i class="fa fa-plus text-success align-middle ml-2"></i> مالیات مجموع
+        </h6>
+        <h6>{{ number_format($cart['tax']) }} تومان</h6>
+    </div>
     @foreach($cart['shippings'] as $shippingId => $values)
         @if(isset($values['carts']))
             <div class="d-flex justify-content-between align-items-center py-2">
                 <h6><i class="fa fa-plus text-success align-middle ml-2"></i>هزینه {{ $values['shipping']->title }}
-                    @if($values['toFreePostage'] > 0)
+                    {{-- @if($values['toFreePostage'] > 0)
                         <br>
                         <small class="text-muted">{{ number_format($values['toFreePostage']) }} تومان تا رایگان</small>
-                    @endif
+                    @endif --}}
                 </h6>
                 <h6>{{ $values['postage'] }}</h6>
             </div>

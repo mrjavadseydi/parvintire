@@ -29,4 +29,8 @@ class Product extends CoreModel {
         'updated_at',
     ];
 
+    public function tax()
+    {
+        return $this->belongsTo(Tax::class);
+    }
 }

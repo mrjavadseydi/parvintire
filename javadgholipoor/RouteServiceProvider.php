@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
         $web = $path . '/web.php';
         $api = $path . '/api.php';
         if (file_exists($admin)) {
-            Route::middleware('auth:web')
+            Route::middleware(['web', 'auth:web'])
                 ->as('admin.')
                 ->prefix('admin')
                 ->namespace($namespace)

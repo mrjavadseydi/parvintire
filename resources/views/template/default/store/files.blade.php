@@ -1,7 +1,7 @@
-{{--<link rel="stylesheet" href="{{ asset('fonts/sahel/3.3.0/font.css') }}">--}}
-{{--<link rel="stylesheet" href="{{ asset('fonts/fontawesome/5.11.12/font.css') }}">--}}
-{{--<link rel="stylesheet" href="{{ asset('assets/admin/javadgholipoor/admin.css') }}">--}}
-{{--<script src="{{ asset('plugins/jquery/3.4.1/jquery.min.js') }}"></script>--}}
+<link rel="stylesheet" href="{{ asset('fonts/sahel/3.3.0/font.css') }}">
+<link rel="stylesheet" href="{{ asset('fonts/fontawesome/5.11.12/font.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/admin/javadgholipoor/admin.css') }}">
+<script src="{{ asset('plugins/jquery/3.4.1/jquery.min.js') }}"></script>
 <div style="margin: 50px 400px;">
     <div class="files-groups {{ $font ?? 'sahel' }}">
         <?php $i = 1;?>
