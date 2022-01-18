@@ -61,6 +61,19 @@ class ProfileController extends CoreController
 
         $user->update($userData);
 
+        $output = validate($request, [
+            'nationalCode' => 'required|nationalCode',
+        ]);
+        if($output['status'] == 'error'){
+            return $output;
+        }
+        $ncodeMeta = $user->getMeta('nationalCode');
+        if(!$ncodeMeta){
+            $user->addMeta('nationalCode', $request->nationalCode);
+        } elseif ($ncodeMeta->value == ''){
+            $user->updateMeta(['key' => 'nationalCode', 'value' => $request->nationalCode], []);
+        }
+
         if ($request->has('metas')) {
             if (!empty($request->metas)) {
                 formValidator($request);

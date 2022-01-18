@@ -4,7 +4,7 @@
 <header>
     <div class="container-fluid px-3 px-sm-5">
         <div class="top d-flex align-items-center justify-content-between py-2">
-            <a target="{{ $logo['target'] }}" href="{{ $logo['href'] }}">
+            <a target="{{ $logo['target'] }}" href="{{-- {{ $logo['href'] }} --}}/">
                 <figure>
                     <img class="logo" src="{{ $logo['src'] }}" alt="{{ $logo['alt'] }}">
                 </figure>
@@ -43,8 +43,8 @@
                 @foreach(getMenu(false, getOption('digishopMainMenu')) as $menu)
                     <li class="main-li">
                         <a href="{{ $menu['link'] }}">
-                            <i class="{{ $menu['icon'] }}"></i>
-                            <span>{{ $menu['title'] }}</span>
+                            <i class="{{ $menu['icon'] }} big-mobile-font"></i>
+                            <span class="big-mobile-font">{{ $menu['title'] }}</span>
                         </a>
                         @if(isset($menu['list']))
                             <i class="dropdown-icon fal fa-angle-down align-middle"></i>

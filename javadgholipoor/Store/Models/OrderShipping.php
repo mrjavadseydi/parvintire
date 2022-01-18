@@ -39,14 +39,20 @@ class OrderShipping extends CoreModel
 
         $cart = Cart::where($where)->first();
 
+        $tax = 0;
+
         if ($cart == null) {
+            if($product->tax){
+                $tax = (int)((($productPrice) * ($product->tax->percent))/100);
+            }
             $cart = Cart::create([
                 'order_id' => $orderId,
                 'order_shipping_id' => $this->id,
                 'product_id' => $product->product_id,
                 'price' => $productPrice,
                 'total_price' => $productPrice,
-                'discount' => $productDiscount
+                'discount' => $productDiscount,
+                'tax' => $tax,
             ]);
             $message = "با موفقیت به سبد خرید افزوده شد";
         } else {
@@ -54,12 +60,15 @@ class OrderShipping extends CoreModel
             $count = $cart->count + 1;
             if ($count > $product->stock)
                 return ['status' => 'error', 'message' => 'موجودی محصول کافی نمی باشد.', 'productCount' => $cart->count];
-
+            if($product->tax){
+                $tax = (int)((($productPrice * $count) * ($product->tax->percent))/100);
+            }
             $cart->update([
                 'count' => $count,
                 'price' => $productPrice,
                 'total_price' => $productPrice * $count,
-                'discount' => $productDiscount
+                'discount' => $productDiscount,
+                'tax' => $tax,
             ]);
 
             $message = "تعداد محصول بروزرسانی شد";

@@ -472,11 +472,20 @@ class OrderController extends CoreController
         $output = validate($request, [
             'address' => 'required',
             'postalCode' => 'required|postalCode',
+            'nationalCode' => 'required|nationalCode',
             'nameFamily' => 'required',
             'mobile' => 'required|mobile',
         ]);
 
         if ($output['status'] == 'success') {
+
+            $user = auth()->user();
+            $ncodeMeta = $user->getMeta('nationalCode');
+            if(!$ncodeMeta){
+                $user->addMeta('nationalCode', $request->nationalCode);
+            } elseif ($ncodeMeta->value == ''){
+                $user->updateMeta(['key' => 'nationalCode', 'value' => $request->nationalCode], []);
+            }
 
             $where = [
                 'user_id' => auth()->id(),

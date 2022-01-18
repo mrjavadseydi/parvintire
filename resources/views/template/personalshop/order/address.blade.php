@@ -94,19 +94,29 @@
                                     <input type="text" name="address" value="{{ $address->address ?? '' }}" class="form-control rounded w-100">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <label>کدملی</label>
+                                    @php $ncode = auth()->user()->getMeta('nationalCode')->value ?? '' @endphp
+                                    <input type="text" name="{{$ncode != '' ? '' : 'nationalCode'}}" value="{{ $ncode }}" {{$ncode != '' ? 'disabled' : ''}} class="form-control ltr text-left rounded w-100">
+                                    @if($ncode != '')
+                                    <input type="hidden" name="nationalCode" value="{{ $ncode }}" class="form-control ltr text-left rounded w-100">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3 mt-md-0">
                                 <div class="input-group">
                                     <label>کدپستی</label>
                                     <input type="text" name="postalCode" value="{{ $address->postal_code ?? '' }}" class="form-control ltr text-left rounded w-100">
                                 </div>
                             </div>
-                            <div class="col-md-4 mt-3 mt-md-0">
+                            <div class="col-md-6 mt-3">
                                 <div class="input-group">
                                     <label>نام و نام خانوادگی تحویل گیرنده</label>
                                     <input type="text" name="nameFamily" value="{{ $address->name_family ?? '' }}" class="form-control rounded w-100">
                                 </div>
                             </div>
-                            <div class="col-md-4 mt-3 mt-md-0">
+                            <div class="col-md-6 mt-3">
                                 <div class="input-group">
                                     <label>شماره موبایل</label>
                                     <input type="text" name="mobile" value="{{ $address->mobile ?? '' }}" class="form-control rounded ltr text-left w-100">

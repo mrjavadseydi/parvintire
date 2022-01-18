@@ -21,6 +21,16 @@
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="form-group">
+                        <label class="pb-2" for="n_code">کدملی</label>
+                        @php $ncode = auth()->user()->getMeta('nationalCode')->value ?? '' @endphp
+                        <input value="{{ $ncode }}" {{$ncode != '' ? 'disabled' : ''}}  name="{{$ncode != '' ? '' : 'nationalCode' }}" class="form-control" id="n_code">
+                        @if($ncode != '')
+                        <input type="hidden" name="nationalCode" value="{{ $ncode }}" class="form-control ltr text-left rounded w-100">
+                        @endif
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="form-group">
                         <label class="pb-2" for="name">جنسیت</label>
                         <select name="gender" class="form-control">
                             <option value="">انتخاب کنید</option>
@@ -50,7 +60,7 @@
                             <select name="birthYear" class="form-control">
                                 <?php $getYear = toEnglish(jDateTime('Y', strtotime('now')));?>
                                 @for($i = $getYear - 200; $i <= $getYear; $i++)
-                                    <option {{ selected($i, $year) }} value="{{ $i }}">{{ $i }}</option>
+                                    <option {{ selected($i, $getYear - 30) }} value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>

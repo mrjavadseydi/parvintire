@@ -19,6 +19,7 @@ class Cart extends CoreModel
         'count',
         'total_price',
         'discount',
+        'tax',
         'created_at',
         'updated_at',
     ];
