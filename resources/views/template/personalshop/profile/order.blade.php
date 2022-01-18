@@ -66,6 +66,7 @@
                                 <th>قیمت واحد</th>
                                 <th>قیمت کل</th>
                                 <th>تخفیف</th>
+                                <th>مالیات</th>
                                 <th>قیمت نهایی</th>
                             </tr>
                             </thead>
@@ -98,6 +99,11 @@
                                     </td>
                                     <td class="text-muted">
                                         <span class="text-danger">{{ number_format(convertPrice($c->discount * $c->count)) }}</span>
+                                        <br>
+                                        <span class="text-danger">تومان</span>
+                                    </td>
+                                    <td class="text-muted">
+                                        <span class="text-danger">{{ number_format(convertPrice($c->tax)) }}</span>
                                         <br>
                                         <span class="text-danger">تومان</span>
                                     </td>

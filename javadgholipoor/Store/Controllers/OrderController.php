@@ -61,12 +61,13 @@ class OrderController extends CoreController
         $data = $orderController->cart(null, $order);
         $address = $data['address'];
         $shippings = $data['shippings'];
+        $userr = User::find($address->user_id);
         //dd($shippings);
         $statuses = [];
         foreach (OrderShippingStatus::where('order_id', $order->id)->get() as $item) {
             $statuses[$item->order_shipping_id][$item->status] = $item->created_at;
         }
-        return adminView('orders.edit', compact('order', 'address', 'shippings', 'transaction', 'statuses'));
+        return adminView('orders.edit', compact('userr', 'order', 'address', 'shippings', 'transaction', 'statuses'));
     }
 
     public function setStatus(Request $request)

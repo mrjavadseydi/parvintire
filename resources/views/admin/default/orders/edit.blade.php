@@ -15,12 +15,20 @@
                 </div>
             </div>
 
-            <div class="box-body">
-                <label class="db">تحویل گیرنده : {{ $address->name_family }}</label>
-                <label class="db">شماره تماس : {{ $address->mobile }}</label>
-                <label class="db">کد پستی : {{ $address->postal_code }}</label>
-                <label class="db">مبلغ سفارش : {{ $transaction == null ? '-' : number_format($transaction->price) }} ریال</label>
-                <label class="db">آدرس : {{ $address->address() }}</label>
+            <div class="row">
+                <div class="box-body col-md-6">
+                    <label class="db">تحویل گیرنده : {{ $address->name_family }}</label>
+                    <label class="db">کدملی: {{ $userr->getMeta('nationalCode')->value ?? '' }}</label>
+                    <label class="db">شماره تماس : {{ $address->mobile }}</label>
+                    <label class="db">کد پستی : {{ $address->postal_code }}</label>
+                    <label class="db">مبلغ سفارش : {{ $transaction == null ? '-' : number_format($transaction->price) }} ریال</label>
+                    <label class="db">آدرس : {{ $address->address() }}</label>
+                </div>
+                <div class="row col-md-6">
+                    <div class="col-12">
+                        <div id="map" style="position: relative !important; width: 100%; height:500px; z-index: 0; overflow: hidden;"></div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -72,6 +80,7 @@
                                         <th>قیمت واحد</th>
                                         <th>قیمت کل</th>
                                         <th>تخفیف</th>
+                                        <th>مالیات</th>
                                         <th>قیمت نهایی</th>
                                     </tr>
                                     </thead>
@@ -104,6 +113,11 @@
                                             </td>
                                             <td class="text-muted">
                                                 <span class="text-danger">{{ number_format(convertPrice($c->discount * $c->count)) }}</span>
+                                                <br>
+                                                <span class="text-danger">تومان</span>
+                                            </td>
+                                            <td class="text-muted">
+                                                <span class="text-danger">{{ number_format(convertPrice($c->tax)) }}</span>
                                                 <br>
                                                 <span class="text-danger">تومان</span>
                                             </td>
@@ -141,6 +155,37 @@
         }
     </style>
     <script>
+        map = L.map('map', {
+            center: [{{ $address->latitude }}, {{ $address->longitude }}],
+            zoom: 11,
+            zoomControl: true,
+            scrollWheelZoom: false
+        });
+        var defaultLayer = L.tileLayer.provider('OpenStreetMap.Mapnik').addTo(map);
+
+        var greenIcon = L.icon({
+            iconUrl: '{{ image('marker.png') }}',
+            shadowUrl: '',
+            iconSize:     [32, 50], // size of the icon
+            shadowSize:   [32, 50], // size of the shadow
+            iconAnchor:   [19, 54], // point of the icon which will correspond to marker's location
+            shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        });
+
+        marker = L.marker([{{ $address->latitude }}, {{ $address->longitude }}], {icon: greenIcon, draggable: true})
+        .on('mouseover',function(e) {
+                e.target.openPopup();
+            }).on('mouseout',function(e) {
+                e.target.closePopup();
+            }).on('drag',function(e) {
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+            $('input[name="latitude"]').val(lat);
+            $('input[name="longitude"]').val(lng);
+            cacheDistance();
+        }).addTo( map );
+
         $(document).on('click', '.submit-status-form', function () {
             $(this).parent().submit();
         });
