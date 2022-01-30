@@ -60,7 +60,7 @@
                             <select name="birthYear" class="form-control">
                                 <?php $getYear = toEnglish(jDateTime('Y', strtotime('now')));?>
                                 @for($i = $getYear - 200; $i <= $getYear; $i++)
-                                    <option {{ selected($i, $getYear - 30) }} value="{{ $i }}">{{ $i }}</option>
+                                    <option {{ $year != '' selected($i, $year) ?  : selected($i, $getYear - 30) }} value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>

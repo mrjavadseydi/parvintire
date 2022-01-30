@@ -9,7 +9,7 @@
                     <img class="logo" src="{{ $logo['src'] }}" alt="{{ $logo['alt'] }}">
                 </figure>
             </a>
-            <div class="search">
+            <div class="search" style="flex-grow: 1; max-width: 500px;">
                 <form action="{{ route('search') }}">
                     <input placeholder="دنبال چی میگردی؟" type="text" name="q">
                     <input type="hidden" name="postType" value="products">

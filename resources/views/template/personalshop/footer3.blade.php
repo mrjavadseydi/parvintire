@@ -8,11 +8,12 @@
                         <?php $menu = getMenuById(getOption('digishopFooterCertificate')); ?>
                         @if($menu != null)
                             @foreach($menu as $item)
-                                <a {{ echoAttributes($item['attributes']) }} href="{{ $item['link'] }}" class="swiper-slide">
+                                {{-- <a {{ echoAttributes($item['attributes']) }} href="{{ $item['link'] }}" class="swiper-slide">
                                     <figure class="text-center">
                                         <img width="70%" src="{{ url($item['image']) }}" alt="{{ $item['title'] }}">
                                     </figure>
-                                </a>
+                                </a> --}}
+                                {!! $item['content'] !!}
                             @endforeach
                         @endif
                     </div>
