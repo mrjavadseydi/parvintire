@@ -11,7 +11,7 @@
             </a>
             <div class="search" style="flex-grow: 1; max-width: 500px;">
                 <form action="{{ route('search') }}">
-                    <input placeholder="دنبال چی میگردی؟" type="text" name="q">
+                    <input placeholder="نام خودرو را وارد کنید" type="text" name="q">
                     <input type="hidden" name="postType" value="products">
                     <input type="hidden" name="count" value="21">
                     <button class="far fa-search"></button>
