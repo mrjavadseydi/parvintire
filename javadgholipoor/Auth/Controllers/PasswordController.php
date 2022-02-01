@@ -159,9 +159,15 @@ class PasswordController extends AuthCore {
             }
 
             if ($sendSms) {
-                sms()->text('')->numbers([$user->mobile])->sendPattern('verificationCode', [
-                    'code' => $code
-                ]);
+                $patternValues = [
+                    "code" => $code,
+                ];
+                $bulkID = \IPPanel::sendPattern(
+                    config('smspatterns.verificationCode'),
+                    config('smspatterns.sender'),
+                    $user->mobile,
+                    $patternValues
+                );
             }
 
         }

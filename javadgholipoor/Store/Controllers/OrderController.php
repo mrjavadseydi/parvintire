@@ -113,11 +113,22 @@ class OrderController extends CoreController
                                         $address = $order->address();
                                         $user = User::find($order->user_id);
                                         if(checkMobile($user->mobile)) {
-                                            sms()->numbers([$user->mobile])->sendPattern('sendOrder', [
+                                            // sms()->numbers([$user->mobile])->sendPattern('sendOrder', [
+                                            //     'id' => $request->orderId . '-' . $request->shippingId,
+                                            //     'name' => $address->name_family,
+                                            //     'trackingCode' => $request->trackingCode
+                                            // ]);
+                                            $patternValues = [
                                                 'id' => $request->orderId . '-' . $request->shippingId,
                                                 'name' => $address->name_family,
                                                 'trackingCode' => $request->trackingCode
-                                            ]);
+                                            ];
+                                            $bulkID = \IPPanel::sendPattern(
+                                                config('smspatterns.sendOrder'),
+                                                config('smspatterns.sender'),
+                                                $user->mobile,
+                                                $patternValues
+                                            );
                                         }
                                     }
                                     $output['status'] = 'success';

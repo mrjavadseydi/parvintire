@@ -19,7 +19,8 @@
         "laravel/framework": "5.8.*",
         "laravel/socialite": "^4.2",
         "laravel/tinker": "^1.0",
-        "matthiasmullie/minify": "^1.3"
+        "matthiasmullie/minify": "^1.3",
+        "smart-raya/ippanel-laravel": "^1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

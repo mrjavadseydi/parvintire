@@ -31,15 +31,34 @@ class NewOrder
         ])->sendToGroup();
         $siteMobile = siteMobile();
         if (checkMobile($siteMobile)) {
-            sms()->numbers($siteMobile)->sendPattern('newOrder', [
+            // sms()->numbers($siteMobile)->sendPattern('newOrder', [
+            //     'price' => $price
+            // ]);
+            $patternValues = [
                 'price' => $price
-            ]);
+            ];
+            $bulkID = \IPPanel::sendPattern(
+                config('smspatterns.newOrder'),
+                config('smspatterns.sender'),
+                $siteMobile,
+                $patternValues
+            );
         }
         if (checkMobile($user->mobile)) {
-            sms()->numbers($user->mobile)->sendPattern('userNewOrder', [
+            // sms()->numbers($user->mobile)->sendPattern('userNewOrder', [
+            //     'name' => $user->name ?? 'کاربر',
+            //     'ref' => $transaction->reference_id
+            // ]);
+            $patternValues = [
                 'name' => $user->name ?? 'کاربر',
                 'ref' => $transaction->reference_id
-            ]);
+            ];
+            $bulkID = \IPPanel::sendPattern(
+                config('smspatterns.userNewOrder'),
+                config('smspatterns.sender'),
+                $user->mobile,
+                $patternValues
+            );
         } else {
             if (checkMail($user->email)) {
                 SendMail::dispatch($user->email, 'newOrder', [
