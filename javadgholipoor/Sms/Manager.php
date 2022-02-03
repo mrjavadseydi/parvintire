@@ -23,17 +23,18 @@ class Manager {
 
     public function getCredit() {
 
-        if (env('APP_DEBUG')) {
-            return json_encode([
-                'credit' => 0,
-                'currency' => 'debug'
-            ]);
-        }
+        // if (env('APP_DEBUG')) {
+        //     return json_encode([
+        //         'credit' => 0,
+        //         'currency' => 'debug'
+        //     ]);
+        // }
 
         $key = 'smsCredit';
 
         if (!hasCache($key)) {
-            setCache($key, $this->httpRequest(getRepository('api/v1/sms/getCredit'), []), 5);
+            setCache($key, \IPPanel::getCredit(), 5);
+            // setCache($key, $this->httpRequest(getRepository('api/v1/sms/getCredit'), []), 5);
         }
 
         return getCache($key);

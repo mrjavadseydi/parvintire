@@ -39,7 +39,11 @@
 
             <?php
             try {
-                $sms = json_decode(sms()->getCredit());
+                // $sms = json_decode(sms()->getCredit());
+                $sms = (object)[
+                    'credit' => sms()->getCredit(),
+                    'currency' => 'ریال',
+                ];
             ?>
                 <li>
                     <a href="#">
