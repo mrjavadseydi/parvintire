@@ -147,6 +147,7 @@ class Order extends CoreModel
     {
 
         $cart = Cart::where(['order_id' => $this->id, 'product_id' => $productId])->first();
+        $product = Product::where(['id' => $productId])->first();
         if ($cart == null) {
             return ['status' => 'error', 'message' => 'شما مجاز به انجام این کار نمی باشید'];
         }
@@ -158,9 +159,14 @@ class Order extends CoreModel
                 'message' => 'با موفقیت حذف شد'
             ];
         } else {
+            $tax = 0;
+            if($product->tax){
+                $tax = (int)((($cart->price * ($cart->count - 1)) * ($product->tax->percent))/100);
+            }
             $cart->update([
                 'count' => ($cart->count - 1),
-                'total_price' => ($cart->price * ($cart->count - 1))
+                'total_price' => ($cart->price * ($cart->count - 1)),
+                'tax' => $tax,
             ]);
             return [
                 'status' => 'success',
