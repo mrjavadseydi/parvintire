@@ -147,7 +147,7 @@ class Order extends CoreModel
     {
 
         $cart = Cart::where(['order_id' => $this->id, 'product_id' => $productId])->first();
-        $product = Product::where(['id' => $productId])->first();
+        $product = Product::where(['product_id' => $productId])->first();
         if ($cart == null) {
             return ['status' => 'error', 'message' => 'شما مجاز به انجام این کار نمی باشید'];
         }
