@@ -634,4 +634,36 @@ class OrderController extends CoreController
         return $output;
     }
 
+
+    public function cancelOrder(Request $request)
+    {
+        can('updateOrder');
+
+        $output = validate($request, [
+            'orderId' => 'required',
+        ]);
+
+        if ($output['status'] == 'success') {
+            $order = Order::find($request->orderId);
+            if ($order != null) {
+                $order->status = '3';
+                $order->update();
+                $user = \LaraBase\Auth\Models\User::find($order->user_id);
+                if (checkMobile($user->mobile)) {
+                    $patternValues = [
+                        'name' => $user->name ?? 'کاربر',
+                    ];
+                    $bulkID = \IPPanel::sendPattern(
+                        config('smspatterns.cancelOrder'),
+                        config('smspatterns.sender'),
+                        $user->mobile,
+                        $patternValues
+                    );
+                }
+                return $output;
+            }
+        }
+
+        return $output;
+    }
 }

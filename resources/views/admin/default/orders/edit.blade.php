@@ -11,7 +11,8 @@
             <div class="box-header">
                 <h3 class="box-title">اطلاعات ارسال</h3>
                 <div class="box-tools">
-                    <i class="box-tools-icon icon-minus"></i>
+                    {{-- <i class="box-tools-icon icon-minus"></i> --}}
+                    <button class="btn btn-danger" data-order-id="{{$order->id}}" id="cancel-order">لغو سفارش</button>
                 </div>
             </div>
 
@@ -42,7 +43,7 @@
                         <div class="box-header">
                             <h3 class="box-title">{{ $shipping['shipping']->title }} ({{ $shipping['postage'] }})</h3>
                             <div class="box-tools">
-                                <i class="box-tools-icon icon-minus"></i>
+                                {{-- <button class="btn btn-danger" data-order-id="{{$order->id}}" id="cancel-order">لغو سفارش</button> --}}
                             </div>
                         </div>
 
@@ -157,6 +158,23 @@
     </style>
     @if($address)
     <script>
+        var cbtn = document.querySelector("#cancel-order");
+        cbtn.addEventListener('click', function(e){
+            if(confirm("سفارش لغو خواهد شد")){
+                console.log(e.target.dataset);
+                $.ajax({
+                    method: "POST",
+                    url: "{{route('cancel-order')}}",
+                    data: {
+                        orderId: e.target.dataset.orderId,
+                    }
+                })
+                .done(function( msg ) {
+                    console.log( msg );
+                    window.location.href = "/admin/orders";
+                });
+            }
+        });
         map = L.map('map', {
             center: [{{ $address->latitude }}, {{ $address->longitude }}],
             zoom: 11,
