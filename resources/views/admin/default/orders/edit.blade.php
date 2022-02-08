@@ -155,6 +155,7 @@
             filter: grayscale(0);
         }
     </style>
+    @if($address)
     <script>
         map = L.map('map', {
             center: [{{ $address->latitude }}, {{ $address->longitude }}],
@@ -207,5 +208,6 @@
             }
         }
     </script>
+    @endif
 
 @endsection
