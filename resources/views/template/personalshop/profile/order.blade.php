@@ -108,7 +108,7 @@
                                         <span class="text-danger">تومان</span>
                                     </td>
                                     <td class="text-muted">
-                                        <span class="text-success">{{ number_format(convertPrice($c->total_price)) }}</span>
+                                        <span class="text-success">{{ number_format(convertPrice(($c->price + $c->discount) * $c->count) - convertPrice($c->discount * $c->count) + convertPrice($c->tax)) }}</span>
                                         <br>
                                         <span class="text-success">تومان</span>
                                     </td>
