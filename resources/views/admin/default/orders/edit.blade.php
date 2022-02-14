@@ -19,8 +19,12 @@
             <div class="row">
                 <div class="box-body col-md-6">
                     <label class="db">تحویل گیرنده : {{ $address->name_family }}</label>
+                    @if ($userr != null)
                     <label class="db">کدملی: {{ $userr->getMeta('nationalCode')->value ?? '' }}</label>
+                    @endif
+                    @if ($transaction != null)
                     <label class="db">نحوه پرداخت: {{ $transaction->gateway == "home" ? 'تحویل در محل' : 'آنلاین' }}</label>
+                    @endif
                     <label class="db">شماره تماس : {{ $address->mobile }}</label>
                     <label class="db">کد پستی : {{ $address->postal_code }}</label>
                     <label class="db">مبلغ سفارش : {{ $transaction == null ? '-' : number_format($transaction->price) }} ریال</label>

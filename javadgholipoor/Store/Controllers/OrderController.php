@@ -61,9 +61,7 @@ class OrderController extends CoreController
         $data = $orderController->cart(null, $order);
         $address = $data['address'];
         $shippings = $data['shippings'];
-        if($address){
-            $userr = User::find($address->user_id);
-        }
+        $userr = $address ? User::find($address->user_id) : null;
         //dd($shippings);
         $statuses = [];
         foreach (OrderShippingStatus::where('order_id', $order->id)->get() as $item) {
