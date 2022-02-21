@@ -56,14 +56,14 @@
             }
             ?>
 
-            @foreach (getMenu('defaultAdminTopHeader') as $menu)
+            {{-- @foreach (getMenu('defaultAdminTopHeader') as $menu)
                 <li>
                     <a {{ echoAttributes($menu['attributes']) }} href="{{ $menu['link'] }}">
                         <i class="{{ $menu['icon'] }}"></i>
                         <span>{{ $menu['title'] }}</span>
                     </a>
                 </li>
-            @endforeach
+            @endforeach --}}
 
             @if(session()->has('switcher'))
                 <li>
