@@ -118,7 +118,34 @@
                 ?>
             @endforeach
             <div class="row bg-white">
-                <div class="col-md-8"></div>
+                <div class="col-md-8">
+                    <div class="d-flex flex-column">
+                        @foreach (config('shipping.order_types') as $key => $item)
+                        <div class="d-flex p-3">
+                            <input style="transform: scale(2);" type="radio" id="{{$key}}" name="order_type" value="{{$key}}">
+                            <label for="{{$key}}" class="h6 mr-4">{{$item['title']}}</label>
+                        </div>
+                        @endforeach
+                    </div>
+                    <script>
+                        var radios = document.querySelectorAll('input[type=radio][name=order_type]');
+                        radios.forEach( radio => {
+                            radio.addEventListener('change', ()=>{
+                                console.log(radio.value);
+                                $.ajax({
+                                    url: '{{route("set-order-type")}}',
+                                    method: 'POST',
+                                    data: {
+                                        order_type : radio.value,
+                                    },
+                                    success: (res) => {
+                                        console.log(res);
+                                    }
+                                })
+                            });
+                        })
+                    </script>
+                </div>
                 <div class="col-md-4">
                     @include(includeTemplate('order.payment-info'))
                     @if(auth()->check())

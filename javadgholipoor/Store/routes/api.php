@@ -1,6 +1,7 @@
 <?php
 Route::group([], function () {
     Route::group(['prefix' => 'v1'], function () {
+        Route::post('set-order-type', 'OrderController@setType')->name('set-order-type');
         Route::group(['prefix' => 'product'], function () {
             Route::get('search', 'ProductController@search');
         });

@@ -293,86 +293,118 @@ class OrderController extends CoreController
         return templateView($view, compact('shippings', 'product'))->render();
     }
 
+    public function calculateShipping($order)
+    {
+        $siteCurrency = siteCurrency('more');
+        $shippings = [];
+        $carts = $order->carts();
+        $orderShippings = $order->shippings();
+        $getShippings = Shipping::whereIn('id', $orderShippings->pluck('shipping_id')->toArray())->get();
+        $products = Product::whereIn('product_id', $carts->pluck('product_id')->toArray())->get();
+        $posts = Post::whereIn('id', $products->plucK('post_id')->toArray())->get();
+        $postage = 0;
+        foreach ($order->shippings() as $shipping) {
+            // dd($shipping, $order, $order->address());
+            $shippingId = $shipping->id;
+            $thisCarts = $carts->where('order_shipping_id', $shippingId)->filter();
+            $shippings[$shippingId] = [
+                'shipping' => $getShippings->where('id', $shipping->shipping_id)->first(),
+                'orderShipping' => $shipping,
+                'cartsPrice' => 0,
+                'cartsDiscount' => 0
+            ];
+
+            $cartsPrice = 0;
+            foreach ($thisCarts as $cart) {
+                $product = $products->where('product_id', $cart->product_id)->first();
+                $shippings[$shippingId]['carts'][] = [
+                    'cart' => $cart,
+                    'product' => $product,
+                    'post' => $posts->where('id', $product->post_id)->first()
+                ];
+                $cartsPrice += $cart->count * $cart->price;
+            }
+
+            $shippings[$shippingId]['cartsPrice'] = $cartsPrice;
+            $shippings[$shippingId]['toFreePostage'] = convertPrice($shipping->free_postage - $cartsPrice);
+
+            $usePostage = true;
+
+            $shippings[$shippingId]['postage'] = 'وابسته به آدرس';
+
+            if ($order->address_id != null) {
+                if ($shipping->postage > 0) {
+                    $shippings[$shippingId]['postage'] = number_format(convertPrice($shipping->postage)) . ' ' . $siteCurrency;
+                } else {
+                    $shippings[$shippingId]['postage'] = 'رایگان';
+                    $usePostage = false;
+                }
+            }
+
+            // if ($shipping->free_postage - $cartsPrice <= 0) {
+            //     $shippings[$shippingId]['postage'] = 'رایگان';
+            //     $usePostage = false;
+            // }
+            // dd($postage);
+            if ($usePostage)
+                $postage += $shipping->postage;
+
+        }
+        return compact('shippings','carts', 'postage');
+    }
+
+    public function calculateTax($carts)
+    {
+        $productsPrice = $cartDiscount = 0;
+        $tax = 0;
+
+        foreach ($carts as $c) {
+            $cCount = $c->count;
+            $cDiscount = $c->discount;
+            $productsPrice += $cCount * ($c->price + $cDiscount);
+            $cartDiscount += $cCount * $cDiscount;
+            if($c->product->tax)
+                $tax += (int)((($c->total_price) * ($c->product->tax->percent))/100);
+        }
+
+        return compact('tax', 'productsPrice', 'cartDiscount');
+    }
+
+    public function calculatePayable($productsPrice, $cartDiscount, $postage, $tax)
+    {
+        return ($productsPrice - $cartDiscount) + $postage + $tax;
+    }
+
+    public function calculateOrderDetails($order)
+    {
+        $res1 = $this->calculateShipping($order);
+        $shippings = $res1['shippings'];
+        $carts = $res1['carts'];
+
+        $res2 = $this->calculateTax($carts);
+        $tax = $res2['tax'];
+        $productsPrice = $res2['productsPrice'];
+        $cartDiscount = $res2['cartDiscount'];
+
+        $payablePrice = $this->calculatePayable($productsPrice, $cartDiscount, $res1['postage'], $tax);
+
+        $count = $carts->count();
+        $sumCount = $carts->sum('count');
+
+        $result = compact(array_keys(get_defined_vars()));
+        unset($result['res1'], $result['res2']);
+        return $result;
+    }
+
     public function cart($request, $order = null)
     {
 
         if ($order == null)
             $order = $this->order(true);
 
-        $siteCurrency = siteCurrency('more');
-
         if ($order != null) {
-            $shippings = [];
-            $carts = $order->carts();
-            $orderShippings = $order->shippings();
-            $getShippings = Shipping::whereIn('id', $orderShippings->pluck('shipping_id')->toArray())->get();
-            $products = Product::whereIn('product_id', $carts->pluck('product_id')->toArray())->get();
-            $posts = Post::whereIn('id', $products->plucK('post_id')->toArray())->get();
-            $postage = 0;
-            foreach ($order->shippings() as $shipping) {
-                // dd($shipping, $order, $order->address());
-                $shippingId = $shipping->id;
-                $thisCarts = $carts->where('order_shipping_id', $shippingId)->filter();
-                $shippings[$shippingId] = [
-                    'shipping' => $getShippings->where('id', $shipping->shipping_id)->first(),
-                    'orderShipping' => $shipping,
-                    'cartsPrice' => 0,
-                    'cartsDiscount' => 0
-                ];
-
-                $cartsPrice = 0;
-                foreach ($thisCarts as $cart) {
-                    $product = $products->where('product_id', $cart->product_id)->first();
-                    $shippings[$shippingId]['carts'][] = [
-                        'cart' => $cart,
-                        'product' => $product,
-                        'post' => $posts->where('id', $product->post_id)->first()
-                    ];
-                    $cartsPrice += $cart->count * $cart->price;
-                }
-
-                $shippings[$shippingId]['cartsPrice'] = $cartsPrice;
-                $shippings[$shippingId]['toFreePostage'] = convertPrice($shipping->free_postage - $cartsPrice);
-
-                $usePostage = true;
-
-                $shippings[$shippingId]['postage'] = 'وابسته به آدرس';
-
-                if ($order->address_id != null) {
-                    if ($shipping->postage > 0) {
-                        $shippings[$shippingId]['postage'] = number_format(convertPrice($shipping->postage)) . ' ' . $siteCurrency;
-                    } else {
-                        $shippings[$shippingId]['postage'] = 'رایگان';
-                        $usePostage = false;
-                    }
-                }
-
-                // if ($shipping->free_postage - $cartsPrice <= 0) {
-                //     $shippings[$shippingId]['postage'] = 'رایگان';
-                //     $usePostage = false;
-                // }
-                // dd($postage);
-                if ($usePostage)
-                    $postage += $shipping->postage;
-
-            }
-
-            $productsPrice = $cartDiscount = 0;
-            $tax = 0;
-
-            foreach ($carts as $c) {
-                $cCount = $c->count;
-                $cDiscount = $c->discount;
-                $productsPrice += $cCount * ($c->price + $cDiscount);
-                $cartDiscount += $cCount * $cDiscount;
-                if($c->product->tax)
-                    $tax += (int)((($c->total_price) * ($c->product->tax->percent))/100);
-            }
-
-            $payablePrice = ($productsPrice - $cartDiscount) + $postage + $tax;
-
-            $count = $carts->count();
-            $sumCount = $carts->sum('count');
+            $res = $this->calculateOrderDetails($order);
+            $shippings = $res['shippings'];
 
             $product = null;
             if ($request != null) {
@@ -393,14 +425,14 @@ class OrderController extends CoreController
         return [
             'order' => $order,
             'shippings' => $shippings ?? [],
-            'carts' => $carts ?? null,
-            'productsCount' => $count ?? 0,
-            'productsSumCount' => $sumCount ?? 0,
-            'productsPrice' => convertPrice($productsPrice ?? 0),
-            'cartDiscount' => convertPrice($cartDiscount ?? 0),
-            'payablePrice' => convertPrice($payablePrice ?? 0),
-            'tax' => convertPrice($tax ?? 0),
-            'payablePriceRial' => $payablePrice ?? 0,
+            'carts' => $res['carts'] ?? null,
+            'productsCount' => $res['count'] ?? 0,
+            'productsSumCount' => $res['sumCount'] ?? 0,
+            'productsPrice' => convertPrice($res['productsPrice'] ?? 0),
+            'cartDiscount' => convertPrice($res['cartDiscount'] ?? 0),
+            'payablePrice' => convertPrice($res['payablePrice'] ?? 0),
+            'tax' => convertPrice($res['tax'] ?? 0),
+            'payablePriceRial' => $res['payablePrice'] ?? 0,
             'html1' => $html1 ?? '',
             'html2' => $html2 ?? '',
             'view1' => $view1 ?? false,
@@ -663,5 +695,13 @@ class OrderController extends CoreController
         }
 
         return $output;
+    }
+
+    public function setType(Request $request)
+    {
+        $order = $this->order(true);
+        $order->type = $request->order_type;
+        $order->save();
+        dd($order->fresh());
     }
 }
