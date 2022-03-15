@@ -31,7 +31,7 @@ class CartController extends CoreController
         if ($carts->count() == 0) {
             return  redirect(url('cart'));
         }
-        if (empty($order->address_id)) {
+        if (empty($order->address_id) && needs_address($order->type)) {
             return redirect(url('cart/address'));
         }
         return templateView('order.payment');

@@ -29,10 +29,13 @@ if ($address != null) {
         <ol class="breadcrumb bg-transparent">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>
             <li class="breadcrumb-item"><a href="{{ url('cart') }}">سبد خرید</a></li>
+            @if ($address)
             <li class="breadcrumb-item"><a href="{{ url('cart/address') }}">آدرس تحویل سفارش</a></li>
+            @endif
             <li class="breadcrumb-item active" aria-current="page">تایید اطلاعات و پرداخت</li>
         </ol>
     </nav>
+    @if ($address != null)
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -48,6 +51,7 @@ if ($address != null) {
             </div>
         </div>
     </div>
+    @endif
     <br>
     <br>
     @include(includeTemplate('divider.2'), ['title' => 'محصولات'])
@@ -85,6 +89,7 @@ if ($address != null) {
     @include(includeTemplate('divider.2'), ['title' => 'نوع پرداخت'])
     <form id="cart-payment-form" action="{{ route('order.payment') }}" method="post" class="carts">
         @csrf
+        @if (needs_gateway($cart['order']->type))
         <div class="card mt-2">
             <label for="zarinpal" class="gateway card-body d-flex justify-content-between align-items-center">
                 <input checked class="ml-3" id="zarinpal" type="radio" name="gateway" value="{{ getOption('gateway') ?? 'ZarinPal' }}">
@@ -97,8 +102,9 @@ if ($address != null) {
                 </figure>
             </label>
         </div>
+        @endif
         <?php $wallet = getWalletCredit();?>
-        @if($wallet >= $cart['payablePriceRial'])
+        {{-- @if($wallet >= $cart['payablePriceRial'])
         <div class="card mt-2">
             <label for="wallet" class="gateway card-body d-flex justify-content-between align-items-center">
                 <input class="ml-3" id="wallet" type="radio" name="gateway" value="wallet">
@@ -111,8 +117,8 @@ if ($address != null) {
                 </figure>
             </label>
         </div>
-        @endif
-        <div class="card mt-2">
+        @endif --}}
+        {{-- <div class="card mt-2">
             <label for="home" class="gateway card-body d-flex justify-content-between align-items-center">
                 <input class="ml-3" id="home" type="radio" name="gateway" value="home">
                 <div class="d-flex flex-column justify-content-around flex-fill">
@@ -123,7 +129,7 @@ if ($address != null) {
                     <img width="60" height="60" src="https://mosifa.ir/wp-content/uploads/2020/12/%D9%BE%D8%B1%D8%AF%D8%A7%D8%AE%D8%AA-%D8%AF%D8%B1%D8%A8-%D9%85%D9%86%D8%B2%D9%84-%D9%85%D9%88%D8%B5%DB%8C%D9%81%D8%A7.jpg" alt="home">
                 </figure>
             </label>
-        </div>
+        </div> --}}
         <div class="row mt-3">
             <div class="col-6">
                 <a href="{{ url('cart/address') }}" class="btn btn-outline-success px-4 py-2">بازگشت</a>

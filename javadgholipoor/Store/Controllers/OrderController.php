@@ -702,6 +702,9 @@ class OrderController extends CoreController
         $order = $this->order(true);
         $order->type = $request->order_type;
         $order->save();
-        dd($order->fresh());
+        return response()->json([
+            'order_type' => $order->type,
+            'needs_address' => needs_address($order->type),
+        ]);
     }
 }

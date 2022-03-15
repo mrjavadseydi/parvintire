@@ -20,4 +20,22 @@ return [
             'payment' => 'online',
         ],
     ],
+    'ship_types' => [
+        'post' => [
+            'address' => true,
+            'postage' => true,
+        ],
+        'none' => [
+            'address' => false,
+            'postage' => false,
+        ],
+    ],
+    'payment_types' => [
+        'presence' => [
+            'gateway' => false,
+        ],
+        'online' => [
+            'gateway' => true,
+        ],
+    ],
 ];

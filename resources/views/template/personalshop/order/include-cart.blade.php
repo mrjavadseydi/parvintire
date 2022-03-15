@@ -122,35 +122,37 @@
                     <div class="d-flex flex-column">
                         @foreach (config('shipping.order_types') as $key => $item)
                         <div class="d-flex p-3">
-                            <input style="transform: scale(2);" type="radio" id="{{$key}}" name="order_type" value="{{$key}}">
+                            <input style="transform: scale(2);" type="radio" id="{{$key}}" name="order_type" value="{{$key}}" {{ $cart['order']->type == $key ? 'checked' : '' }}>
                             <label for="{{$key}}" class="h6 mr-4">{{$item['title']}}</label>
                         </div>
                         @endforeach
                     </div>
                     <script>
                         var radios = document.querySelectorAll('input[type=radio][name=order_type]');
-                        radios.forEach( radio => {
-                            radio.addEventListener('change', ()=>{
-                                console.log(radio.value);
-                                $.ajax({
-                                    url: '{{route("set-order-type")}}',
-                                    method: 'POST',
-                                    data: {
-                                        order_type : radio.value,
-                                    },
-                                    success: (res) => {
-                                        console.log(res);
-                                    }
-                                })
-                            });
+                        $('input[type=radio][name=order_type]').on('change', function(){
+                            $.ajax({
+                                url: '{{route("set-order-type")}}',
+                                method: 'POST',
+                                data: {
+                                    order_type : this.value,
+                                },
+                                success: (res) => {
+                                    document.querySelector("#next_step_btn").href = res.needs_address ? "{{ url('cart/address')  }}" : "{{ url('cart/payment') }}";
+                                }
+                            })
                         })
+                        var radioValue = $("input[type=radio][name=order_type]:checked").val();
+                        if(radioValue === undefined) {
+                            $("input[type=radio][name=order_type][value=online_post]").prop('checked',true);
+                            $("input[type=radio][name=order_type][value=online_post]").trigger("change");
+                        }
                     </script>
                 </div>
                 <div class="col-md-4">
                     @include(includeTemplate('order.payment-info'))
                     @if(auth()->check())
                         <div class="text-left mt-2">
-                            <a class="btn btn-success text-white px-4 py-2" href="{{ url('cart/address') }}">تایید و ثبت آدرس</a>
+                            <a id="next_step_btn" class="btn btn-success text-white px-4 py-2" href="">تایید و ثبت آدرس</a>
                         </div>
                     @else
                         <div class="text-left mt-2">
