@@ -29,7 +29,7 @@ if ($address != null) {
         <ol class="breadcrumb bg-transparent">
             <li class="breadcrumb-item"><a href="{{ url('/') }}">صفحه اصلی</a></li>
             <li class="breadcrumb-item"><a href="{{ url('cart') }}">سبد خرید</a></li>
-            @if ($address)
+            @if (needs_address($cart['order']->type))
             <li class="breadcrumb-item"><a href="{{ url('cart/address') }}">آدرس تحویل سفارش</a></li>
             @endif
             <li class="breadcrumb-item active" aria-current="page">تایید اطلاعات و پرداخت</li>
@@ -86,7 +86,9 @@ if ($address != null) {
     @include(includeTemplate('order.payment-info'))
     <br>
     <br>
+    @if (needs_gateway($cart['order']->type))
     @include(includeTemplate('divider.2'), ['title' => 'نوع پرداخت'])
+    @endif
     <form id="cart-payment-form" action="{{ route('order.payment') }}" method="post" class="carts">
         @csrf
         @if (needs_gateway($cart['order']->type))

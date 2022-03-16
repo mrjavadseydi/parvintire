@@ -119,6 +119,7 @@
             @endforeach
             <div class="row bg-white">
                 <div class="col-md-8">
+                    @include(includeTemplate('divider.2'), ['title' => 'نوع سفارش'])
                     <div class="d-flex flex-column">
                         @foreach (config('shipping.order_types') as $key => $item)
                         <div class="d-flex p-3">
@@ -150,7 +151,7 @@
                     </script>
                 </div>
                 <div class="col-md-4">
-                    @include(includeTemplate('order.payment-info'))
+                    {{-- @include(includeTemplate('order.payment-info')) --}}
                     @if(auth()->check())
                         <div class="text-left mt-2">
                             <a id="next_step_btn" class="btn btn-success text-white px-4 py-2" href="">تایید و ثبت آدرس</a>

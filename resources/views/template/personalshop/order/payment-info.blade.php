@@ -16,6 +16,7 @@
         </h6>
         <h6>{{ number_format($cart['tax']) }} تومان</h6>
     </div>
+    @if (needs_address($cart['order']->type) && needs_postage($cart['order']->type))
     @foreach($cart['shippings'] as $shippingId => $values)
         @if(isset($values['carts']))
             <div class="d-flex justify-content-between align-items-center py-2">
@@ -29,6 +30,7 @@
             </div>
         @endif
     @endforeach
+    @endif
     <div class="d-flex justify-content-between align-items-center border-top py-2">
         <h5>مبلغ قابل پرداخت</h5>
         <h5 class="text-success">{{ number_format($cart['payablePrice']) }} تومان</h5>

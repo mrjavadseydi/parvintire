@@ -90,7 +90,7 @@
         @endif
     </div>
     <div class="footer">
-        <a href="{{ url('cart/payment') }}">تسویه حساب</a>
+        <a href="{{ url('cart') }}">تسویه حساب</a>
     </div>
 </span>
 <script src="{{ asset('assets/admin/default/store.js') }}"></script>

@@ -54,6 +54,8 @@ class PaymentController extends CoreController {
                     return $this->$gateway($transaction);
                 }
             } else {
+                $transaction->update(['status' => 1]);
+                return;
                 return gateway($gateway)
                     ->transId($id)
                     ->orderId(strtotime($transaction->updated_at))

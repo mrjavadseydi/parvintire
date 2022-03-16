@@ -328,26 +328,29 @@ class OrderController extends CoreController
             $shippings[$shippingId]['cartsPrice'] = $cartsPrice;
             $shippings[$shippingId]['toFreePostage'] = convertPrice($shipping->free_postage - $cartsPrice);
 
-            $usePostage = true;
+            // $usePostage = true;
 
             $shippings[$shippingId]['postage'] = 'وابسته به آدرس';
 
-            if ($order->address_id != null) {
-                if ($shipping->postage > 0) {
+            // dd($shipping, $order->address_id != null, needs_address($order->type),$shipping->postage > 0, needs_postage($order->type));
+            if ($order->address_id != null && needs_address($order->type)) {
+                if ($shipping->postage > 0 && needs_postage($order->type)) {
                     $shippings[$shippingId]['postage'] = number_format(convertPrice($shipping->postage)) . ' ' . $siteCurrency;
-                } else {
+                    $postage += $shipping->postage;
+                }else{
                     $shippings[$shippingId]['postage'] = 'رایگان';
-                    $usePostage = false;
                 }
             }
+
+            // if ($usePostage && needs_postage($order->type))
+            //     $postage += $shipping->postage;
 
             // if ($shipping->free_postage - $cartsPrice <= 0) {
             //     $shippings[$shippingId]['postage'] = 'رایگان';
             //     $usePostage = false;
             // }
             // dd($postage);
-            if ($usePostage)
-                $postage += $shipping->postage;
+            
 
         }
         return compact('shippings','carts', 'postage');
