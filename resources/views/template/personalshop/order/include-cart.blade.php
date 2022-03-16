@@ -154,7 +154,7 @@
                     {{-- @include(includeTemplate('order.payment-info')) --}}
                     @if(auth()->check())
                         <div class="text-left mt-2">
-                            <a id="next_step_btn" class="btn btn-success text-white px-4 py-2" href="">تایید و ثبت آدرس</a>
+                            <a id="next_step_btn" class="btn btn-success text-white px-4 py-2" href="">تایید و ادامه</a>
                         </div>
                     @else
                         <div class="text-left mt-2">

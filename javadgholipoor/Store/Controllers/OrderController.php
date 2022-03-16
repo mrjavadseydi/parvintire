@@ -330,15 +330,14 @@ class OrderController extends CoreController
 
             // $usePostage = true;
 
-            $shippings[$shippingId]['postage'] = 'وابسته به آدرس';
+            // $shippings[$shippingId]['postage'] = 'وابسته به آدرس';
+            $shippings[$shippingId]['postage'] = 'رایگان';
 
             // dd($shipping, $order->address_id != null, needs_address($order->type),$shipping->postage > 0, needs_postage($order->type));
             if ($order->address_id != null && needs_address($order->type)) {
                 if ($shipping->postage > 0 && needs_postage($order->type)) {
                     $shippings[$shippingId]['postage'] = number_format(convertPrice($shipping->postage)) . ' ' . $siteCurrency;
                     $postage += $shipping->postage;
-                }else{
-                    $shippings[$shippingId]['postage'] = 'رایگان';
                 }
             }
 

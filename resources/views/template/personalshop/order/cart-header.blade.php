@@ -3,10 +3,10 @@
 <span class="cart">
     <div class="header d-flex justify-content-between">
         <div>
-            <span>مبلغ کل خرید : <b>{{ number_format(convertPrice($cart['payablePriceRial'])) }} تومان</b></span>
+            {{-- <span>مبلغ کل خرید : <b>{{ number_format(convertPrice($cart['payablePriceRial'])) }} تومان</b></span> --}}
         </div>
         <div>
-            <a href="{{ url('cart') }}">مشاهده سبد خرید</a>
+            {{-- <a href="{{ url('cart') }}">مشاهده سبد خرید</a> --}}
         </div>
     </div>
     <div class="body scrollbar">

@@ -54,8 +54,6 @@ class PaymentController extends CoreController {
                     return $this->$gateway($transaction);
                 }
             } else {
-                $transaction->update(['status' => 1]);
-                return;
                 return gateway($gateway)
                     ->transId($id)
                     ->orderId(strtotime($transaction->updated_at))
@@ -264,7 +262,9 @@ class PaymentController extends CoreController {
                 Product::where('product_id', $product->product_id)->update(['stock' => $product->stock - $cart->count]);
             }
             $address = $order->address();
-            $address->update(['success_orders' => $address->success_orders + 1]);
+            if($address != null){
+                $address->update(['success_orders' => $address->success_orders + 1]);
+            }
             $nextOrder = Order::where(['user_id' => $order->user_id, 'status' => '4'])->first();
             NewOrder::dispatch($order, $transaction);
             if ($nextOrder != null) {

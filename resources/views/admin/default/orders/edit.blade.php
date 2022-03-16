@@ -4,15 +4,27 @@
 @section('content')
 
     <div class="col-lg-12">
+        <div class="box-solid box-success">
 
-        @if($address != null)
+            <div class="box-header">
+                <h3 class="box-title">اطلاعات سفارش</h3>
+                <div class="box-tools">
+                    {{-- <i class="box-tools-icon icon-minus"></i> --}}
+                    <button class="btn btn-danger" data-order-id="{{$order->id}}" id="cancel-order">لغو سفارش</button>
+                </div>
+            </div>
+
+            <div class="box-body">
+                <div>نوع سفارش: {{ config('shipping.order_types')[$order->type]['title'] }}</div>
+            </div>
+        </div>
+        @if($address != null && needs_address($order->type))
         <div method="post" class="box-solid box-primary">
 
             <div class="box-header">
                 <h3 class="box-title">اطلاعات ارسال</h3>
                 <div class="box-tools">
                     {{-- <i class="box-tools-icon icon-minus"></i> --}}
-                    <button class="btn btn-danger" data-order-id="{{$order->id}}" id="cancel-order">لغو سفارش</button>
                 </div>
             </div>
 
@@ -160,7 +172,6 @@
             filter: grayscale(0);
         }
     </style>
-    @if($address)
     <script>
         var cbtn = document.querySelector("#cancel-order");
         cbtn.addEventListener('click', function(e){
@@ -179,6 +190,7 @@
                 });
             }
         });
+        @if($address && needs_address($order->type))
         map = L.map('map', {
             center: [{{ $address->latitude }}, {{ $address->longitude }}],
             zoom: 11,
@@ -209,6 +221,7 @@
             $('input[name="longitude"]').val(lng);
             cacheDistance();
         }).addTo( map );
+        @endif
 
         $(document).on('click', '.submit-status-form', function () {
             $(this).parent().submit();
@@ -230,6 +243,5 @@
             }
         }
     </script>
-    @endif
 
 @endsection
