@@ -60,13 +60,13 @@ class NewOrder
                 $patternValues
             );
         } else {
-            // if (checkMail($user->email)) {
-            //     SendMail::dispatch($user->email, 'newOrder', [
-            //         'title' => 'سفارش شما با موفقیت ثبت شد',
-            //         'name' => $user->name ?? 'کاربر',
-            //         'referenceId' => $transaction->reference_id
-            //     ]);
-            // }
+            if (checkMail($user->email)) {
+                SendMail::dispatch($user->email, 'newOrder', [
+                    'title' => 'سفارش شما با موفقیت ثبت شد',
+                    'name' => $user->name ?? 'کاربر',
+                    'referenceId' => $transaction->reference_id
+                ]);
+            }
         }
     }
 
