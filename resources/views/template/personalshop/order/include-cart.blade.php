@@ -144,8 +144,9 @@
                         var radioValue = $("input[type=radio][name=order_type]:checked").val();
                         if(radioValue === undefined) {
                             $("input[type=radio][name=order_type][value=online_post]").prop('checked',true);
-                            $("input[type=radio][name=order_type][value=online_post]").trigger("change");
+                            // $("input[type=radio][name=order_type][value=online_post]").trigger("change");
                         }
+                        $("input[type=radio][name=order_type]:checked").trigger("change");
                     </script>
                 </div>
                 <div class="col-md-4">

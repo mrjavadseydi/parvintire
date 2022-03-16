@@ -615,7 +615,7 @@ class OrderController extends CoreController
             'user_id' => $userId,
             'relation' => 'order',
             'relation_id' => $cart['order']->id,
-            'gateway' => $request->gateway,
+            'gateway' => needs_gateway($cart['order']->type) ? $request->gateway : 'home',
             'price' => $cart['payablePriceRial'],
             'token' => $token,
             'ip' => ip(),

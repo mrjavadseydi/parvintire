@@ -35,7 +35,7 @@ if ($address != null) {
             <li class="breadcrumb-item active" aria-current="page">تایید اطلاعات و پرداخت</li>
         </ol>
     </nav>
-    @if ($address != null)
+    @if (needs_address($cart['order']->type))
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -132,7 +132,7 @@ if ($address != null) {
         </div> --}}
         <div class="row mt-3">
             <div class="col-6">
-                <a href="{{ url('cart/address') }}" class="btn btn-outline-success px-4 py-2">بازگشت</a>
+                <a href="{{ needs_address($cart['order']->type) ? url('cart/address') : url('cart') }}" class="btn btn-outline-success px-4 py-2">بازگشت</a>
             </div>
             <div class="col-6 text-left">
                 <span class="btn btn-success px-4 py-2 btn-payment">پرداخت و ثبت نهایی سفارش</span>
