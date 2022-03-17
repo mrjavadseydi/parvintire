@@ -120,7 +120,7 @@ class OrderController extends CoreController
                                             // ]);
                                             $patternValues = [
                                                 'id' => $request->orderId . '-' . $request->shippingId,
-                                                'name' => $address->name_family,
+                                                'name' => $address->name_family ?? 'تحویل گیرنده',
                                                 'trackingCode' => $request->trackingCode
                                             ];
                                             $bulkID = \IPPanel::sendPattern(

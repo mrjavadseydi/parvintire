@@ -107,12 +107,12 @@
                 </a>
             @endif
 
-            @if(\LaraBase\Comments\Models\Comment::tickets()->where('status', '1')->exists())
+            {{-- @if(\LaraBase\Comments\Models\Comment::tickets()->where('status', '1')->exists())
                 <a href="{{ route('admin.tickets.index') }}?status=1" class="notify notify-green message-notification-toggle">
                     <i class="icon-question"></i>
                     <span class="pulse red active"></span>
                 </a>
-            @endif
+            @endif --}}
 
 {{--            @include('admin.notifications.message')--}}
 {{--            @include('admin.notifications.alert')--}}
