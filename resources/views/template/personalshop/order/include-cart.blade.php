@@ -159,7 +159,7 @@
                     @else
                         <div class="text-left mt-2">
                             <h6 class="card p-3">
-                                کابر گرامی لطفا جهت ثبت سفارش ابتدا در سایت عضو شوید و یا وارد سایت شوید
+                                کاربر گرامی لطفا جهت ثبت سفارش ابتدا در سایت عضو شوید و یا وارد سایت شوید
                             </h6>
                             <div class="d-flex pt-2">
                                 <a href="{{ route('register') }}" class="w-50 py-2 btn btn-sm btn-success">ثبت نام</a>
