@@ -8,7 +8,7 @@
                         <p>{!! getOption('personal-description-1') !!}</p>
                         <form action="{{ route('search') }}">
                             <input type="hidden" name="postType" value="files">
-                            <input type="text" name="q" placeholder="دنبال چی میگردی؟">
+                            <input type="text" name="q" placeholder="دنبال چی میگردی؟ نام خودرو، سایز تایر، برند تایر">
                             <button class="fal fa-search"></button>
                         </form>
                     </div>

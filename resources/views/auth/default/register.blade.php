@@ -29,7 +29,8 @@
 
             <div class="input-group">
                 <label for="">موبایل / ایمیل</label>
-                <input class="input-ltr" type="text" name="userLogin" value="{{ old('userLogin') }}">
+                <input class="input-ltr" id="userLogin" onkeyup="convertNumbers(this)" type="text" name="userLogin"
+                       value="{{ old('userLogin') }}">
             </div>
 
             <div class="input-group mt-2">
@@ -58,5 +59,25 @@
         </form>
 
     </div>
+    <script>
 
+        function p2e(replaceString) {
+            var find = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            var replace = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            var regex;
+            for (var i = 0; i < find.length; i++) {
+                regex = new RegExp(find[i], "g");
+                replaceString = replaceString.replace(regex, replace[i]);
+            }
+            return replaceString;
+        }
+
+        function convertNumbers(input) {
+            var id = input.id;
+            var val = input.value;
+            val = p2e(val);
+            input.value = val;
+        }
+
+    </script>
 @endsection

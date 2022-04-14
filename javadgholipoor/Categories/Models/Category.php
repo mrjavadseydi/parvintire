@@ -7,7 +7,8 @@ use function foo\func;
 use LaraBase\CoreModel;
 use LaraBase\Posts\Models\Post;
 
-class Category extends CoreModel {
+class Category extends CoreModel
+{
 
     use Sluggable;
     use \LaraBase\Categories\Actions\Category;
@@ -33,13 +34,13 @@ class Category extends CoreModel {
     public function sluggable()
     {
 
-        if(!empty($this->slug) ) {
+        if (!empty($this->slug)) {
             return [
                 'slug' => [
                     'source' => 'slug'
                 ]
             ];
-        } else if(!empty($this->title)) {
+        } else if (!empty($this->title)) {
             return [
                 'slug' => [
                     'source' => 'title'
@@ -60,7 +61,8 @@ class Category extends CoreModel {
         return $this->belongsToMany(Post::class, 'post_category');
     }
 
-    public function scopeCanView($query, $canSetPostTypes = [], $canSetCategories = []) {
+    public function scopeCanView($query, $canSetPostTypes = [], $canSetCategories = [])
+    {
 
         if (empty($canSetPostTypes) || empty($canSetCategories))
             $user = auth()->user();
@@ -91,7 +93,8 @@ class Category extends CoreModel {
 
     }
 
-    public function scopePostTypes($query, $postTypes = []) {
+    public function scopePostTypes($query, $postTypes = [])
+    {
 
         if (!empty($postTypes)) {
             if (isset($_GET['post_types'])) {
@@ -104,7 +107,8 @@ class Category extends CoreModel {
 
     }
 
-    public function scopePostType($query, $postType = null) {
+    public function scopePostType($query, $postType = null)
+    {
 
         if ($postType == null)
             if (isset($_GET['postType']))
@@ -115,7 +119,8 @@ class Category extends CoreModel {
 
     }
 
-    public function parent() {
+    public function parent()
+    {
         return Category::whereId($this->parent)->first();
     }
 
@@ -123,14 +128,17 @@ class Category extends CoreModel {
     {
         $category = $this;
         $categories[] = $category;
-        while ($category->parent != null) {
-            $category = Category::where('id', $category->parent)->first();
-            $categories[] = $category;
+        if ($category->parent) {
+            while ($category->parent != null) {
+                $category = Category::where('id', $category->parent)->first();
+                $categories[] = $category;
+            }
         }
         return array_reverse($categories);
     }
 
-    public function parentField($field = 'title') {
+    public function parentField($field = 'title')
+    {
         $parent = $this->parent();
         return $parent->$field ?? '-';
     }

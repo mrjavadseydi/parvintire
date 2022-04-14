@@ -22,7 +22,7 @@
             <p>{!! getOption('personal-description-1') !!}</p>
             <form action="{{ route('search') }}">
                 <input type="hidden" name="postType" value="podcasts">
-                <input type="text" name="q" placeholder="دنبال چی میگردی؟">
+                <input type="text" name="q" placeholder=" دنبال چی میگردی؟ نام خودرو، سایز تایر، برند تایر">
                 <button>جستجو</button>
             </form>
         </div>
