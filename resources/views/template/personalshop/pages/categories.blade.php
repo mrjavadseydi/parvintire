@@ -7,6 +7,19 @@
 @section('ogDescription', siteDescription())
 @section('ogImage', siteLogo())
 @section('content')
+    <style>
+        @media only screen and (max-device-width: 765px) {
+            .card-min{
+                min-width: 40%;
+            }
+        }
+        @media only screen and (max-device-width: 480px) {
+            .card-min{
+                min-width: 63%;
+            }
+        }
+
+    </style>
     <div class="container py-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent">
@@ -16,7 +29,7 @@
         </nav>
         <div class="d-flex flex-wrap">
         @foreach($categories as $category)
-            <div class="d-flex mb-1 flex-grow-1 grid5 bg-light rounded p-3 ml-1 category-flex">
+            <div class="d-flex mb-1 flex-grow-1 grid5 bg-light rounded p-3 ml-1 category-flex card-min ">
                 <a class="flex-40" href="{{ route('category', ['id' => $category->id, 'slug' => $category->slug]) }}">
                     <figure class="p-3 d-flex align-items-center">
                         <img src="{{ renderImage($category->image, 170, 130) }}" alt="{{ $category->title }}">

@@ -15,7 +15,7 @@
             </div>
 
             <div class="box-body">
-                <div>نوع سفارش: {{ config('shipping.order_types')[$order->type]['title'] }}</div>
+                <div>نوع سفارش: {{ config('shipping.order_types')[$order->type]['title'] ?? "" }}</div>
             </div>
         </div>
         @if($address != null && needs_address($order->type))

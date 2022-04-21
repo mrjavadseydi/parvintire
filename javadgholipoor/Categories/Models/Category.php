@@ -128,7 +128,7 @@ class Category extends CoreModel
     {
         $category = $this;
         $categories[] = $category;
-        if ($category->parent) {
+        if (isset($category['parent'])) {
             while ($category->parent != null) {
                 $category = Category::where('id', $category->parent)->first();
                 $categories[] = $category;

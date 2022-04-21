@@ -340,7 +340,9 @@ class OrderController extends CoreController
                     $postage += $shipping->postage;
                 }
             }
+            if ($order->type=="none"){
 
+            }
             // if ($usePostage && needs_postage($order->type))
             //     $postage += $shipping->postage;
 
@@ -349,7 +351,7 @@ class OrderController extends CoreController
             //     $usePostage = false;
             // }
             // dd($postage);
-            
+
 
         }
         return compact('shippings','carts', 'postage');
