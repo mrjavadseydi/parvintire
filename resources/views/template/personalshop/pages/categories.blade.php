@@ -29,7 +29,7 @@
         </nav>
         <div class="d-flex flex-wrap">
         @foreach($categories as $category)
-            <div class="d-flex mb-1 flex-grow-1 grid5 bg-light rounded p-3 ml-1 category-flex card-min ">
+            <div class="d-flex mb-1 flex-grow-1 grid5 bg-light rounded p-3 ml-1 category-flex card-min " onclick="window.location = '{{ route('category', ['id' => $category->id, 'slug' => $category->slug]) }}'">
                 <a class="flex-40" href="{{ route('category', ['id' => $category->id, 'slug' => $category->slug]) }}">
                     <figure class="p-3 d-flex align-items-center">
                         <img src="{{ renderImage($category->image, 170, 130) }}" alt="{{ $category->title }}">

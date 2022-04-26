@@ -11,7 +11,7 @@
         $at[$attr->key_id] = $v == null ? '' : $v->title;
     }
 ?>
-<div class="product-card-1 position-relative px-3">
+<div class="product-card-1 position-relative px-3" onclick="window.location='{{$href}}'">
     <figure class="text-center">
         <a href="{{ $href }}">
             <img src="{{ $post->thumbnail(250, 250) }}" alt="{{ $post->title }}">

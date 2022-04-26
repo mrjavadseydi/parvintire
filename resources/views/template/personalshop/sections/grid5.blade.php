@@ -7,7 +7,7 @@
         <div class="d-flex flex-wrap flex-lg-nowrap">
             @if(isset($menu[0]))
                 <?php $m = $menu[0]; ?>
-                <div class="d-flex mb-1 mb-lg-0 flex-grow-1 grid5 bg-light rounded p-3 ml-1 first">
+                <div class="d-flex mb-1 mb-lg-0 flex-grow-1 grid5 bg-light rounded p-3 ml-1 first" onclick="window.location = '{{ $m['link']}}'">
                     <figure class="p-3 d-flex align-items-center">
                         <img src="{{ renderImage($m['image'], 170, 130) }}" alt="{{ $m['title'] }}">
                     </figure>
@@ -24,8 +24,8 @@
             @endif
             @if(isset($menu[1]))
                 <?php $m = $menu[1]; ?>
-                <div class="d-flex mb-1 mb-lg-0 flex-grow-1 flex-column justify-content-center ml-0 ml-sm-1 sm">
-                    <div class="d-flex grid5 bg-light rounded px-3 py-0 mb-1">
+                <div class="d-flex mb-1 mb-lg-0 flex-grow-1 flex-column justify-content-center ml-0 ml-sm-1 sm" >
+                    <div class="d-flex grid5 bg-light rounded px-3 py-0 mb-1" onclick="window.location = '{{ $m['link']}}'">
                         <figure class="p-3 d-flex align-items-center">
                             <img src="{{ renderImage($m['image'], 90, 90) }}" alt="{{ $m['title'] }}">
                         </figure>
@@ -41,7 +41,7 @@
                     </div>
                     @if(isset($menu[2]))
                         <?php $m = $menu[2]; ?>
-                        <div class="d-flex grid5 bg-light rounded px-3 py-0">
+                        <div class="d-flex grid5 bg-light rounded px-3 py-0" onclick="window.location = '{{ $m['link']}}'">
                             <figure class="p-3 d-flex align-items-center">
                                 <img src="{{ renderImage($m['image'], 90, 90) }}" alt="{{ $m['title'] }}">
                             </figure>
@@ -60,8 +60,8 @@
             @endif
             @if(isset($menu[3]))
                 <?php $m = $menu[3]; ?>
-                <div class="d-flex flex-grow-1 flex-column justify-content-center">
-                    <div class="d-flex grid5 bg-light rounded px-3 py-0 mb-1">
+                <div class="d-flex flex-grow-1 flex-column justify-content-center" >
+                    <div class="d-flex grid5 bg-light rounded px-3 py-0 mb-1" onclick="window.location = '{{ $m['link']}}'">
                         <figure class="p-3 d-flex align-items-center">
                             <img src="{{ renderImage($m['image'], 90, 90) }}" alt="{{ $m['title'] }}">
                         </figure>
@@ -77,7 +77,7 @@
                     </div>
                     @if(isset($menu[4]))
                         <?php $m = $menu[4]; ?>
-                        <div class="d-flex grid5 bg-light rounded px-3 py-0">
+                        <div class="d-flex grid5 bg-light rounded px-3 py-0" onclick="window.location = '{{ $m['link']}}'">
                             <figure class="p-3 d-flex align-items-center">
                                 <img src="{{ renderImage($m['image'], 90, 90) }}" alt="{{ $m['title'] }}">
                             </figure>
