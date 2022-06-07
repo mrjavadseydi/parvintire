@@ -23,6 +23,14 @@ class CartController extends CoreController
         return templateView('order.address');
     }
 
+    public function more()
+    {
+        if(!auth()->check()) {
+            return redirect(url('cart'));
+        }
+        return templateView('order.more');
+    }
+
     public function payment()
     {
         $orderController = new OrderController();
@@ -33,6 +41,11 @@ class CartController extends CoreController
         }
         if (empty($order->address_id) && needs_address($order->type)) {
             return redirect(url('cart/address'));
+        }
+        $user = auth()->user();
+        $ncodeMeta = $user->getMeta('nationalCode');
+        if (needs_name_code($order->type) && (auth()->user()->name == '' ||!$ncodeMeta|| auth()->user()->name == null || $ncodeMeta == null)) {
+            return redirect(url('cart/more'));
         }
         return templateView('order.payment');
     }

@@ -1,6 +1,9 @@
 <?php
 Route::get('cart', 'CartController@cart')->name('cart');
 Route::get('cart/address', 'CartController@address')->name('cart.address');
+Route::get('cart/more', 'CartController@more')->name('cart.more');
+Route::post('cart/more', 'OrderController@more')->name('order.more');
+
 Route::get('order/change/{orderId}', 'OrderController@changeOrder')->name('order.change');
 Route::post('order/address', 'OrderController@address')->name('order.address');
 Route::get('cart/payment', 'CartController@payment')->name('cart.payment');

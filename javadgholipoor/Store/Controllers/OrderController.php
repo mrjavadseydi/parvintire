@@ -412,7 +412,6 @@ class OrderController extends CoreController
         if ($order != null) {
             $res = $this->calculateOrderDetails($order);
             $shippings = $res['shippings'];
-
             $product = null;
             if ($request != null) {
                 $product = Product::where('product_id', $request->productId)->first();
@@ -594,6 +593,43 @@ class OrderController extends CoreController
             }
 
             $output['message'] = 'آدرس با موفقیت ثبت شد';
+
+        }
+
+        $output = array_merge($output, $this->cart($request));
+        $output['step'] = 'payment';
+
+        return $output;
+
+    }
+    public function more(Request $request)
+    {
+
+        if (!auth()->check()) {
+            return [
+                'status' => 'error',
+                'message' => 'لطفا ابتدا وارد سایت شوید'
+            ];
+        }
+        $request->request->add([
+            'mobile' => toEnglish($request->mobile) ?? '',
+        ]);
+
+        $output = validate($request, [
+            'nationalCode' => 'required|nationalCode',
+            'nameFamily' => 'required',
+        ]);
+
+        if ($output['status'] == 'success') {
+            $user = auth()->user();
+            $ncodeMeta = $user->getMeta('nationalCode');
+            if(!$ncodeMeta){
+                $user->addMeta('nationalCode', $request->nationalCode);
+            } elseif ($ncodeMeta->value == ''){
+                $user->updateMeta(['key' => 'nationalCode', 'value' => $request->nationalCode], []);
+            }
+            $user->update(['name' => $request->nameFamily]);
+            $output['message'] = 'مشخصات با موفقیت ثبت شد';
 
         }
 
