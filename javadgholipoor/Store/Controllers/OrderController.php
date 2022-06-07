@@ -325,6 +325,9 @@ class OrderController extends CoreController
                 $cartsPrice += $cart->count * $cart->price;
             }
 
+            if ($order->type=="at_home"){
+                $cartsPrice = $cartsPrice + round($cartsPrice * 0.02);
+            }
             $shippings[$shippingId]['cartsPrice'] = $cartsPrice;
             $shippings[$shippingId]['toFreePostage'] = convertPrice($shipping->free_postage - $cartsPrice);
 
