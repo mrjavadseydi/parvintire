@@ -38,9 +38,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                @php($total_wheel=0)
                                 @foreach($carts as $cartItem)
                                     <?php
                                     $c = $cartItem['cart'];
+                                    $total_wheel+= $c->count;
                                     $product = $cartItem['product'];
                                     $post = $cartItem['post'];
                                     $href = $post->href();
@@ -119,9 +121,11 @@
             @endforeach
             <div class="row bg-white">
                 <div class="col-md-8">
+
                     @include(includeTemplate('divider.2'), ['title' => 'نوع سفارش'])
                     <div class="d-flex flex-column">
                         @foreach (config('shipping.order_types') as $key => $item)
+                            @continue(($total_wheel>4 && $key =="at_home"))
                         <div class="d-flex p-3">
                             <input style="transform: scale(2);" type="radio" id="{{$key}}" name="order_type" value="{{$key}}" {{ $cart['order']->type == $key ? 'checked' : '' }}>
                             <label for="{{$key}}" class="h6 mr-4">{{$item['title']}}</label>
